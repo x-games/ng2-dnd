@@ -16,7 +16,7 @@ export class DragDropConfig extends BaseDDConfig {
 
 @Injectable()
 export class DragDropDataService {
-    onDragSuccessCallback: Function;
+    onDragSuccessCallback: EventEmitter<any>;
     draggableData: any;
 }
 
@@ -51,7 +51,7 @@ export class DraggableComponent extends AbstractDraggableDroppableComponent {
      */
     @Input("ui-draggable") set dragdropConfig(config: DragDropConfig) {
         if (config) {
-            this.config = this.ddConfig = config as DragDropConfig;
+            this.config = this.ddConfig = config;
         }
     }
 
@@ -59,7 +59,7 @@ export class DraggableComponent extends AbstractDraggableDroppableComponent {
      * Callback function called when the drag action ends with a valid drop action.
      * It is activated after the on-drop-success callback
      */
-    @Input("on-drag-success") onDragSuccessCallback: Function;
+    @Output("onDragSuccess") onDragSuccessCallback: EventEmitter<any> = new EventEmitter<any>();
 
     /**
      * Array of Strings. Specify the drop-zones to which this component can drop.
@@ -74,17 +74,17 @@ export class DraggableComponent extends AbstractDraggableDroppableComponent {
         this.dragEnabled = true;
     }
 
-    onDragEndCallback = (event: Event) => {
-        this.dragDropService.draggableData = null;
-        this.dragDropService.onDragSuccessCallback = null;
-        let dragTarget: HTMLElement = <HTMLElement>event.target;
-        dragTarget.classList.remove(this.ddConfig.onDragStartClass);
-    }
-
     onDragStartCallback = (event: Event) => {
         this.dragDropService.draggableData = this.draggableData;
         this.dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
         let dragTarget: HTMLElement = <HTMLElement>event.target;
         dragTarget.classList.add(this.ddConfig.onDragStartClass);
     };
+    
+    onDragEndCallback = (event: Event) => {
+        this.dragDropService.draggableData = null;
+        this.dragDropService.onDragSuccessCallback = null;
+        let dragTarget: HTMLElement = <HTMLElement>event.target;
+        dragTarget.classList.remove(this.ddConfig.onDragStartClass);
+    }
 }

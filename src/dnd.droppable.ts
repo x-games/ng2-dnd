@@ -15,7 +15,7 @@ export class DroppableComponent extends AbstractDraggableDroppableComponent {
      * Callback function called when the drop action completes correctly.
      * It is activated before the on-drag-success callback.
      */
-    @Input("on-drop-success") onDropSuccessCallback: Function;
+    @Output("onDropSuccess") onDropSuccessCallback: EventEmitter<any> = new EventEmitter<any>();
 
     ddConfig: DragDropConfig;
 
@@ -59,10 +59,10 @@ export class DroppableComponent extends AbstractDraggableDroppableComponent {
 
     onDropCallback = (event: Event) => {
         if (this.onDropSuccessCallback) {
-            this.onDropSuccessCallback({ 'data': this.dragDropService.draggableData });
+            this.onDropSuccessCallback.emit(this.dragDropService.draggableData);
         }
         if (this.dragDropService.onDragSuccessCallback) {
-            this.dragDropService.onDragSuccessCallback();
+            this.dragDropService.onDragSuccessCallback.emit(this.dragDropService.draggableData);
         }
         this.elem.classList.remove(this.ddConfig.onDragOverClass);
         this.elem.classList.remove(this.ddConfig.onDragEnterClass);

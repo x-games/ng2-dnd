@@ -103,14 +103,17 @@ export abstract class AbstractDraggableDroppableComponent {
     onDragStartCallback = (event: Event): void => { };
     onDragEndCallback = (event: Event): void => { };
 
-    constructor(elemRef: ElementRef, public ddZonesService: DragDropZonesService, config: BaseDDConfig) {
+    constructor(elemRef: ElementRef, private ddZonesService: DragDropZonesService, config: BaseDDConfig) {
+        console.log('ddZonesService', this.ddZonesService);
         this.elem = elemRef.nativeElement;
         this._draggableHandler = new DraggableElementHandler(this);
         this.config = config;
 
         //drop events
         {
-            this.elem.ondragenter = this._onDragEnter;
+            this.elem.ondragenter = (event: Event) => {
+                this._onDragEnter(event);
+            };
             this.elem.ondragover = (event: DragEvent) => {
                 this._onDragOver(event);
                 //workaround to avoid NullPointerException during unit testing
@@ -118,10 +121,18 @@ export abstract class AbstractDraggableDroppableComponent {
                     event.dataTransfer.dropEffect = config.dropEffect.name;
                 }
             };
-            this.elem.ondragleave = this._onDragLeave;
-            this.elem.ontouchstart = this._onDragEnter;
-            this.elem.ontouchend = this._onDragLeave;
-            this.elem.ondrop = this._onDrop;
+            this.elem.ondragleave = (event: Event) => {
+                this._onDragLeave(event);
+            };
+            this.elem.ontouchstart = (event: Event) => {
+                this._onDragEnter(event);
+            };
+            this.elem.ontouchend = (event: Event) => {
+                this._onDragLeave(event);
+            };
+            this.elem.ondrop = (event: Event) => {
+                this._onDrop(event);
+            };
         }
 
         //drag events
@@ -140,10 +151,15 @@ export abstract class AbstractDraggableDroppableComponent {
 
                 }
             };
-            this.elem.ondragend = this._onDragEnd;
-
-            this.elem.ontouchstart = this._onDragStart;
-            this.elem.ontouchend = this._onDragEnd;
+            this.elem.ondragend = (event: Event) => {
+                this._onDragEnd(event);
+            };
+            this.elem.ontouchstart = (event: Event) => {
+                this._onDragStart(event);
+            };
+            this.elem.ontouchend = (event: Event) => {
+                this._onDragEnd(event);
+            };
         }
     }
 
@@ -200,12 +216,14 @@ export abstract class AbstractDraggableDroppableComponent {
             return;
         }
         console.log("'dragStart' event");
+        console.log('ddZonesService', this.ddZonesService);
         this.ddZonesService.allowedDropZones = this._dropZoneNames;
         this.onDragStartCallback(event);
     }
 
     private _onDragEnd(event: Event): void {
         console.log("'dragEnd' event");
+        console.log('ddZonesService', this.ddZonesService);
         this.ddZonesService.allowedDropZones = [];
         this.onDragEndCallback(event);
     }
