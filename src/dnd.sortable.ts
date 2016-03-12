@@ -5,8 +5,8 @@
 import {Injectable} from 'angular2/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from 'angular2/core';
 
-import {BaseDDConfig, AbstractDraggableDroppableComponent, DragDropZonesService, SortableConfig} from './dnd.common';
-import {DragDropConfig, DragDropDataService, DragDropConfigService} from './dnd.draggable';
+import {DragDropConfig, AbstractDraggableDroppableComponent, DragDropZonesService} from './dnd.common';
+import {DragDropDataService, DragDropConfigService} from './dnd.draggable';
 
 @Injectable()
 export class DragDropSortableDataService {
@@ -14,9 +14,9 @@ export class DragDropSortableDataService {
     sortableData: any[];
 
     _elem: HTMLElement;
-    _config: SortableConfig;
+    _config: DragDropConfig;
 
-    element(elem: HTMLElement, config: SortableConfig) {
+    element(elem: HTMLElement, config: DragDropConfig) {
         if (this._elem != null) {
             this._elem.classList.remove(this._config.onSortableDragClass);
         }
@@ -40,8 +40,8 @@ export class SortableComponent extends AbstractDraggableDroppableComponent {
         return this._sortableData;
     }
 
-    _sortableConfig: SortableConfig;
-    @Input("ui-sortable") set sortableConfig(config: SortableConfig) {
+    _sortableConfig: DragDropConfig;
+    @Input("ui-sortable") set sortableConfig(config: DragDropConfig) {
         if (config) {
             this.config = this._sortableConfig = config;
         }
@@ -56,7 +56,7 @@ export class SortableComponent extends AbstractDraggableDroppableComponent {
 
     constructor(elemRef: ElementRef, ddZonesService: DragDropZonesService, dragDropConfigService: DragDropConfigService,
         public sortableDataService: DragDropSortableDataService) {
-        super(elemRef, ddZonesService, new BaseDDConfig());
+        super(elemRef, ddZonesService, new DragDropConfig());
         this.sortableConfig = dragDropConfigService.sortableConfig;
     }
 

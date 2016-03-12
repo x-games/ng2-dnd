@@ -4,11 +4,12 @@
 
 import {Injectable} from 'angular2/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from 'angular2/core';
+import {ObservableWrapper} from 'angular2/src/facade/async';
 
-import {BaseDDConfig, AbstractDraggableDroppableComponent, DragDropZonesService} from './dnd.common';
-import {DragDropConfig, DragDropDataService, DragDropConfigService} from './dnd.draggable';
+import {DragDropConfig, AbstractDraggableDroppableComponent, DragDropZonesService} from './dnd.common';
+import {DragDropDataService, DragDropConfigService} from './dnd.draggable';
 
-@Directive({ selector: '[ui-droppable]' })
+@Directive({ selector: '[dnd-droppable]' })
 export class DroppableComponent extends AbstractDraggableDroppableComponent {
 
     /**
@@ -17,16 +18,14 @@ export class DroppableComponent extends AbstractDraggableDroppableComponent {
      */
     @Output("onDropSuccess") onDropSuccessCallback: EventEmitter<any> = new EventEmitter<any>();
 
-    ddConfig: DragDropConfig;
+    //ddConfig: DragDropConfig;
 
     /**
      * An instance of DragDropConfig class. It permits to configure how the drag&drop look&feel
      * (cursor, drag image, custom classes to add on drag/drop events)
      */
-    @Input("ui-droppable") set dragdropConfig(config: DragDropConfig) {
-        if (config) {
-            this.config = this.ddConfig = config;
-        }
+    @Input() set dragdropConfig(value: DragDropConfig) {
+        this.config = value;
     }
 
     /**
@@ -34,7 +33,7 @@ export class DroppableComponent extends AbstractDraggableDroppableComponent {
      * By default, if the drop-zones attribute is not specified, the droppable component accepts
      * drop operations by all the draggable components that do not specify the allowed-drop-zones
      */
-    @Input("drop-zones") set dropZones(dropZoneNames: Array<string>) {
+    @Input() set dropZones(dropZoneNames: Array<string>) {
         this.dropZoneNames = dropZoneNames;
     }
 
@@ -45,27 +44,30 @@ export class DroppableComponent extends AbstractDraggableDroppableComponent {
     }
 
     onDragEnterCallback = (event: Event) => {
-        this.elem.classList.add(this.ddConfig.onDragEnterClass);
+        this.elem.classList.add(this.config.onDragEnterClass);
     };
 
     onDragLeaveCallback = (event: Event) => {
-        this.elem.classList.remove(this.ddConfig.onDragOverClass);
-        this.elem.classList.remove(this.ddConfig.onDragEnterClass);
+        this.elem.classList.remove(this.config.onDragOverClass);
+        this.elem.classList.remove(this.config.onDragEnterClass);
     };
 
     onDragOverCallback = (event: Event) => {
-        this.elem.classList.add(this.ddConfig.onDragOverClass);
+        this.elem.classList.add(this.config.onDragOverClass);
     };
 
     onDropCallback = (event: Event) => {
         if (this.onDropSuccessCallback) {
-            this.onDropSuccessCallback.emit(this.dragDropService.draggableData);
+            console.log('draggableData', this.dragDropService.draggableData);
+            ObservableWrapper.callEmit(this.onDropSuccessCallback, this.dragDropService.draggableData);
+            // this.onDropSuccessCallback.emit(this.dragDropService.draggableData);
         }
         if (this.dragDropService.onDragSuccessCallback) {
-            this.dragDropService.onDragSuccessCallback.emit(this.dragDropService.draggableData);
+            // this.dragDropService.onDragSuccessCallback.emit(this.dragDropService.draggableData);
+            ObservableWrapper.callEmit(this.dragDropService.onDragSuccessCallback, this.dragDropService.draggableData);
         }
-        this.elem.classList.remove(this.ddConfig.onDragOverClass);
-        this.elem.classList.remove(this.ddConfig.onDragEnterClass);
+        this.elem.classList.remove(this.config.onDragOverClass);
+        this.elem.classList.remove(this.config.onDragEnterClass);
     }
 
 }

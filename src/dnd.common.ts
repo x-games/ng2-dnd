@@ -20,11 +20,17 @@ export class DragImage {
 }
 
 @Injectable()
-export class BaseDDConfig {
+export class DragDropConfig {
     dragImage: DragImage;
     dragEffect: DataTransferEffect = DataTransferEffect.MOVE;
     dropEffect: DataTransferEffect = DataTransferEffect.MOVE;
     dragCursor: string = "move";
+    
+    onDragStartClass: string = "ui-drag-start";
+    onDragEnterClass: string = "ui-drag-enter";
+    onDragOverClass: string = "ui-drag-over";
+    
+    onSortableDragClass: string = "ui-sortable-drag";
 }
 
 @Injectable()
@@ -56,12 +62,6 @@ export class DraggableElementHandler {
 }
 
 @Injectable()
-export class SortableConfig extends BaseDDConfig {
-    onSortableDragClass: string = "ui-sortable-drag";
-}
-
-
-@Injectable()
 export abstract class AbstractDraggableDroppableComponent {
 
     elem: HTMLElement
@@ -76,11 +76,11 @@ export abstract class AbstractDraggableDroppableComponent {
         this._dropZoneNames = names;
     }
 
-    private _config: BaseDDConfig;
-    get config(): BaseDDConfig {
+    private _config: DragDropConfig;
+    get config(): DragDropConfig {
         return this._config
     }
-    set config(config: BaseDDConfig) {
+    set config(config: DragDropConfig) {
         this._config = config;
         this._draggableHandler.refresh();
     }
@@ -103,64 +103,60 @@ export abstract class AbstractDraggableDroppableComponent {
     onDragStartCallback = (event: Event): void => { };
     onDragEndCallback = (event: Event): void => { };
 
-    constructor(elemRef: ElementRef, private ddZonesService: DragDropZonesService, config: BaseDDConfig) {
+    constructor(elemRef: ElementRef, private ddZonesService: DragDropZonesService, config: DragDropConfig) {
         console.log('ddZonesService', this.ddZonesService);
         this.elem = elemRef.nativeElement;
         this._draggableHandler = new DraggableElementHandler(this);
         this.config = config;
 
         //drop events
-        {
-            this.elem.ondragenter = (event: Event) => {
-                this._onDragEnter(event);
-            };
-            this.elem.ondragover = (event: DragEvent) => {
-                this._onDragOver(event);
-                //workaround to avoid NullPointerException during unit testing
-                if (event.dataTransfer != null) {
-                    event.dataTransfer.dropEffect = config.dropEffect.name;
-                }
-            };
-            this.elem.ondragleave = (event: Event) => {
-                this._onDragLeave(event);
-            };
-            this.elem.ontouchstart = (event: Event) => {
-                this._onDragEnter(event);
-            };
-            this.elem.ontouchend = (event: Event) => {
-                this._onDragLeave(event);
-            };
-            this.elem.ondrop = (event: Event) => {
-                this._onDrop(event);
-            };
-        }
+        this.elem.ondragenter = (event: Event) => {
+            this._onDragEnter(event);
+        };
+        this.elem.ondragover = (event: DragEvent) => {
+            this._onDragOver(event);
+            //workaround to avoid NullPointerException during unit testing
+            if (event.dataTransfer != null) {
+                event.dataTransfer.dropEffect = config.dropEffect.name;
+            }
+        };
+        this.elem.ondragleave = (event: Event) => {
+            this._onDragLeave(event);
+        };
+        this.elem.ontouchstart = (event: Event) => {
+            this._onDragEnter(event);
+        };
+        this.elem.ontouchend = (event: Event) => {
+            this._onDragLeave(event);
+        };
+        this.elem.ondrop = (event: Event) => {
+            this._onDrop(event);
+        };
 
         //drag events
-        {
-            this.elem.ondragstart = (event: DragEvent) => {
-                this._onDragStart(event);
-                //workaround to avoid NullPointerException during unit testing
-                if (event.dataTransfer != null) {
-                    event.dataTransfer.effectAllowed = this.config.dragEffect.name;
-                    event.dataTransfer.setData('text/html', '');
+        this.elem.ondragstart = (event: DragEvent) => {
+            this._onDragStart(event);
+            //workaround to avoid NullPointerException during unit testing
+            if (event.dataTransfer != null) {
+                event.dataTransfer.effectAllowed = this.config.dragEffect.name;
+                event.dataTransfer.setData('text/html', '');
 
-                    if (this.config.dragImage != null) {
-                        let dragImage: DragImage = this.config.dragImage;
-                        (<any>event.dataTransfer).setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
-                    }
-
+                if (this.config.dragImage != null) {
+                    let dragImage: DragImage = this.config.dragImage;
+                    (<any>event.dataTransfer).setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
                 }
-            };
-            this.elem.ondragend = (event: Event) => {
-                this._onDragEnd(event);
-            };
-            this.elem.ontouchstart = (event: Event) => {
-                this._onDragStart(event);
-            };
-            this.elem.ontouchend = (event: Event) => {
-                this._onDragEnd(event);
-            };
-        }
+
+            }
+        };
+        this.elem.ondragend = (event: Event) => {
+            this._onDragEnd(event);
+        };
+        this.elem.ontouchstart = (event: Event) => {
+            this._onDragStart(event);
+        };
+        this.elem.ontouchend = (event: Event) => {
+            this._onDragEnd(event);
+        };
     }
 
     private _onDragEnter(event: Event): void {
