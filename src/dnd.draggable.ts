@@ -5,7 +5,7 @@
 import {Injectable} from 'angular2/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from 'angular2/core';
 
-import {DragDropConfig, AbstractDraggableDroppableComponent, DragDropZonesService, DragImage} from './dnd.common';
+import {DragDropConfig, DragDropZonesService, DragImage} from './dnd.common';
 
 @Injectable()
 export class DragDropDataService {
@@ -19,13 +19,41 @@ export class DragDropConfigService {
     sortableConfig: DragDropConfig = new DragDropConfig();
 }
 
+@Injectable()
+export class DraggableElementHandler {
+
+    defaultCursor: string;
+
+    constructor(private draggableComponent: DraggableComponent) {
+        this.defaultCursor = draggableComponent.elem.style.cursor;
+    }
+
+    refresh(): void {
+        this.draggableComponent.elem.draggable = this.draggableComponent.dragEnabled;
+        if (this.draggableComponent.config.dragCursor != null) {
+            this.draggableComponent.elem.style.cursor = this.draggableComponent.dragEnabled ? this.draggableComponent.config.dragCursor : this.defaultCursor;
+        }
+    }
+}
+
 @Directive({ selector: '[dnd-draggable]' })
-export class DraggableComponent extends AbstractDraggableDroppableComponent {
+export class DraggableComponent /*extends AbstractDraggableDroppableComponent */{
+
+    elem: HTMLElement;
+    private _draggableHandler: DraggableElementHandler;
 
     /**
      * Whether the object is draggable. Default is true.
      */
-    @Input() dragEnabled: boolean;
+    // @Input() dragEnabled: boolean;
+    private _dragEnabled: boolean = false;
+    @Input() set dragEnabled(enabled: boolean) {
+        this._dragEnabled = enabled;
+        this._draggableHandler.refresh();
+    }
+    get dragEnabled(): boolean {
+        return this._dragEnabled
+    }
 
     /**
      * The data that has to be dragged. It can be any JS object
@@ -33,6 +61,14 @@ export class DraggableComponent extends AbstractDraggableDroppableComponent {
     @Input() draggableData: any;
 
     //ddConfig: DragDropConfig;
+    private _config: DragDropConfig;
+    get config(): DragDropConfig {
+        return this._config
+    }
+    set config(config: DragDropConfig) {
+        this._config = config;
+        this._draggableHandler.refresh();
+    }
 
     /**
      * An instance of DragDropConfig class. It permits to configure how the drag&drop look&feel
@@ -54,11 +90,22 @@ export class DraggableComponent extends AbstractDraggableDroppableComponent {
     @Input() set dropZones(value: Array<string>) {
         this.dropZoneNames = value;
     }
+    
+    private _dropZoneNames: Array<string> = [Math.random().toString()];
+    get dropZoneNames(): Array<string> {
+        return this._dropZoneNames;
+    }
+    set dropZoneNames(names: Array<string>) {
+        this._dropZoneNames = names;
+    }
 
-    constructor(elemRef: ElementRef, ddZonesService: DragDropZonesService, public dragDropService: DragDropDataService, dragDropConfigService: DragDropConfigService) {
-        super(elemRef, ddZonesService, dragDropConfigService.dragDropConfig);
+    constructor(elemRef: ElementRef, private ddZonesService: DragDropZonesService, public dragDropService: DragDropDataService, dragDropConfigService: DragDropConfigService) {
+        // super(elemRef, ddZonesService, dragDropConfigService.dragDropConfig);
+        this.elem = elemRef.nativeElement;
+        this._draggableHandler = new DraggableElementHandler(this);
         this.dragdropConfig = dragDropConfigService.dragDropConfig;
         this.dragEnabled = true;
+        this.config = dragDropConfigService.dragDropConfig;
         //
         //drag events
         this.elem.ondragstart = (event: DragEvent) => {

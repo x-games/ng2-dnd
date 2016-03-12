@@ -6,12 +6,25 @@ import {Injectable} from 'angular2/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from 'angular2/core';
 // import {ObservableWrapper} from 'angular2/src/facade/async';
 
-import {DragDropConfig, AbstractDraggableDroppableComponent, DragDropZonesService} from './dnd.common';
+import {DragDropConfig, DragDropZonesService} from './dnd.common';
 import {DragDropDataService, DragDropConfigService} from './dnd.draggable';
 
 @Directive({ selector: '[dnd-droppable]' })
-export class DroppableComponent extends AbstractDraggableDroppableComponent {
+export class DroppableComponent {
 
+    elem: HTMLElement;
+    
+    dropEnabled: boolean = false;
+    
+    private _config: DragDropConfig;
+    get config(): DragDropConfig {
+        return this._config
+    }
+    set config(config: DragDropConfig) {
+        this._config = config;
+        // this._draggableHandler.refresh();
+    }
+    
     /**
      * Callback function called when the drop action completes correctly.
      * It is activated before the on-drag-success callback.
@@ -36,11 +49,20 @@ export class DroppableComponent extends AbstractDraggableDroppableComponent {
     @Input() set dropZones(dropZoneNames: Array<string>) {
         this.dropZoneNames = dropZoneNames;
     }
+    
+    private _dropZoneNames: Array<string> = [Math.random().toString()];
+    get dropZoneNames(): Array<string> {
+        return this._dropZoneNames;
+    }
+    set dropZoneNames(names: Array<string>) {
+        this._dropZoneNames = names;
+    }
 
-    constructor(elemRef: ElementRef, ddZonesService: DragDropZonesService, public dragDropService: DragDropDataService, dragDropConfigService: DragDropConfigService) {
-        super(elemRef, ddZonesService, dragDropConfigService.dragDropConfig);
+    constructor(elemRef: ElementRef, private ddZonesService: DragDropZonesService, public dragDropService: DragDropDataService, dragDropConfigService: DragDropConfigService) {
+        this.elem = elemRef.nativeElement;
         this.dragdropConfig = dragDropConfigService.dragDropConfig;
         this.dropEnabled = true;
+        this.config = dragDropConfigService.dragDropConfig;
         //
         //drop events
         this.elem.ondragenter = (event: Event) => {
