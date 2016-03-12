@@ -15,7 +15,6 @@
         "ng2-dnd.ts",
         "./src/dnd.common.ts",
         "./src/dnd.draggable.ts",
-        "./src/dnd.droppable.ts",
-        "./src/dnd.sortable.ts"
+        "./src/dnd.droppable.ts"
     ]
 }

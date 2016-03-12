@@ -4,10 +4,8 @@
 
 import {Injectable} from 'angular2/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from 'angular2/core';
-// import {ObservableWrapper} from 'angular2/src/facade/async';
 
-import {DragDropConfig, DragDropZonesService} from './dnd.common';
-import {DragDropDataService, DragDropConfigService} from './dnd.draggable';
+import {DragDropConfig, DragDropZonesService, DragDropDataService, DragDropConfigService} from './dnd.common';
 
 @Directive({ selector: '[dnd-droppable]' })
 export class DroppableComponent {
@@ -22,7 +20,6 @@ export class DroppableComponent {
     }
     set config(config: DragDropConfig) {
         this._config = config;
-        // this._draggableHandler.refresh();
     }
     
     /**
@@ -90,39 +87,35 @@ export class DroppableComponent {
     }
 
     private _onDragEnter(event: Event): void {
-        if (!this.dropEnabled || !this.isDropAllowed()) {
-            return;
-        }
-        console.log("'dragEnter' event");
         // This is necessary to allow us to drop.
-        event.preventDefault();
-        this.onDragEnterCallback(event);
+        if (this.isDropAllowed()) {
+            event.preventDefault();
+            this.onDragEnterCallback(event);
+        }
     }
 
     private _onDragOver(event: Event): void {
-        if (!this.dropEnabled || !this.isDropAllowed()) {
-            return;
-        }
-        console.log("'dragOver' event");
         // This is necessary to allow us to drop.
-        event.preventDefault();
-        this.onDragOverCallback(event);
+        if (this.isDropAllowed()) {
+            event.preventDefault();
+            this.onDragOverCallback(event);
+        }
     }
 
     private _onDragLeave(event: Event): void {
-        if (!this.dropEnabled || !this.isDropAllowed()) {
-            return;
+        // This is necessary to allow us to drop.
+        if (this.isDropAllowed()) {
+            event.preventDefault();
+            this.onDragLeaveCallback(event);
         }
-        console.log("'dragLeave' event");
-        this.onDragLeaveCallback(event);
     }
 
     private _onDrop(event: Event): void {
-        if (!this.dropEnabled || !this.isDropAllowed()) {
-            return;
+        // This is necessary to allow us to drop.
+        if (this.isDropAllowed()) {
+            event.preventDefault();
+            this.onDropCallback(event);
         }
-        console.log("'drop' event");
-        this.onDropCallback(event);
     }
 
 
@@ -141,25 +134,25 @@ export class DroppableComponent {
 
     onDropCallback = (event: Event) => {
         if (this.onDropSuccessCallback) {
-            // ObservableWrapper.callEmit(this.onDropSuccessCallback, this.dragDropService.draggableData);
             this.onDropSuccessCallback.emit(this.dragDropService.draggableData);
         }
         if (this.dragDropService.onDragSuccessCallback) {
             this.dragDropService.onDragSuccessCallback.emit(this.dragDropService.draggableData);
-            // ObservableWrapper.callEmit(this.dragDropService.onDragSuccessCallback, this.dragDropService.draggableData);
         }
         this.elem.classList.remove(this.config.onDragOverClass);
         this.elem.classList.remove(this.config.onDragEnterClass);
     }
 
     isDropAllowed(): boolean {
-        if (this.dropZoneNames.length === 0 && this.ddZonesService.allowedDropZones.length === 0) {
-            return true;
-        }
-        for (let i:number = 0; i < this.ddZonesService.allowedDropZones.length; i++) {
-            let dragZone:string = this.ddZonesService.allowedDropZones[i];
-            if (this.dropZoneNames.indexOf(dragZone) !== -1) {
+        if (this.dropEnabled) {
+            if (this.dropZoneNames.length === 0 && this.ddZonesService.allowedDropZones.length === 0) {
                 return true;
+            }
+            for (let i:number = 0; i < this.ddZonesService.allowedDropZones.length; i++) {
+                let dragZone:string = this.ddZonesService.allowedDropZones[i];
+                if (this.dropZoneNames.indexOf(dragZone) !== -1) {
+                    return true;
+                }
             }
         }
         return false;

@@ -2,12 +2,7 @@
 // This project is licensed under the terms of the MIT license.
 // https://github.com/akserg/ng2-dnd
 
-import {Injectable, ElementRef} from 'angular2/core';
-
-@Injectable()
-export class DragDropZonesService {
-    allowedDropZones: Array<string> = [];
-}
+import {Injectable, ElementRef, EventEmitter} from 'angular2/core';
 
 @Injectable()
 export class DragImage {
@@ -29,8 +24,6 @@ export class DragDropConfig {
     onDragStartClass: string = "ui-drag-start";
     onDragEnterClass: string = "ui-drag-enter";
     onDragOverClass: string = "ui-drag-over";
-    
-    onSortableDragClass: string = "ui-sortable-drag";
 }
 
 @Injectable()
@@ -42,4 +35,20 @@ export class DataTransferEffect {
     static NONE = new DataTransferEffect('none');
 
     constructor(public name: string) { }
+}
+
+@Injectable()
+export class DragDropZonesService {
+    allowedDropZones: Array<string> = [];
+}
+
+@Injectable()
+export class DragDropDataService {
+    onDragSuccessCallback: EventEmitter<any>;
+    draggableData: any;
+}
+
+@Injectable()
+export class DragDropConfigService {
+    dragDropConfig: DragDropConfig = new DragDropConfig();
 }

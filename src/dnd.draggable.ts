@@ -5,19 +5,7 @@
 import {Injectable} from 'angular2/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from 'angular2/core';
 
-import {DragDropConfig, DragDropZonesService, DragImage} from './dnd.common';
-
-@Injectable()
-export class DragDropDataService {
-    onDragSuccessCallback: EventEmitter<any>;
-    draggableData: any;
-}
-
-@Injectable()
-export class DragDropConfigService {
-    dragDropConfig: DragDropConfig = new DragDropConfig();
-    sortableConfig: DragDropConfig = new DragDropConfig();
-}
+import {DragDropConfig, DragDropZonesService, DragDropDataService, DragDropConfigService, DragImage} from './dnd.common';
 
 @Injectable()
 export class DraggableElementHandler {
@@ -151,16 +139,12 @@ export class DraggableComponent /*extends AbstractDraggableDroppableComponent */
         if (!this.dragEnabled) {
             return;
         }
-        console.log("'dragStart' event");
         this.ddZonesService.allowedDropZones = this.dropZoneNames;
-        console.log('ddZonesService', this.ddZonesService);
         this.onDragStartCallback(event);
     }
 
     private _onDragEnd(event: Event): void {
-        console.log("'dragEnd' event");
         this.ddZonesService.allowedDropZones = [];
-        console.log('ddZonesService', this.ddZonesService);
         this.onDragEndCallback(event);
     }
 }
