@@ -4,13 +4,13 @@
 
 'use strict';
 
-import {DataTransferEffect, DragImage, DragDropConfig, DragDropZonesService, DragDropDataService, DragDropConfigService} from './src/dnd.common';
-import {DraggableComponent, DraggableElementHandler} from './src/dnd.draggable';
+import {DataTransferEffect, DragImage, DragDropService} from './src/dnd.service';
+import {DraggableComponent} from './src/dnd.draggable';
 import {DroppableComponent} from './src/dnd.droppable';
 
-export * from './src/dnd.common';
+export * from './src/dnd.service';
 export * from './src/dnd.draggable';
 export * from './src/dnd.droppable';
 
-export const DND_PROVIDERS: any[] = [DragDropZonesService, DragDropDataService, DragDropConfigService];
+export const DND_PROVIDERS: any[] = [DragDropService];
 export const DND_DIRECTIVES: any[] = [DraggableComponent, DroppableComponent];

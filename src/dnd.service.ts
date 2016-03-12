@@ -6,24 +6,10 @@ import {Injectable, ElementRef, EventEmitter} from 'angular2/core';
 
 @Injectable()
 export class DragImage {
-
     constructor(
         public imageElement: HTMLElement,
         public x_offset: number = 0,
         public y_offset: number = 0) { }
-
-}
-
-@Injectable()
-export class DragDropConfig {
-    dragImage: DragImage;
-    dragEffect: DataTransferEffect = DataTransferEffect.MOVE;
-    dropEffect: DataTransferEffect = DataTransferEffect.MOVE;
-    dragCursor: string = "move";
-    
-    onDragStartClass: string = "ui-drag-start";
-    onDragEnterClass: string = "ui-drag-enter";
-    onDragOverClass: string = "ui-drag-over";
 }
 
 @Injectable()
@@ -38,17 +24,18 @@ export class DataTransferEffect {
 }
 
 @Injectable()
-export class DragDropZonesService {
+export class DragDropService {
+    dragImage: DragImage;
+    dragEffect: DataTransferEffect = DataTransferEffect.MOVE;
+    dropEffect: DataTransferEffect = DataTransferEffect.MOVE;
+    dragCursor: string = "move";
+    
     allowedDropZones: Array<string> = [];
-}
-
-@Injectable()
-export class DragDropDataService {
+    
     onDragSuccessCallback: EventEmitter<any>;
     draggableData: any;
-}
-
-@Injectable()
-export class DragDropConfigService {
-    dragDropConfig: DragDropConfig = new DragDropConfig();
+    
+    onDragStartClass: string = "dnd-drag-start";
+    onDragEnterClass: string = "dnd-drag-enter";
+    onDragOverClass: string = "dnd-drag-over";
 }

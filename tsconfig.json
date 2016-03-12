@@ -13,7 +13,7 @@
     "files": [
         "typings/main.d.ts",
         "ng2-dnd.ts",
-        "./src/dnd.common.ts",
+        "./src/dnd.service.ts",
         "./src/dnd.draggable.ts",
         "./src/dnd.droppable.ts"
     ]

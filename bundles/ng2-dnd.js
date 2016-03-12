@@ -1,4 +1,4 @@
-System.registerDynamic("src/dnd.draggable", ["angular2/core", "./dnd.common"], true, function($__require, exports, module) {
+System.registerDynamic("src/dnd.draggable", ["angular2/core", "./dnd.service"], true, function($__require, exports, module) {
   ;
   var define,
       global = this,
@@ -20,66 +20,35 @@ System.registerDynamic("src/dnd.draggable", ["angular2/core", "./dnd.common"], t
       return Reflect.metadata(k, v);
   };
   var core_1 = $__require('angular2/core');
-  var core_2 = $__require('angular2/core');
-  var dnd_common_1 = $__require('./dnd.common');
-  var DraggableElementHandler = (function() {
-    function DraggableElementHandler(draggableComponent) {
-      this.draggableComponent = draggableComponent;
-      this.defaultCursor = draggableComponent.elem.style.cursor;
-    }
-    DraggableElementHandler.prototype.refresh = function() {
-      this.draggableComponent.elem.draggable = this.draggableComponent.dragEnabled;
-      if (this.draggableComponent.config.dragCursor != null) {
-        this.draggableComponent.elem.style.cursor = this.draggableComponent.dragEnabled ? this.draggableComponent.config.dragCursor : this.defaultCursor;
-      }
-    };
-    DraggableElementHandler = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [DraggableComponent])], DraggableElementHandler);
-    return DraggableElementHandler;
-  })();
-  exports.DraggableElementHandler = DraggableElementHandler;
+  var dnd_service_1 = $__require('./dnd.service');
   var DraggableComponent = (function() {
-    function DraggableComponent(elemRef, ddZonesService, dragDropService, dragDropConfigService) {
+    function DraggableComponent(elemRef, _dragDropService) {
       var _this = this;
-      this.ddZonesService = ddZonesService;
-      this.dragDropService = dragDropService;
-      this._dragEnabled = false;
-      this.onDragSuccessCallback = new core_2.EventEmitter();
-      this._dropZoneNames = [Math.random().toString()];
-      this.onDragStartCallback = function(event) {
-        _this.dragDropService.draggableData = _this.draggableData;
-        _this.dragDropService.onDragSuccessCallback = _this.onDragSuccessCallback;
-        var dragTarget = event.target;
-        dragTarget.classList.add(_this.config.onDragStartClass);
-      };
-      this.onDragEndCallback = function(event) {
-        _this.dragDropService.draggableData = null;
-        _this.dragDropService.onDragSuccessCallback = null;
-        var dragTarget = event.target;
-        dragTarget.classList.remove(_this.config.onDragStartClass);
-      };
-      this.elem = elemRef.nativeElement;
-      this._draggableHandler = new DraggableElementHandler(this);
-      this.dragdropConfig = dragDropConfigService.dragDropConfig;
-      this.dragEnabled = true;
-      this.config = dragDropConfigService.dragDropConfig;
-      this.elem.ondragstart = function(event) {
+      this.elemRef = elemRef;
+      this._dragDropService = _dragDropService;
+      this._dragEnabled = true;
+      this.onDragSuccessCallback = new core_1.EventEmitter();
+      this.dropZones = [];
+      this._elem = elemRef.nativeElement;
+      this._defaultCursor = this._elem.style.cursor;
+      this._elem.ondragstart = function(event) {
         _this._onDragStart(event);
         if (event.dataTransfer != null) {
-          event.dataTransfer.effectAllowed = _this.config.dragEffect.name;
+          event.dataTransfer.effectAllowed = _this._dragDropService.dragEffect.name;
           event.dataTransfer.setData('text/html', '');
-          if (_this.config.dragImage != null) {
-            var dragImage = _this.config.dragImage;
+          if (_this._dragDropService.dragImage != null) {
+            var dragImage = _this._dragDropService.dragImage;
             event.dataTransfer.setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
           }
         }
       };
-      this.elem.ondragend = function(event) {
+      this._elem.ondragend = function(event) {
         _this._onDragEnd(event);
       };
-      this.elem.ontouchstart = function(event) {
+      this._elem.ontouchstart = function(event) {
         _this._onDragStart(event);
       };
-      this.elem.ontouchend = function(event) {
+      this._elem.ontouchend = function(event) {
         _this._onDragEnd(event);
       };
     }
@@ -89,70 +58,48 @@ System.registerDynamic("src/dnd.draggable", ["angular2/core", "./dnd.common"], t
       },
       set: function(enabled) {
         this._dragEnabled = enabled;
-        this._draggableHandler.refresh();
-      },
-      enumerable: true,
-      configurable: true
-    });
-    Object.defineProperty(DraggableComponent.prototype, "config", {
-      get: function() {
-        return this._config;
-      },
-      set: function(config) {
-        this._config = config;
-        this._draggableHandler.refresh();
-      },
-      enumerable: true,
-      configurable: true
-    });
-    Object.defineProperty(DraggableComponent.prototype, "dragdropConfig", {
-      set: function(value) {
-        this.config = value;
-      },
-      enumerable: true,
-      configurable: true
-    });
-    Object.defineProperty(DraggableComponent.prototype, "dropZones", {
-      set: function(value) {
-        this.dropZoneNames = value;
-      },
-      enumerable: true,
-      configurable: true
-    });
-    Object.defineProperty(DraggableComponent.prototype, "dropZoneNames", {
-      get: function() {
-        return this._dropZoneNames;
-      },
-      set: function(names) {
-        this._dropZoneNames = names;
+        this._elem.draggable = this.dragEnabled;
+        if (this._dragDropService.dragCursor != null) {
+          this._elem.style.cursor = this.dragEnabled ? this._dragDropService.dragCursor : this._defaultCursor;
+        }
       },
       enumerable: true,
       configurable: true
     });
     DraggableComponent.prototype._onDragStart = function(event) {
-      if (!this.dragEnabled) {
-        return;
+      if (this.dragEnabled) {
+        this._dragDropService.allowedDropZones = this.dropZones;
+        this._onDragStartCallback(event);
       }
-      this.ddZonesService.allowedDropZones = this.dropZoneNames;
-      this.onDragStartCallback(event);
     };
     DraggableComponent.prototype._onDragEnd = function(event) {
-      this.ddZonesService.allowedDropZones = [];
-      this.onDragEndCallback(event);
+      this._dragDropService.allowedDropZones = [];
+      this._onDragEndCallback(event);
     };
-    __decorate([core_2.Input(), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], DraggableComponent.prototype, "dragEnabled", null);
-    __decorate([core_2.Input(), __metadata('design:type', Object)], DraggableComponent.prototype, "draggableData", void 0);
-    __decorate([core_2.Input(), __metadata('design:type', dnd_common_1.DragDropConfig), __metadata('design:paramtypes', [dnd_common_1.DragDropConfig])], DraggableComponent.prototype, "dragdropConfig", null);
-    __decorate([core_2.Output("onDragSuccess"), __metadata('design:type', core_2.EventEmitter)], DraggableComponent.prototype, "onDragSuccessCallback", void 0);
-    __decorate([core_2.Input(), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], DraggableComponent.prototype, "dropZones", null);
-    DraggableComponent = __decorate([core_2.Directive({selector: '[dnd-draggable]'}), __metadata('design:paramtypes', [core_2.ElementRef, dnd_common_1.DragDropZonesService, dnd_common_1.DragDropDataService, dnd_common_1.DragDropConfigService])], DraggableComponent);
+    DraggableComponent.prototype._onDragStartCallback = function(event) {
+      this._dragDropService.draggableData = this.draggableData;
+      this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
+      var dragTarget = event.target;
+      dragTarget.classList.add(this._dragDropService.onDragStartClass);
+    };
+    DraggableComponent.prototype._onDragEndCallback = function(event) {
+      this._dragDropService.draggableData = null;
+      this._dragDropService.onDragSuccessCallback = null;
+      var dragTarget = event.target;
+      dragTarget.classList.remove(this._dragDropService.onDragStartClass);
+    };
+    __decorate([core_1.Input(), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], DraggableComponent.prototype, "dragEnabled", null);
+    __decorate([core_1.Input(), __metadata('design:type', Object)], DraggableComponent.prototype, "draggableData", void 0);
+    __decorate([core_1.Output("onDragSuccess"), __metadata('design:type', core_1.EventEmitter)], DraggableComponent.prototype, "onDragSuccessCallback", void 0);
+    __decorate([core_1.Input(), __metadata('design:type', Array)], DraggableComponent.prototype, "dropZones", void 0);
+    DraggableComponent = __decorate([core_1.Directive({selector: '[dnd-draggable]'}), __metadata('design:paramtypes', [core_1.ElementRef, dnd_service_1.DragDropService])], DraggableComponent);
     return DraggableComponent;
   })();
   exports.DraggableComponent = DraggableComponent;
   return module.exports;
 });
 
-System.registerDynamic("src/dnd.common", ["angular2/core"], true, function($__require, exports, module) {
+System.registerDynamic("src/dnd.service", ["angular2/core"], true, function($__require, exports, module) {
   ;
   var define,
       global = this,
@@ -174,14 +121,6 @@ System.registerDynamic("src/dnd.common", ["angular2/core"], true, function($__re
       return Reflect.metadata(k, v);
   };
   var core_1 = $__require('angular2/core');
-  var DragDropZonesService = (function() {
-    function DragDropZonesService() {
-      this.allowedDropZones = [];
-    }
-    DragDropZonesService = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [])], DragDropZonesService);
-    return DragDropZonesService;
-  })();
-  exports.DragDropZonesService = DragDropZonesService;
   var DragImage = (function() {
     function DragImage(imageElement, x_offset, y_offset) {
       if (x_offset === void 0) {
@@ -198,20 +137,6 @@ System.registerDynamic("src/dnd.common", ["angular2/core"], true, function($__re
     return DragImage;
   })();
   exports.DragImage = DragImage;
-  var DragDropConfig = (function() {
-    function DragDropConfig() {
-      this.dragEffect = DataTransferEffect.MOVE;
-      this.dropEffect = DataTransferEffect.MOVE;
-      this.dragCursor = "move";
-      this.onDragStartClass = "ui-drag-start";
-      this.onDragEnterClass = "ui-drag-enter";
-      this.onDragOverClass = "ui-drag-over";
-      this.onSortableDragClass = "ui-sortable-drag";
-    }
-    DragDropConfig = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [])], DragDropConfig);
-    return DragDropConfig;
-  })();
-  exports.DragDropConfig = DragDropConfig;
   var DataTransferEffect = (function() {
     function DataTransferEffect(name) {
       this.name = name;
@@ -224,25 +149,24 @@ System.registerDynamic("src/dnd.common", ["angular2/core"], true, function($__re
     return DataTransferEffect;
   })();
   exports.DataTransferEffect = DataTransferEffect;
-  var DragDropDataService = (function() {
-    function DragDropDataService() {}
-    DragDropDataService = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [])], DragDropDataService);
-    return DragDropDataService;
-  })();
-  exports.DragDropDataService = DragDropDataService;
-  var DragDropConfigService = (function() {
-    function DragDropConfigService() {
-      this.dragDropConfig = new DragDropConfig();
-      this.sortableConfig = new DragDropConfig();
+  var DragDropService = (function() {
+    function DragDropService() {
+      this.dragEffect = DataTransferEffect.MOVE;
+      this.dropEffect = DataTransferEffect.MOVE;
+      this.dragCursor = "move";
+      this.allowedDropZones = [];
+      this.onDragStartClass = "dnd-drag-start";
+      this.onDragEnterClass = "dnd-drag-enter";
+      this.onDragOverClass = "dnd-drag-over";
     }
-    DragDropConfigService = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [])], DragDropConfigService);
-    return DragDropConfigService;
+    DragDropService = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [])], DragDropService);
+    return DragDropService;
   })();
-  exports.DragDropConfigService = DragDropConfigService;
+  exports.DragDropService = DragDropService;
   return module.exports;
 });
 
-System.registerDynamic("src/dnd.droppable", ["angular2/core", "./dnd.common"], true, function($__require, exports, module) {
+System.registerDynamic("src/dnd.droppable", ["angular2/core", "./dnd.service"], true, function($__require, exports, module) {
   ;
   var define,
       global = this,
@@ -264,144 +188,109 @@ System.registerDynamic("src/dnd.droppable", ["angular2/core", "./dnd.common"], t
       return Reflect.metadata(k, v);
   };
   var core_1 = $__require('angular2/core');
-  var dnd_common_1 = $__require('./dnd.common');
+  var dnd_service_1 = $__require('./dnd.service');
   var DroppableComponent = (function() {
-    function DroppableComponent(elemRef, ddZonesService, dragDropService, dragDropConfigService) {
+    function DroppableComponent(elemRef, _dragDropService) {
       var _this = this;
-      this.ddZonesService = ddZonesService;
-      this.dragDropService = dragDropService;
-      this.dropEnabled = false;
-      this.onDropSuccessCallback = new core_1.EventEmitter();
-      this._dropZoneNames = [Math.random().toString()];
-      this.onDragEnterCallback = function(event) {
-        _this.elem.classList.add(_this.config.onDragEnterClass);
-      };
-      this.onDragLeaveCallback = function(event) {
-        _this.elem.classList.remove(_this.config.onDragOverClass);
-        _this.elem.classList.remove(_this.config.onDragEnterClass);
-      };
-      this.onDragOverCallback = function(event) {
-        _this.elem.classList.add(_this.config.onDragOverClass);
-      };
-      this.onDropCallback = function(event) {
-        if (_this.onDropSuccessCallback) {
-          _this.onDropSuccessCallback.emit(_this.dragDropService.draggableData);
-        }
-        if (_this.dragDropService.onDragSuccessCallback) {
-          _this.dragDropService.onDragSuccessCallback.emit(_this.dragDropService.draggableData);
-        }
-        _this.elem.classList.remove(_this.config.onDragOverClass);
-        _this.elem.classList.remove(_this.config.onDragEnterClass);
-      };
-      this.elem = elemRef.nativeElement;
-      this.dragdropConfig = dragDropConfigService.dragDropConfig;
+      this.elemRef = elemRef;
+      this._dragDropService = _dragDropService;
       this.dropEnabled = true;
-      this.config = dragDropConfigService.dragDropConfig;
-      this.elem.ondragenter = function(event) {
+      this.onDropSuccessCallback = new core_1.EventEmitter();
+      this.dropZones = [];
+      this._elem = elemRef.nativeElement;
+      this._elem.ondragenter = function(event) {
         _this._onDragEnter(event);
       };
-      this.elem.ondragover = function(event) {
+      this._elem.ondragover = function(event) {
         _this._onDragOver(event);
         if (event.dataTransfer != null) {
-          event.dataTransfer.dropEffect = _this.config.dropEffect.name;
+          event.dataTransfer.dropEffect = _this._dragDropService.dropEffect.name;
         }
       };
-      this.elem.ondragleave = function(event) {
+      this._elem.ondragleave = function(event) {
         _this._onDragLeave(event);
       };
-      this.elem.ontouchstart = function(event) {
+      this._elem.ontouchstart = function(event) {
         _this._onDragEnter(event);
       };
-      this.elem.ontouchend = function(event) {
+      this._elem.ontouchend = function(event) {
         _this._onDragLeave(event);
       };
-      this.elem.ondrop = function(event) {
+      this._elem.ondrop = function(event) {
         _this._onDrop(event);
       };
     }
-    Object.defineProperty(DroppableComponent.prototype, "config", {
-      get: function() {
-        return this._config;
-      },
-      set: function(config) {
-        this._config = config;
-      },
-      enumerable: true,
-      configurable: true
-    });
-    Object.defineProperty(DroppableComponent.prototype, "dragdropConfig", {
-      set: function(value) {
-        this.config = value;
-      },
-      enumerable: true,
-      configurable: true
-    });
-    Object.defineProperty(DroppableComponent.prototype, "dropZones", {
-      set: function(dropZoneNames) {
-        this.dropZoneNames = dropZoneNames;
-      },
-      enumerable: true,
-      configurable: true
-    });
-    Object.defineProperty(DroppableComponent.prototype, "dropZoneNames", {
-      get: function() {
-        return this._dropZoneNames;
-      },
-      set: function(names) {
-        this._dropZoneNames = names;
-      },
-      enumerable: true,
-      configurable: true
-    });
     DroppableComponent.prototype._onDragEnter = function(event) {
-      if (this.isDropAllowed()) {
+      if (this._isDropAllowed()) {
         event.preventDefault();
-        this.onDragEnterCallback(event);
+        this._onDragEnterCallback(event);
       }
     };
     DroppableComponent.prototype._onDragOver = function(event) {
-      if (this.isDropAllowed()) {
+      if (this._isDropAllowed()) {
         event.preventDefault();
-        this.onDragOverCallback(event);
+        this._onDragOverCallback(event);
       }
     };
     DroppableComponent.prototype._onDragLeave = function(event) {
-      if (this.isDropAllowed()) {
+      if (this._isDropAllowed()) {
         event.preventDefault();
-        this.onDragLeaveCallback(event);
+        this._onDragLeaveCallback(event);
       }
     };
     DroppableComponent.prototype._onDrop = function(event) {
-      if (this.isDropAllowed()) {
+      if (this._isDropAllowed()) {
         event.preventDefault();
-        this.onDropCallback(event);
+        this._onDropCallback(event);
       }
     };
-    DroppableComponent.prototype.isDropAllowed = function() {
+    DroppableComponent.prototype._onDragEnterCallback = function(event) {
+      this._elem.classList.add(this._dragDropService.onDragEnterClass);
+    };
+    DroppableComponent.prototype._onDragLeaveCallback = function(event) {
+      this._elem.classList.remove(this._dragDropService.onDragOverClass);
+      this._elem.classList.remove(this._dragDropService.onDragEnterClass);
+    };
+    ;
+    DroppableComponent.prototype._onDragOverCallback = function(event) {
+      this._elem.classList.add(this._dragDropService.onDragOverClass);
+    };
+    ;
+    DroppableComponent.prototype._onDropCallback = function(event) {
+      if (this.onDropSuccessCallback) {
+        this.onDropSuccessCallback.emit(this._dragDropService.draggableData);
+      }
+      if (this._dragDropService.onDragSuccessCallback) {
+        this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.draggableData);
+      }
+      this._elem.classList.remove(this._dragDropService.onDragOverClass);
+      this._elem.classList.remove(this._dragDropService.onDragEnterClass);
+    };
+    DroppableComponent.prototype._isDropAllowed = function() {
       if (this.dropEnabled) {
-        if (this.dropZoneNames.length === 0 && this.ddZonesService.allowedDropZones.length === 0) {
+        if (this.dropZones.length === 0 && this._dragDropService.allowedDropZones.length === 0) {
           return true;
         }
-        for (var i = 0; i < this.ddZonesService.allowedDropZones.length; i++) {
-          var dragZone = this.ddZonesService.allowedDropZones[i];
-          if (this.dropZoneNames.indexOf(dragZone) !== -1) {
+        for (var i = 0; i < this._dragDropService.allowedDropZones.length; i++) {
+          var dragZone = this._dragDropService.allowedDropZones[i];
+          if (this.dropZones.indexOf(dragZone) !== -1) {
             return true;
           }
         }
       }
       return false;
     };
+    __decorate([core_1.Input(), __metadata('design:type', Boolean)], DroppableComponent.prototype, "dropEnabled", void 0);
     __decorate([core_1.Output("onDropSuccess"), __metadata('design:type', core_1.EventEmitter)], DroppableComponent.prototype, "onDropSuccessCallback", void 0);
-    __decorate([core_1.Input(), __metadata('design:type', dnd_common_1.DragDropConfig), __metadata('design:paramtypes', [dnd_common_1.DragDropConfig])], DroppableComponent.prototype, "dragdropConfig", null);
-    __decorate([core_1.Input(), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], DroppableComponent.prototype, "dropZones", null);
-    DroppableComponent = __decorate([core_1.Directive({selector: '[dnd-droppable]'}), __metadata('design:paramtypes', [core_1.ElementRef, dnd_common_1.DragDropZonesService, dnd_common_1.DragDropDataService, dnd_common_1.DragDropConfigService])], DroppableComponent);
+    __decorate([core_1.Input(), __metadata('design:type', Array)], DroppableComponent.prototype, "dropZones", void 0);
+    DroppableComponent = __decorate([core_1.Directive({selector: '[dnd-droppable]'}), __metadata('design:paramtypes', [core_1.ElementRef, dnd_service_1.DragDropService])], DroppableComponent);
     return DroppableComponent;
   })();
   exports.DroppableComponent = DroppableComponent;
   return module.exports;
 });
 
-System.registerDynamic("ng2-dnd", ["./src/dnd.common", "./src/dnd.draggable", "./src/dnd.droppable"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-dnd", ["./src/dnd.service", "./src/dnd.draggable", "./src/dnd.droppable"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -412,13 +301,13 @@ System.registerDynamic("ng2-dnd", ["./src/dnd.common", "./src/dnd.draggable", ".
       if (!exports.hasOwnProperty(p))
         exports[p] = m[p];
   }
-  var dnd_common_1 = $__require('./src/dnd.common');
+  var dnd_service_1 = $__require('./src/dnd.service');
   var dnd_draggable_1 = $__require('./src/dnd.draggable');
   var dnd_droppable_1 = $__require('./src/dnd.droppable');
-  __export($__require('./src/dnd.common'));
+  __export($__require('./src/dnd.service'));
   __export($__require('./src/dnd.draggable'));
   __export($__require('./src/dnd.droppable'));
-  exports.DND_PROVIDERS = [dnd_common_1.DragDropZonesService, dnd_common_1.DragDropDataService, dnd_common_1.DragDropConfigService];
+  exports.DND_PROVIDERS = [dnd_service_1.DragDropService];
   exports.DND_DIRECTIVES = [dnd_draggable_1.DraggableComponent, dnd_droppable_1.DroppableComponent];
   return module.exports;
 });
