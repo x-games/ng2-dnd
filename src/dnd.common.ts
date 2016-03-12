@@ -103,124 +103,123 @@ export abstract class AbstractDraggableDroppableComponent {
     onDragStartCallback = (event: Event): void => { };
     onDragEndCallback = (event: Event): void => { };
 
-    constructor(elemRef: ElementRef, private ddZonesService: DragDropZonesService, config: DragDropConfig) {
-        console.log('ddZonesService', this.ddZonesService);
+    constructor(elemRef: ElementRef, public ddZonesService: DragDropZonesService, config: DragDropConfig) {
         this.elem = elemRef.nativeElement;
         this._draggableHandler = new DraggableElementHandler(this);
         this.config = config;
 
-        //drop events
-        this.elem.ondragenter = (event: Event) => {
-            this._onDragEnter(event);
-        };
-        this.elem.ondragover = (event: DragEvent) => {
-            this._onDragOver(event);
-            //workaround to avoid NullPointerException during unit testing
-            if (event.dataTransfer != null) {
-                event.dataTransfer.dropEffect = config.dropEffect.name;
-            }
-        };
-        this.elem.ondragleave = (event: Event) => {
-            this._onDragLeave(event);
-        };
-        this.elem.ontouchstart = (event: Event) => {
-            this._onDragEnter(event);
-        };
-        this.elem.ontouchend = (event: Event) => {
-            this._onDragLeave(event);
-        };
-        this.elem.ondrop = (event: Event) => {
-            this._onDrop(event);
-        };
+        // //drop events
+        // this.elem.ondragenter = (event: Event) => {
+        //     this._onDragEnter(event);
+        // };
+        // this.elem.ondragover = (event: DragEvent) => {
+        //     this._onDragOver(event);
+        //     //workaround to avoid NullPointerException during unit testing
+        //     if (event.dataTransfer != null) {
+        //         event.dataTransfer.dropEffect = this.config.dropEffect.name;
+        //     }
+        // };
+        // this.elem.ondragleave = (event: Event) => {
+        //     this._onDragLeave(event);
+        // };
+        // this.elem.ontouchstart = (event: Event) => {
+        //     this._onDragEnter(event);
+        // };
+        // this.elem.ontouchend = (event: Event) => {
+        //     this._onDragLeave(event);
+        // };
+        // this.elem.ondrop = (event: Event) => {
+        //     this._onDrop(event);
+        // };
 
-        //drag events
-        this.elem.ondragstart = (event: DragEvent) => {
-            this._onDragStart(event);
-            //workaround to avoid NullPointerException during unit testing
-            if (event.dataTransfer != null) {
-                event.dataTransfer.effectAllowed = this.config.dragEffect.name;
-                event.dataTransfer.setData('text/html', '');
+        // //drag events
+        // this.elem.ondragstart = (event: DragEvent) => {
+        //     this._onDragStart(event);
+        //     //workaround to avoid NullPointerException during unit testing
+        //     if (event.dataTransfer != null) {
+        //         event.dataTransfer.effectAllowed = this.config.dragEffect.name;
+        //         event.dataTransfer.setData('text/html', '');
 
-                if (this.config.dragImage != null) {
-                    let dragImage: DragImage = this.config.dragImage;
-                    (<any>event.dataTransfer).setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
-                }
+        //         if (this.config.dragImage != null) {
+        //             let dragImage: DragImage = this.config.dragImage;
+        //             (<any>event.dataTransfer).setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
+        //         }
 
-            }
-        };
-        this.elem.ondragend = (event: Event) => {
-            this._onDragEnd(event);
-        };
-        this.elem.ontouchstart = (event: Event) => {
-            this._onDragStart(event);
-        };
-        this.elem.ontouchend = (event: Event) => {
-            this._onDragEnd(event);
-        };
+        //     }
+        // };
+        // this.elem.ondragend = (event: Event) => {
+        //     this._onDragEnd(event);
+        // };
+        // this.elem.ontouchstart = (event: Event) => {
+        //     this._onDragStart(event);
+        // };
+        // this.elem.ontouchend = (event: Event) => {
+        //     this._onDragEnd(event);
+        // };
     }
 
-    private _onDragEnter(event: Event): void {
-        if (!this.dropEnabled || !this.isDropAllowed()) {
-            return;
-        }
-        console.log("'dragEnter' event");
-        // This is necessary to allow us to drop.
-        event.preventDefault();
-        this.onDragEnterCallback(event);
-    }
+    // private _onDragEnter(event: Event): void {
+    //     if (!this.dropEnabled || !this.isDropAllowed()) {
+    //         return;
+    //     }
+    //     console.log("'dragEnter' event");
+    //     // This is necessary to allow us to drop.
+    //     event.preventDefault();
+    //     this.onDragEnterCallback(event);
+    // }
 
-    private _onDragOver(event: Event): void {
-        if (!this.dropEnabled || !this.isDropAllowed()) {
-            return;
-        }
-        console.log("'dragOver' event");
-        // This is necessary to allow us to drop.
-        event.preventDefault();
-        this.onDragOverCallback(event);
-    }
+    // private _onDragOver(event: Event): void {
+    //     if (!this.dropEnabled || !this.isDropAllowed()) {
+    //         return;
+    //     }
+    //     console.log("'dragOver' event");
+    //     // This is necessary to allow us to drop.
+    //     event.preventDefault();
+    //     this.onDragOverCallback(event);
+    // }
 
-    private _onDragLeave(event: Event): void {
-        if (!this.dropEnabled || !this.isDropAllowed()) {
-            return;
-        }
-        console.log("'dragLeave' event");
-        this.onDragLeaveCallback(event);
-    }
+    // private _onDragLeave(event: Event): void {
+    //     if (!this.dropEnabled || !this.isDropAllowed()) {
+    //         return;
+    //     }
+    //     console.log("'dragLeave' event");
+    //     this.onDragLeaveCallback(event);
+    // }
 
-    private _onDrop(event: Event): void {
-        if (!this.dropEnabled || !this.isDropAllowed()) {
-            return;
-        }
-        console.log("'drop' event");
-        this.onDropCallback(event);
-    }
+    // private _onDrop(event: Event): void {
+    //     if (!this.dropEnabled || !this.isDropAllowed()) {
+    //         return;
+    //     }
+    //     console.log("'drop' event");
+    //     this.onDropCallback(event);
+    // }
 
-    isDropAllowed(): boolean {
-        if (this._dropZoneNames.length === 0 && this.ddZonesService.allowedDropZones.length === 0) {
-            return true;
-        }
-        for (let dragZone in this.ddZonesService.allowedDropZones) {
-            if (this._dropZoneNames.indexOf(dragZone) !== -1) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // isDropAllowed(): boolean {
+    //     if (this._dropZoneNames.length === 0 && this.ddZonesService.allowedDropZones.length === 0) {
+    //         return true;
+    //     }
+    //     for (let dragZone in this.ddZonesService.allowedDropZones) {
+    //         if (this._dropZoneNames.indexOf(dragZone) !== -1) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
-    private _onDragStart(event: Event): void {
-        if (!this._dragEnabled) {
-            return;
-        }
-        console.log("'dragStart' event");
-        console.log('ddZonesService', this.ddZonesService);
-        this.ddZonesService.allowedDropZones = this._dropZoneNames;
-        this.onDragStartCallback(event);
-    }
+    // private _onDragStart(event: Event): void {
+    //     if (!this._dragEnabled) {
+    //         return;
+    //     }
+    //     console.log("'dragStart' event");
+    //     console.log('ddZonesService', this.ddZonesService);
+    //     this.ddZonesService.allowedDropZones = this._dropZoneNames;
+    //     this.onDragStartCallback(event);
+    // }
 
-    private _onDragEnd(event: Event): void {
-        console.log("'dragEnd' event");
-        console.log('ddZonesService', this.ddZonesService);
-        this.ddZonesService.allowedDropZones = [];
-        this.onDragEndCallback(event);
-    }
+    // private _onDragEnd(event: Event): void {
+    //     console.log("'dragEnd' event");
+    //     console.log('ddZonesService', this.ddZonesService);
+    //     this.ddZonesService.allowedDropZones = [];
+    //     this.onDragEndCallback(event);
+    // }
 }

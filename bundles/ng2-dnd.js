@@ -1,4 +1,4 @@
-System.registerDynamic("src/dnd.droppable", ["angular2/core", "angular2/src/facade/async", "./dnd.common", "./dnd.draggable"], true, function($__require, exports, module) {
+System.registerDynamic("src/dnd.droppable", ["angular2/core", "./dnd.common", "./dnd.draggable"], true, function($__require, exports, module) {
   ;
   var define,
       global = this,
@@ -29,7 +29,6 @@ System.registerDynamic("src/dnd.droppable", ["angular2/core", "angular2/src/faca
       return Reflect.metadata(k, v);
   };
   var core_1 = $__require('angular2/core');
-  var async_1 = $__require('angular2/src/facade/async');
   var dnd_common_1 = $__require('./dnd.common');
   var dnd_draggable_1 = $__require('./dnd.draggable');
   var DroppableComponent = (function(_super) {
@@ -51,17 +50,37 @@ System.registerDynamic("src/dnd.droppable", ["angular2/core", "angular2/src/faca
       };
       this.onDropCallback = function(event) {
         if (_this.onDropSuccessCallback) {
-          console.log('draggableData', _this.dragDropService.draggableData);
-          async_1.ObservableWrapper.callEmit(_this.onDropSuccessCallback, _this.dragDropService.draggableData);
+          _this.onDropSuccessCallback.emit(_this.dragDropService.draggableData);
         }
         if (_this.dragDropService.onDragSuccessCallback) {
-          async_1.ObservableWrapper.callEmit(_this.dragDropService.onDragSuccessCallback, _this.dragDropService.draggableData);
+          _this.dragDropService.onDragSuccessCallback.emit(_this.dragDropService.draggableData);
         }
         _this.elem.classList.remove(_this.config.onDragOverClass);
         _this.elem.classList.remove(_this.config.onDragEnterClass);
       };
       this.dragdropConfig = dragDropConfigService.dragDropConfig;
       this.dropEnabled = true;
+      this.elem.ondragenter = function(event) {
+        _this._onDragEnter(event);
+      };
+      this.elem.ondragover = function(event) {
+        _this._onDragOver(event);
+        if (event.dataTransfer != null) {
+          event.dataTransfer.dropEffect = _this.config.dropEffect.name;
+        }
+      };
+      this.elem.ondragleave = function(event) {
+        _this._onDragLeave(event);
+      };
+      this.elem.ontouchstart = function(event) {
+        _this._onDragEnter(event);
+      };
+      this.elem.ontouchend = function(event) {
+        _this._onDragLeave(event);
+      };
+      this.elem.ondrop = function(event) {
+        _this._onDrop(event);
+      };
     }
     Object.defineProperty(DroppableComponent.prototype, "dragdropConfig", {
       set: function(value) {
@@ -77,6 +96,48 @@ System.registerDynamic("src/dnd.droppable", ["angular2/core", "angular2/src/faca
       enumerable: true,
       configurable: true
     });
+    DroppableComponent.prototype._onDragEnter = function(event) {
+      if (!this.dropEnabled || !this.isDropAllowed()) {
+        return;
+      }
+      console.log("'dragEnter' event");
+      event.preventDefault();
+      this.onDragEnterCallback(event);
+    };
+    DroppableComponent.prototype._onDragOver = function(event) {
+      if (!this.dropEnabled || !this.isDropAllowed()) {
+        return;
+      }
+      console.log("'dragOver' event");
+      event.preventDefault();
+      this.onDragOverCallback(event);
+    };
+    DroppableComponent.prototype._onDragLeave = function(event) {
+      if (!this.dropEnabled || !this.isDropAllowed()) {
+        return;
+      }
+      console.log("'dragLeave' event");
+      this.onDragLeaveCallback(event);
+    };
+    DroppableComponent.prototype._onDrop = function(event) {
+      if (!this.dropEnabled || !this.isDropAllowed()) {
+        return;
+      }
+      console.log("'drop' event");
+      this.onDropCallback(event);
+    };
+    DroppableComponent.prototype.isDropAllowed = function() {
+      if (this.dropZoneNames.length === 0 && this.ddZonesService.allowedDropZones.length === 0) {
+        return true;
+      }
+      for (var i = 0; i < this.ddZonesService.allowedDropZones.length; i++) {
+        var dragZone = this.ddZonesService.allowedDropZones[i];
+        if (this.dropZoneNames.indexOf(dragZone) !== -1) {
+          return true;
+        }
+      }
+      return false;
+    };
     __decorate([core_1.Output("onDropSuccess"), __metadata('design:type', core_1.EventEmitter)], DroppableComponent.prototype, "onDropSuccessCallback", void 0);
     __decorate([core_1.Input(), __metadata('design:type', dnd_common_1.DragDropConfig), __metadata('design:paramtypes', [dnd_common_1.DragDropConfig])], DroppableComponent.prototype, "dragdropConfig", null);
     __decorate([core_1.Input(), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], DroppableComponent.prototype, "dropZones", null);
@@ -176,7 +237,6 @@ System.registerDynamic("src/dnd.common", ["angular2/core"], true, function($__re
   exports.DraggableElementHandler = DraggableElementHandler;
   var AbstractDraggableDroppableComponent = (function() {
     function AbstractDraggableDroppableComponent(elemRef, ddZonesService, config) {
-      var _this = this;
       this.ddZonesService = ddZonesService;
       this._dropZoneNames = [Math.random().toString()];
       this._dragEnabled = false;
@@ -187,51 +247,9 @@ System.registerDynamic("src/dnd.common", ["angular2/core"], true, function($__re
       this.onDropCallback = function(event) {};
       this.onDragStartCallback = function(event) {};
       this.onDragEndCallback = function(event) {};
-      console.log('ddZonesService', this.ddZonesService);
       this.elem = elemRef.nativeElement;
       this._draggableHandler = new DraggableElementHandler(this);
       this.config = config;
-      this.elem.ondragenter = function(event) {
-        _this._onDragEnter(event);
-      };
-      this.elem.ondragover = function(event) {
-        _this._onDragOver(event);
-        if (event.dataTransfer != null) {
-          event.dataTransfer.dropEffect = config.dropEffect.name;
-        }
-      };
-      this.elem.ondragleave = function(event) {
-        _this._onDragLeave(event);
-      };
-      this.elem.ontouchstart = function(event) {
-        _this._onDragEnter(event);
-      };
-      this.elem.ontouchend = function(event) {
-        _this._onDragLeave(event);
-      };
-      this.elem.ondrop = function(event) {
-        _this._onDrop(event);
-      };
-      this.elem.ondragstart = function(event) {
-        _this._onDragStart(event);
-        if (event.dataTransfer != null) {
-          event.dataTransfer.effectAllowed = _this.config.dragEffect.name;
-          event.dataTransfer.setData('text/html', '');
-          if (_this.config.dragImage != null) {
-            var dragImage = _this.config.dragImage;
-            event.dataTransfer.setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
-          }
-        }
-      };
-      this.elem.ondragend = function(event) {
-        _this._onDragEnd(event);
-      };
-      this.elem.ontouchstart = function(event) {
-        _this._onDragStart(event);
-      };
-      this.elem.ontouchend = function(event) {
-        _this._onDragEnd(event);
-      };
     }
     Object.defineProperty(AbstractDraggableDroppableComponent.prototype, "dropZoneNames", {
       get: function() {
@@ -265,62 +283,6 @@ System.registerDynamic("src/dnd.common", ["angular2/core"], true, function($__re
       enumerable: true,
       configurable: true
     });
-    AbstractDraggableDroppableComponent.prototype._onDragEnter = function(event) {
-      if (!this.dropEnabled || !this.isDropAllowed()) {
-        return;
-      }
-      console.log("'dragEnter' event");
-      event.preventDefault();
-      this.onDragEnterCallback(event);
-    };
-    AbstractDraggableDroppableComponent.prototype._onDragOver = function(event) {
-      if (!this.dropEnabled || !this.isDropAllowed()) {
-        return;
-      }
-      console.log("'dragOver' event");
-      event.preventDefault();
-      this.onDragOverCallback(event);
-    };
-    AbstractDraggableDroppableComponent.prototype._onDragLeave = function(event) {
-      if (!this.dropEnabled || !this.isDropAllowed()) {
-        return;
-      }
-      console.log("'dragLeave' event");
-      this.onDragLeaveCallback(event);
-    };
-    AbstractDraggableDroppableComponent.prototype._onDrop = function(event) {
-      if (!this.dropEnabled || !this.isDropAllowed()) {
-        return;
-      }
-      console.log("'drop' event");
-      this.onDropCallback(event);
-    };
-    AbstractDraggableDroppableComponent.prototype.isDropAllowed = function() {
-      if (this._dropZoneNames.length === 0 && this.ddZonesService.allowedDropZones.length === 0) {
-        return true;
-      }
-      for (var dragZone in this.ddZonesService.allowedDropZones) {
-        if (this._dropZoneNames.indexOf(dragZone) !== -1) {
-          return true;
-        }
-      }
-      return false;
-    };
-    AbstractDraggableDroppableComponent.prototype._onDragStart = function(event) {
-      if (!this._dragEnabled) {
-        return;
-      }
-      console.log("'dragStart' event");
-      console.log('ddZonesService', this.ddZonesService);
-      this.ddZonesService.allowedDropZones = this._dropZoneNames;
-      this.onDragStartCallback(event);
-    };
-    AbstractDraggableDroppableComponent.prototype._onDragEnd = function(event) {
-      console.log("'dragEnd' event");
-      console.log('ddZonesService', this.ddZonesService);
-      this.ddZonesService.allowedDropZones = [];
-      this.onDragEndCallback(event);
-    };
     AbstractDraggableDroppableComponent = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [core_1.ElementRef, DragDropZonesService, DragDropConfig])], AbstractDraggableDroppableComponent);
     return AbstractDraggableDroppableComponent;
   })();
@@ -397,6 +359,26 @@ System.registerDynamic("src/dnd.draggable", ["angular2/core", "./dnd.common"], t
       };
       this.dragdropConfig = dragDropConfigService.dragDropConfig;
       this.dragEnabled = true;
+      this.elem.ondragstart = function(event) {
+        _this._onDragStart(event);
+        if (event.dataTransfer != null) {
+          event.dataTransfer.effectAllowed = _this.config.dragEffect.name;
+          event.dataTransfer.setData('text/html', '');
+          if (_this.config.dragImage != null) {
+            var dragImage = _this.config.dragImage;
+            event.dataTransfer.setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
+          }
+        }
+      };
+      this.elem.ondragend = function(event) {
+        _this._onDragEnd(event);
+      };
+      this.elem.ontouchstart = function(event) {
+        _this._onDragStart(event);
+      };
+      this.elem.ontouchend = function(event) {
+        _this._onDragEnd(event);
+      };
     }
     Object.defineProperty(DraggableComponent.prototype, "dragdropConfig", {
       set: function(value) {
@@ -412,6 +394,21 @@ System.registerDynamic("src/dnd.draggable", ["angular2/core", "./dnd.common"], t
       enumerable: true,
       configurable: true
     });
+    DraggableComponent.prototype._onDragStart = function(event) {
+      if (!this.dragEnabled) {
+        return;
+      }
+      console.log("'dragStart' event");
+      this.ddZonesService.allowedDropZones = this.dropZoneNames;
+      console.log('ddZonesService', this.ddZonesService);
+      this.onDragStartCallback(event);
+    };
+    DraggableComponent.prototype._onDragEnd = function(event) {
+      console.log("'dragEnd' event");
+      this.ddZonesService.allowedDropZones = [];
+      console.log('ddZonesService', this.ddZonesService);
+      this.onDragEndCallback(event);
+    };
     __decorate([core_2.Input(), __metadata('design:type', Boolean)], DraggableComponent.prototype, "dragEnabled", void 0);
     __decorate([core_2.Input(), __metadata('design:type', Object)], DraggableComponent.prototype, "draggableData", void 0);
     __decorate([core_2.Input(), __metadata('design:type', dnd_common_1.DragDropConfig), __metadata('design:paramtypes', [dnd_common_1.DragDropConfig])], DraggableComponent.prototype, "dragdropConfig", null);
