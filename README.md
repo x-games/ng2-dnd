@@ -1,10 +1,7 @@
 Angular 2 Drag-and-Drop [![Build Status](https://travis-ci.org/akserg/ng2-dnd.svg?branch=master)](https://travis-ci.org/akserg/ng2-dnd) [![npm version](https://img.shields.io/npm/v/ng2-dnd.svg)](https://www.npmjs.com/package/ng2-dnd) [![npm monthly downloads](https://img.shields.io/npm/dm/ng2-dnd.svg?style=flat-square)](https://www.npmjs.com/package/ng2-dnd)[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 =======================
 
-# ng2-dnd
-
 Angular 2 Drag-and-Drop without dependencies.
-
 
 ## Installation
 ```bash

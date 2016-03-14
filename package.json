@@ -1,6 +1,5 @@
 {
   "name": "ng2-dnd",
-  "version": "1.0.0",
   "description": "Angular 2 Drag-and-Drop without dependencies",
   "main": "index.js",
   "scripts": {
@@ -11,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/akserg/ng2-dnd.git"
+    "url": "https://github.com/akserg/ng2-dnd.git"
   },
   "keywords": [
     "angular",
@@ -25,7 +24,7 @@
     "url": "https://github.com/akserg/ng2-dnd/issues"
   },
   "homepage": "https://github.com/akserg/ng2-dnd#readme",
-    "peerDependencies": {
+  "peerDependencies": {
     "angular2": "~2.0.0-beta.9",
     "es6-promise": "~3.1.2",
     "es6-shim": "~0.33.3",
