@@ -8,7 +8,7 @@ Angular 2 Drag-and-Drop without dependencies.
 
 ## Installation
 ```bash
-npm install ng2-dnd --save`
+npm install ng2-dnd --save
 ```
 
 ## Demo
