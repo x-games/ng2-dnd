@@ -32,7 +32,7 @@ export class DraggableComponent {
     /**
      * The data that has to be dragged. It can be any JS object
      */
-    @Input() draggableData: any;
+    @Input() dragData: any;
 
     /**
      * Callback function called when the drag action ends with a valid drop action.
@@ -51,7 +51,7 @@ export class DraggableComponent {
         //drag events
         this._elem.ondragstart = (event: DragEvent) => {
             this._onDragStart(event);
-            // 
+            //
             if (event.dataTransfer != null) {
                 event.dataTransfer.effectAllowed = this._dragDropService.dragEffect.name;
                 event.dataTransfer.setData('text/html', '');
@@ -85,16 +85,16 @@ export class DraggableComponent {
         this._dragDropService.allowedDropZones = [];
         this._onDragEndCallback(event);
     }
-    
+
     private _onDragStartCallback(event: Event) {
-        this._dragDropService.draggableData = this.draggableData;
+        this._dragDropService.dragData = this.dragData;
         this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
         let dragTarget: HTMLElement = <HTMLElement>event.target;
         dragTarget.classList.add(this._dragDropService.onDragStartClass);
     }
-    
+
     private _onDragEndCallback(event: Event) {
-        this._dragDropService.draggableData = null;
+        this._dragDropService.dragData = null;
         this._dragDropService.onDragSuccessCallback = null;
         let dragTarget: HTMLElement = <HTMLElement>event.target;
         dragTarget.classList.remove(this._dragDropService.onDragStartClass);

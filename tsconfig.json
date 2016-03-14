@@ -17,6 +17,7 @@
         "./src/dnd.draggable.ts",
         "./src/dnd.droppable.ts",
         "./tests/dnd.component.factory.ts",
-        "./tests/dnd.draggable.spec.ts"
+        "./tests/dnd.with.draggable.data.spec.ts",
+        "./tests/dnd.without.draggable.data.spec.ts"
     ]
 }

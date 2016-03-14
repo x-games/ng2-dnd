@@ -29,12 +29,12 @@ export class DragDropService {
     dragEffect: DataTransferEffect = DataTransferEffect.MOVE;
     dropEffect: DataTransferEffect = DataTransferEffect.MOVE;
     dragCursor: string = "move";
-    
+
     allowedDropZones: Array<string> = [];
-    
+
     onDragSuccessCallback: EventEmitter<any>;
-    draggableData: any;
-    
+    dragData: any;
+
     onDragStartClass: string = "dnd-drag-start";
     onDragEnterClass: string = "dnd-drag-enter";
     onDragOverClass: string = "dnd-drag-over";

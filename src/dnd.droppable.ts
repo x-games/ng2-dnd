@@ -11,9 +11,9 @@ import {DragDropService} from './dnd.service';
 export class DroppableComponent {
 
     _elem: HTMLElement;
-    
+
     @Input() dropEnabled: boolean = true;
-    
+
     /**
      * Callback function called when the drop action completes correctly.
      * It is activated before the on-drag-success callback.
@@ -99,10 +99,10 @@ export class DroppableComponent {
 
     private _onDropCallback (event: Event) {
         if (this.onDropSuccessCallback) {
-            this.onDropSuccessCallback.emit(this._dragDropService.draggableData);
+            this.onDropSuccessCallback.emit(this._dragDropService.dragData);
         }
         if (this._dragDropService.onDragSuccessCallback) {
-            this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.draggableData);
+            this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.dragData);
         }
         this._elem.classList.remove(this._dragDropService.onDragOverClass);
         this._elem.classList.remove(this._dragDropService.onDragEnterClass);
