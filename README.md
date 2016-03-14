@@ -84,6 +84,7 @@ export class AppComponent {
 ```
 
 Result of simple Drag-and-Drop operation:
+
 ![alt text](https://github.com/akserg/ng2-dnd/blob/master/img/dnd1.png "Simple Drag-and-Drop operation")
 
 
@@ -157,6 +158,7 @@ export class AppComponent {
 ```
 
 Result of restricted Drag-and-Drop operation:
+
 ![alt text](https://github.com/akserg/ng2-dnd/blob/master/img/dnd2.png "Restricted DnD operation")
 
 # Transfer custom data via Drag-and-Drop
@@ -219,9 +221,10 @@ export class AppComponent {
 ```
 
 Result of transfer cudtom data in Drag-and-Drop operation:
+
 ![alt text](https://github.com/akserg/ng2-dnd/blob/master/img/dnd3.png "Transfer cudtom data in Drag-and-Drop operation")
 
-# Complex example (includes all shown below) with Drag-and-Drop
+# Complex example (includes all shown above) with Drag-and-Drop
 Here is an example of shopping backet with products adding via drag and drop operation:
 
 ```js
@@ -313,6 +316,7 @@ export class AppComponent {
 ```
 
 Result of complex example with Drag-and-Drop operation:
+
 ![alt text](https://github.com/akserg/ng2-dnd/blob/master/img/dnd4.png "Complex example with Drag-and-Drop operation")
 
 # License
