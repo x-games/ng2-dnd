@@ -1,5 +1,7 @@
-Angular 2 Drag-and-Drop
+Angular 2 Drag-and-Drop [![Build Status](https://travis-ci.org/akserg/ng2-dnd.svg?branch=master)](https://travis-ci.org/akserg/ng2-dnd) [![npm version](https://img.shields.io/npm/v/ng2-dnd.svg)](https://www.npmjs.com/package/ng2-dnd) [![npm monthly downloads](https://img.shields.io/npm/dm/ng2-dnd.svg?style=flat-square)](https://www.npmjs.com/package/ng2-dnd)[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 =======================
+
+# ng2-dnd
 
 Angular 2 Drag-and-Drop without dependencies.
 
@@ -11,118 +13,304 @@ npm install ng2-dnd --save`
 
 ## Demo
 
-To be aavailable soon...
+To be available soon...
 
 ## Usage
 
-Using Webpack or Browserify:
+If you use SystemJS to load your files, you might have to update your config with this if you don't use `defaultJSExtensions: true`:
+```js
+System.config({
+    packages: {
+        "/ng2-dnd": {"defaultExtension": "js"}
+    }
+});
+```
+
+Finally, you can use *ng2-dnd* in your Angular 2 project:
+- Import `DND_PROVIDERS, DND_DIRECTIVES` from `ng2-toasty/ng2-toasty`;
+- Use `DND_PROVIDERS` in the bootstrap of your application;
+- Add `DND_DIRECTIVES` to the `directives` property of your application component;
+- Use `dnd-draggable` and `dnd-droppable` properties in template of your components.
 
 ```js
-var Angular = require('angular');
+import {Component} from 'angular2/core';
+import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
+import {bootstrap} from 'angular2/platform/browser';
 
-var mod = Angular.module('yourModule', [
-  require('angular-drag-drop'),
+bootstrap(AppComponent, [
+    DND_PROVIDERS // It is required to have 1 unique instance of your service
 ]);
 
-// Now use `drag-container`, `drop-container` and `drop-target` in your templates
+@Component({
+    selector: 'app',
+    directives: [DND_DIRECTIVES],
+    template: `
+<h4>Simple Drag-and-Drop</h4>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-success">
+            <div class="panel-heading">Available to drag</div>
+            <div class="panel-body">
+                <div class="panel panel-default" dnd-draggable [dragEnabled]="true">
+                    <div class="panel-body">
+                        <div>Drag Me</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div dnd-droppable class="panel panel-info">
+            <div class="panel-heading">Place to drop</div>
+            <div class="panel-body">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div dnd-droppable class="panel panel-warning">
+            <div class="panel-heading">Restricted to drop</div>
+            <div class="panel-body">
+            </div>
+        </div>
+    </div>
+</div>
+`
+})
+export class AppComponent {
+
+    constructor() { }
+
+}
 ```
 
-### `drag-container`
+Result of simple Drag-and-Drop operation:
+![alt text](https://github.com/akserg/ng2-dnd/img/dnd1.png "Simple Drag-and-Drop operation")
 
-Define a DOM element that will become draggable and determines what the data associated with the drag event is.
 
-**Example**
+# Restriction Drag-and-Drop operations with drop zones
+You can use property *dropZones* (actually an array) to specify in which place you would like to drop the draggable element:
 
-```html
-<div drag-container="model"
-  on-drag-start="ctl.handleDragStart($event, $dragData)"
-  on-drag-end="ctl.handleDragEnd($event, $dragData)"
-></div>
+```js
+import {Component} from 'angular2/core';
+import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
+import {bootstrap} from 'angular2/platform/browser';
+
+bootstrap(AppComponent, [
+    DND_PROVIDERS // It is required to have 1 unique instance of your service
+]);
+
+@Component({
+    selector: 'app',
+    directives: [DND_DIRECTIVES],
+    template: `
+<h4>Restricting Drag-and-Drop with zones</h4>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Available to drag</div>
+            <div class="panel-body">
+                <div class="panel panel-default" dnd-draggable [dragEnabled]="true"
+                    [dropZones]="['zone1']">
+                    <div class="panel-body">
+                        <div>Drag Me</div>
+                        <div>Zone 1 only</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-success">
+            <div class="panel-heading">Available to drag</div>
+            <div class="panel-body">
+                <div class="panel panel-default" dnd-draggable [dragEnabled]="true"
+                    [dropZones]="['zone1', 'zone2']">
+                    <div class="panel-body">
+                        <div>Drag Me</div>
+                        <div>Zone 1 & 2</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div dnd-droppable class="panel panel-info" [dropZones]="['zone1']">
+            <div class="panel-heading">Zone 1</div>
+            <div class="panel-body">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div dnd-droppable class="panel panel-warning" [dropZones]="['zone2']">
+            <div class="panel-heading">Zone 2</div>
+            <div class="panel-body">
+            </div>
+        </div>
+    </div>
+</div>
+`
+})
+export class AppComponent {
+
+    constructor() { }
+
+}
 ```
 
-Attribute | Required? | Description
-----------|-----------|------------
-`drag-container` | No | Bind the data to be associated with dragging this element. When not specified the jqLite element on which the directive is placed will be used as the $dragData.
+Result of restricted Drag-and-Drop operation:
+![alt text](https://github.com/akserg/ng2-dnd/img/dnd2.png "Restricted DnD operation")
 
-The following callbacks are optional.
-Each can allow you to inject two special objects, `$event` and `$dragData`.
-`$event` is the original browser event.
-This can be helpful for setting the browser-level drag data using `$event.dataTransfer.setData('mime/type', data)`)
-or for setting the drag image / drop effect like `$event.dataTransfer.dropEffect = 'copy'`.
-`$dragData` is the data associated with dragging this element.
-It is optionally set by providing a reference via the `drag-container` attribute.
+# Transfer custom data via Drag-and-Drop
+You can transfer data from draggable to droppable component via *dragData* property of Draggable component:
 
-* `on-drag-start`
-* `on-drag-end`
+```js
+import {Component} from 'angular2/core';
+import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
+import {bootstrap} from 'angular2/platform/browser';
 
+bootstrap(AppComponent, [
+    DND_PROVIDERS // It is required to have 1 unique instance of your service
+]);
 
+@Component({
+    selector: 'app',
+    directives: [DND_DIRECTIVES],
+    template: `
+<h4>Transfer custom data in Drag-and-Drop</h4>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-success">
+            <div class="panel-heading">Available to drag</div>
+            <div class="panel-body">
+                <div class="panel panel-default" dnd-draggable [dragEnabled]="true"
+                    [dragData]="transferData">
+                    <div class="panel-body">
+                        <div>Drag Me</div>
+                        <div>{{transferData | json}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div dnd-droppable class="panel panel-info"
+            (onDropSuccess)="transferDataSuccess($event)">
+            <div class="panel-heading">Place to drop (Items:{{receivedData.length}})</div>
+            <div class="panel-body">
+                <div [hidden]="!receivedData.length > 0"
+                    *ngFor="#data of receivedData">{{data | json}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+`
+})
+export class AppComponent {
 
-### `drop-container`
+    transferData:Object = {id:1, msg: 'Hello'};
+    receivedData:Array<any> = [];
 
-Define a DOM element that will accept draggable elements that match pass an optional acceptance callback.
+    constructor() { }
 
-**Example**
+    transferDataSuccess($event) {
+        this.receivedData.push($event);
+    }
 
-```html
-<div drop-container
-  drop-accepts="ctl.checkDragData($dragData)"
-  on-drag-enter="onDragStartEnter($event, $dragData)"
-  on-drag-over="onDragOver($event, $dragData)"
-  on-drag-leave="onDragLeave($event, $dragData)"
-  on-drop="onDrop($event, $dragData)"
-></div>
+}
 ```
 
-Attribute | Required? | Description
-----------|-----------|------------
-`drop-accepts` | No | Define a call to check if the data being dragged is allowed
+Result of transfer cudtom data in Drag-and-Drop operation:
+![alt text](https://github.com/akserg/ng2-dnd/img/dnd3.png "Transfer cudtom data in Drag-and-Drop operation")
 
-The following callbacks are optional.
-Each can allow you to inject two special objects, `$event` and `$dragData`.
-`$event` is the original browser event.
-`$dragData` is the data associated with dragging this element.
+# Complex example (includes all shown below) of Drag-and-Drop
+Here is an example of shopping backet with products adding via drag and drop operation:
 
-* `on-drag-enter`
-* `on-drag-over`
-* `on-drag-leave`
-* `on-drop`
+```js
+import {Component} from 'angular2/core';
+import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
+import {bootstrap} from 'angular2/platform/browser';
 
+bootstrap(AppComponent, [
+    DND_PROVIDERS // It is required to have 1 unique instance of your service
+]);
 
+@Component({
+    selector: 'app',
+    directives: [DND_DIRECTIVES],
+    template: `
+<h4>Shopping basket</h4>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-success">
+            <div class="panel-heading">Available products</div>
+            <div class="panel-body">
+                <div *ngFor="#product of availableProducts" class="panel panel-default"
+                    dnd-draggable [dragEnabled]="product.quantity>0" [dragData]="product"
+                    (onDragSuccess)="orderedProduct($event)" [dropZones]="['demo1']">
+                    <div class="panel-body">
+                        <div [hidden]="product.quantity===0">{{product.name}} - \${{product.cost}}
+                        <br>(available: {{product.quantity}})</div>
+                        <div [hidden]="product.quantity>0"><del>{{product.name}}</del>
+                        <br>(NOT available)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div dnd-droppable (onDropSuccess)="addToBasket($event)" [dropZones]="['demo1']"
+            class="panel panel-info">
+            <div class="panel-heading">Shopping Basket<br>(to pay: \${{totalCost()}})</div>
+            <div class="panel-body">
+                <div *ngFor="#product of shoppingBasket" class="panel panel-default">
+                    <div class="panel-body">
+                    {{product.name}}<br>(ordered: {{product.quantity}}
+                        <br>cost: \${{product.cost * product.quantity}})
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+`
+})
+export class AppComponent {
 
-### `drop-target`
+    availableProducts: Array<Product> = [];
+    shoppingBasket: Array<Product> = [];
 
-Define a region of the parent `drop-container` that can independently accept drag and drop events in a logical region.
+    constructor() {
+        this.availableProducts.push(new Product("Blue Shoes", 3, 35));
+        this.availableProducts.push(new Product("Good Jacket", 1, 90));
+        this.availableProducts.push(new Product("Red Shirt", 5, 12));
+        this.availableProducts.push(new Product("Blue Jeans", 4, 60));
+     }
 
-This module will only consider those logical regions that have `drop-targets` bound in determining which region
-should receive events at any point in time. The algorithm to determine which logical region is active is based
-on the proximity of the cursor to the virtual center-point of each logical region.
+    orderedProduct(orderedProduct: Product) {
+        orderedProduct.quantity--;
+    }
 
-**Must be a child of a `drop-container`**
+    addToBasket(newProduct: Product) {
+        for (let indx in this.shoppingBasket) {
+            let product:Product = this.shoppingBasket[indx];
+            if (product.name === newProduct.name) {
+                product.quantity++;
+                return;
+            }
+        }
+        this.shoppingBasket.push(new Product(newProduct.name, 1, newProduct.cost));
+    }
 
-**Example**
+    totalCost():number {
+        let cost:number = 0;
+        for (let indx in this.shoppingBasket) {
+            let product:Product = this.shoppingBasket[indx];
+            cost += (product.cost * product.quantity);
+        }
+        return cost;
+    }
 
-```html
-<div drop-target="top-right"
-  on-drag-enter="onDragStartEnter($event, $dragData)"
-  on-drag-over="onDragOver($event, $dragData)"
-  on-drag-leave="onDragLeave($event, $dragData)"
-  on-drop="onDrop($event, $dragData)"
-></div>
+}
 ```
-
-Attribute | Required? | Description
-----------|-----------|------------
-`drop-target` | Yes | Defines the logical region of the parent `drop-container` that will accept events. Can be one of: `center`, `top`, `top-right`, `right`, `bottom-right`, `bottom`, `bottom-left`, `left`, `top-left`
-
-The following callbacks are optional.
-Each can allow you to inject two special objects, `$event` and `$dragData`.
-`$event` is the original browser event.
-`$dragData` is the data associated with dragging this element.
-
-* `on-drag-enter`
-* `on-drag-over`
-* `on-drag-leave`
-* `on-drop`
 
 # License
  [MIT](/LICENSE)

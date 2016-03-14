@@ -77,19 +77,19 @@ System.registerDynamic("src/dnd.draggable", ["angular2/core", "./dnd.service"], 
       this._onDragEndCallback(event);
     };
     DraggableComponent.prototype._onDragStartCallback = function(event) {
-      this._dragDropService.draggableData = this.draggableData;
+      this._dragDropService.dragData = this.dragData;
       this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
       var dragTarget = event.target;
       dragTarget.classList.add(this._dragDropService.onDragStartClass);
     };
     DraggableComponent.prototype._onDragEndCallback = function(event) {
-      this._dragDropService.draggableData = null;
+      this._dragDropService.dragData = null;
       this._dragDropService.onDragSuccessCallback = null;
       var dragTarget = event.target;
       dragTarget.classList.remove(this._dragDropService.onDragStartClass);
     };
     __decorate([core_1.Input(), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], DraggableComponent.prototype, "dragEnabled", null);
-    __decorate([core_1.Input(), __metadata('design:type', Object)], DraggableComponent.prototype, "draggableData", void 0);
+    __decorate([core_1.Input(), __metadata('design:type', Object)], DraggableComponent.prototype, "dragData", void 0);
     __decorate([core_1.Output("onDragSuccess"), __metadata('design:type', core_1.EventEmitter)], DraggableComponent.prototype, "onDragSuccessCallback", void 0);
     __decorate([core_1.Input(), __metadata('design:type', Array)], DraggableComponent.prototype, "dropZones", void 0);
     DraggableComponent = __decorate([core_1.Directive({selector: '[dnd-draggable]'}), __metadata('design:paramtypes', [core_1.ElementRef, dnd_service_1.DragDropService])], DraggableComponent);
@@ -258,10 +258,10 @@ System.registerDynamic("src/dnd.droppable", ["angular2/core", "./dnd.service"], 
     ;
     DroppableComponent.prototype._onDropCallback = function(event) {
       if (this.onDropSuccessCallback) {
-        this.onDropSuccessCallback.emit(this._dragDropService.draggableData);
+        this.onDropSuccessCallback.emit(this._dragDropService.dragData);
       }
       if (this._dragDropService.onDragSuccessCallback) {
-        this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.draggableData);
+        this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.dragData);
       }
       this._elem.classList.remove(this._dragDropService.onDragOverClass);
       this._elem.classList.remove(this._dragDropService.onDragEnterClass);
