@@ -10,7 +10,11 @@ npm install ng2-dnd --save
 
 ## Demo
 
-To be available soon...
+Simple examples using ng2-dnd:
+- with SystemJS in [ng2-systemjs-demo](https://github.com/akserg/ng2-systemjs-demo)
+- with Webpack in [ng2-webpack-demo](https://github.com/akserg/ng2-webpack-demo)
+
+Online demo available [here](http://akserg.github.io/ng2-webpack-demo)
 
 ## Usage
 
