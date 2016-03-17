@@ -24,7 +24,7 @@ System.config({
 ```
 
 Finally, you can use *ng2-dnd* in your Angular 2 project:
-- Import `DND_PROVIDERS, DND_DIRECTIVES` from `ng2-toasty/ng2-toasty`;
+- Import `DND_PROVIDERS, DND_DIRECTIVES` from `ng2-dnd/ng2-dnd`;
 - Use `DND_PROVIDERS` in the bootstrap of your application;
 - Add `DND_DIRECTIVES` to the `directives` property of your application component;
 - Use `dnd-draggable` and `dnd-droppable` properties in template of your components.
