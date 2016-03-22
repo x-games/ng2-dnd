@@ -5,6 +5,7 @@
 import {Injectable} from 'angular2/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from 'angular2/core';
 
+import {DragDropConfig} from './dnd.config';
 import {DragDropService} from './dnd.service';
 
 @Directive({ selector: '[dnd-droppable]' })
@@ -27,7 +28,7 @@ export class DroppableComponent {
      */
     @Input() dropZones: string[] = [];
 
-    constructor(private elemRef: ElementRef, private _dragDropService: DragDropService) {
+    constructor(private elemRef: ElementRef, private _dragDropService: DragDropService, private _config:DragDropConfig) {
         this._elem = elemRef.nativeElement;
         //
         //drop events
@@ -56,6 +57,7 @@ export class DroppableComponent {
     }
 
     private _onDragEnter(event: Event): void {
+        // console.log('ondragenter._isDropAllowed', this._isDropAllowed());
         if (this._isDropAllowed()) {
             event.preventDefault();
             this._onDragEnterCallback(event);
@@ -63,6 +65,7 @@ export class DroppableComponent {
     }
 
     private _onDragOver(event: Event): void {
+        // // console.log('ondragover._isDropAllowed', this._isDropAllowed());
         if (this._isDropAllowed()) {
             event.preventDefault();
             this._onDragOverCallback(event);
@@ -70,6 +73,7 @@ export class DroppableComponent {
     }
 
     private _onDragLeave(event: Event): void {
+        // console.log('ondragleave._isDropAllowed', this._isDropAllowed());
         if (this._isDropAllowed()) {
             event.preventDefault();
             this._onDragLeaveCallback(event);
@@ -77,6 +81,7 @@ export class DroppableComponent {
     }
 
     private _onDrop(event: Event): void {
+        // console.log('ondrop._isDropAllowed', this._isDropAllowed());
         if (this._isDropAllowed()) {
             event.preventDefault();
             this._onDropCallback(event);
@@ -84,28 +89,30 @@ export class DroppableComponent {
     }
 
 
-    private _onDragEnterCallback(event: Event) {
-        this._elem.classList.add(this._dragDropService.onDragEnterClass);
+    _onDragEnterCallback(event: Event) {
+        this._elem.classList.add(this._config.onDragEnterClass);
     }
 
     private _onDragLeaveCallback (event: Event) {
-        this._elem.classList.remove(this._dragDropService.onDragOverClass);
-        this._elem.classList.remove(this._dragDropService.onDragEnterClass);
+        this._elem.classList.remove(this._config.onDragOverClass);
+        this._elem.classList.remove(this._config.onDragEnterClass);
     };
 
     private _onDragOverCallback (event: Event) {
-        this._elem.classList.add(this._dragDropService.onDragOverClass);
+        this._elem.classList.add(this._config.onDragOverClass);
     };
 
     private _onDropCallback (event: Event) {
         if (this.onDropSuccessCallback) {
+            // console.log('onDropCallback.onDropSuccessCallback.dragData', this._dragDropService.dragData);
             this.onDropSuccessCallback.emit(this._dragDropService.dragData);
         }
         if (this._dragDropService.onDragSuccessCallback) {
+            // console.log('onDropCallback.onDragSuccessCallback.dragData', this._dragDropService.dragData);
             this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.dragData);
         }
-        this._elem.classList.remove(this._dragDropService.onDragOverClass);
-        this._elem.classList.remove(this._dragDropService.onDragEnterClass);
+        this._elem.classList.remove(this._config.onDragOverClass);
+        this._elem.classList.remove(this._config.onDragEnterClass);
     }
 
     private _isDropAllowed(): boolean {

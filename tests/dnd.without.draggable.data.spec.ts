@@ -17,6 +17,7 @@ from 'angular2/platform/testing/browser';
 
 import {Observable} from 'rxjs/Observable';
 
+import {DragDropConfig} from '../src/dnd.config';
 import {DraggableComponent} from '../src/dnd.draggable';
 import {DragDropService} from '../src/dnd.service';
 
@@ -27,14 +28,16 @@ export function main() {
 
         let componentFixture: ComponentFixture;
         let dragdropService: DragDropService;
+        let config: DragDropConfig;
         let container:Container;
 
         beforeEachProviders(() => {
-            return [TEST_BROWSER_PLATFORM_PROVIDERS, TEST_BROWSER_APPLICATION_PROVIDERS, DragDropService];
+            return [TEST_BROWSER_PLATFORM_PROVIDERS, TEST_BROWSER_APPLICATION_PROVIDERS, DragDropConfig, DragDropService];
         });
 
-        beforeEach(injectAsync([TestComponentBuilder, DragDropService], (tcb: TestComponentBuilder, dd: DragDropService) => {
+        beforeEach(injectAsync([TestComponentBuilder, DragDropService], (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService) => {
             dragdropService = dd;
+            config = c;
             return tcb.createAsync(Container).then((cf: ComponentFixture) => {
                 componentFixture = cf;
                 componentFixture.detectChanges();
@@ -53,11 +56,11 @@ export function main() {
            triggerEvent(dragElemOne, 'dragstart', 'MouseEvent');
            triggerEvent(dropElemTwo, 'dragenter', 'MouseEvent');
            componentFixture.detectChanges();
-           expect(dropElemTwo).not.toHaveCssClass(dragdropService.onDragEnterClass);
+           expect(dropElemTwo).not.toHaveCssClass(config.onDragEnterClass);
 
            triggerEvent(dropElemTwo, 'dragover', 'MouseEvent');
            componentFixture.detectChanges();
-           expect(dropElemTwo).not.toHaveCssClass(dragdropService.onDragOverClass);
+           expect(dropElemTwo).not.toHaveCssClass(config.onDragOverClass);
 
            let dragCount:number = 0, dropCount:number = 0;
            container.dragOne.subscribe(($event:any) => {
@@ -86,11 +89,11 @@ export function main() {
            triggerEvent(dragElemOne, 'dragstart', 'MouseEvent');
            triggerEvent(dropElemOne, 'dragenter', 'MouseEvent');
            componentFixture.detectChanges();
-           expect(dropElemOne).toHaveCssClass(dragdropService.onDragEnterClass);
+           expect(dropElemOne).toHaveCssClass(config.onDragEnterClass);
 
            triggerEvent(dropElemOne, 'dragover', 'MouseEvent');
            componentFixture.detectChanges();
-           expect(dropElemOne).toHaveCssClass(dragdropService.onDragOverClass);
+           expect(dropElemOne).toHaveCssClass(config.onDragOverClass);
 
            let dragCount:number = 0, dropCount:number = 0;
            container.dragOne.subscribe(($event:any) => {
@@ -119,11 +122,11 @@ export function main() {
            triggerEvent(dragElemOneTwo, 'dragstart', 'MouseEvent');
            triggerEvent(dropElemOneTwo, 'dragenter', 'MouseEvent');
            componentFixture.detectChanges();
-           expect(dropElemOneTwo).toHaveCssClass(dragdropService.onDragEnterClass);
+           expect(dropElemOneTwo).toHaveCssClass(config.onDragEnterClass);
 
            triggerEvent(dropElemOneTwo, 'dragover', 'MouseEvent');
            componentFixture.detectChanges();
-           expect(dropElemOneTwo).toHaveCssClass(dragdropService.onDragOverClass);
+           expect(dropElemOneTwo).toHaveCssClass(config.onDragOverClass);
 
            let dragCount:number = 0, dropCount:number = 0;
            container.dragOne.subscribe(($event:any) => {

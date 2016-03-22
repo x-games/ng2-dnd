@@ -5,7 +5,7 @@
   "scripts": {
     "test": "tsc && karma start",
     "test-watch": "tsc && karma start --no-single-run --auto-watch",
-    "minify": "node node_modules/uglify-js/bin/uglifyjs bundles/ng2-dnd.js -o bundles/ng2-dnd.min.js --source-map bundles/ng2-dnd.min.js.map -c -m --stats",
+    "minify": "node node_modules/uglify-js/bin/uglifyjs bundles/ng2-dnd.js -o bundles/ng2-dnd.min.js --source-map bundles/ng2-dnd.min.js.map -c -m",
     "prepublish": "typings install && tsc && node make.js && npm run minify",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -16,8 +16,10 @@
   "keywords": [
     "angular",
     "angular2",
+    "angular 2",
     "drag",
-    "drop"
+    "drop",
+    "drag-and-drop"
   ],
   "author": "Sergey Akopkokhyants <akserg@gmail.com>",
   "license": "MIT",
@@ -59,5 +61,6 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "dependencies": {}
 }

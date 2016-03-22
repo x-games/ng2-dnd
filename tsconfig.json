@@ -12,9 +12,11 @@
     "files": [
         "typings/main.d.ts",
         "ng2-dnd.ts",
+        "./src/dnd.config.ts",
         "./src/dnd.service.ts",
         "./src/dnd.draggable.ts",
         "./src/dnd.droppable.ts",
+        "./src/dnd.sortable.ts",
         "./tests/dnd.component.factory.ts",
         "./tests/dnd.with.draggable.data.spec.ts",
         "./tests/dnd.without.draggable.data.spec.ts"
