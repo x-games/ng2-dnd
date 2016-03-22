@@ -5,11 +5,12 @@
 'use strict';
 
 import {DragDropConfig} from './src/dnd.config';
-import {DataTransferEffect, DragImage, DragDropService, DragDropSortableService} from './src/dnd.service';
+import {DragDropService, DragDropSortableService} from './src/dnd.service';
 import {DraggableComponent} from './src/dnd.draggable';
 import {DroppableComponent} from './src/dnd.droppable';
 import {SortableContainer, SortableComponent} from './src/dnd.sortable';
 
+export * from './src/dnd.component';
 export * from './src/dnd.config';
 export * from './src/dnd.service';
 export * from './src/dnd.draggable';

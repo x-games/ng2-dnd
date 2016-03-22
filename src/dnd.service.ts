@@ -8,33 +8,8 @@ import {isPresent} from 'angular2/src/facade/lang';
 import {DragDropConfig} from './dnd.config';
 
 @Injectable()
-export class DragImage {
-    constructor(
-        public imageElement: HTMLElement,
-        public x_offset: number = 0,
-        public y_offset: number = 0) { }
-}
-
-@Injectable()
-export class DataTransferEffect {
-
-    static COPY = new DataTransferEffect('copy');
-    static LINK = new DataTransferEffect('link');
-    static MOVE = new DataTransferEffect('move');
-    static NONE = new DataTransferEffect('none');
-
-    constructor(public name: string) { }
-}
-
-@Injectable()
 export class DragDropService {
-    dragImage: DragImage;
-    dragEffect: DataTransferEffect = DataTransferEffect.MOVE;
-    dropEffect: DataTransferEffect = DataTransferEffect.MOVE;
-    dragCursor: string = "move";
-
     allowedDropZones: Array<string> = [];
-
     onDragSuccessCallback: EventEmitter<any>;
     dragData: any;
 }
@@ -43,7 +18,6 @@ export class DragDropService {
 export class DragDropSortableService {
     index: number;
     sortableData: Array<any>;
-
     _elem: HTMLElement;
 
     constructor(private _config:DragDropConfig) {}
