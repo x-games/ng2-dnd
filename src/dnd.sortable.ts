@@ -40,7 +40,10 @@ export class SortableContainer extends AbstractComponent {
         if (this._sortableData.indexOf(item) === -1) {
             // Let's add it
             // console.log('Container._onDragEnterCallback. drag node [' + this._sortableDataService.index.toString() + '] over parent node');
-            this._sortableData.push(this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1));
+            // Remove item from previouse list
+            this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1);
+            // Add item to new list
+            this._sortableData.push(item);
             this._sortableDataService.sortableData = this._sortableData;
             this._sortableDataService.index = 0;
         }
@@ -72,7 +75,6 @@ export class SortableComponent extends AbstractComponent {
     }
 
     _onDragOverCallback(event: Event) {
-        //This is needed to make it working on Firefox. Probably the order the events are triggered is not the same in FF and Chrome.
         if (this._elem != this._sortableDataService.elem) {
             // console.log('_onDragOverCallback. dragging elem with index ' + this.index);
             this._sortableDataService.sortableData = this._sortableContainer.sortableData;
@@ -92,7 +94,12 @@ export class SortableComponent extends AbstractComponent {
         if ((this.index !== this._sortableDataService.index) ||
             (this._sortableDataService.sortableData != this._sortableContainer.sortableData)) {
             // console.log('Component._onDragEnterCallback. drag node [' + this.index + '] over node [' + this._sortableDataService.index + ']');
-            this._sortableContainer.sortableData.splice(this.index, 0, this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1));
+            // Get item
+            let item:any = this._sortableDataService.sortableData[this._sortableDataService.index];
+            // Remove item from previouse list
+            this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1);
+            // Add item to new list
+            this._sortableContainer.sortableData.splice(this.index, 0, item);
             this._sortableDataService.sortableData = this._sortableContainer.sortableData;
             this._sortableDataService.index = this.index;
         }

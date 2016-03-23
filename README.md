@@ -84,11 +84,6 @@ export class AppComponent {
 }
 ```
 
-Result of simple Drag-and-Drop operation:
-
-![alt text](https://github.com/akserg/ng2-dnd/blob/master/img/dnd1.png "Simple Drag-and-Drop operation")
-
-
 # Restriction Drag-and-Drop operations with drop zones
 You can use property *dropZones* (actually an array) to specify in which place you would like to drop the draggable element:
 
@@ -158,10 +153,6 @@ export class AppComponent {
 }
 ```
 
-Result of restricted Drag-and-Drop operation:
-
-![alt text](https://github.com/akserg/ng2-dnd/blob/master/img/dnd2.png "Restricted DnD operation")
-
 # Transfer custom data via Drag-and-Drop
 You can transfer data from draggable to droppable component via *dragData* property of Draggable component:
 
@@ -220,10 +211,6 @@ export class AppComponent {
 
 }
 ```
-
-Result of transfer cudtom data in Drag-and-Drop operation:
-
-![alt text](https://github.com/akserg/ng2-dnd/blob/master/img/dnd3.png "Transfer cudtom data in Drag-and-Drop operation")
 
 # Complex example (includes all shown above) with Drag-and-Drop
 Here is an example of shopping backet with products adding via drag and drop operation:
@@ -316,9 +303,116 @@ export class AppComponent {
 }
 ```
 
-Result of complex example with Drag-and-Drop operation:
+# Simple sortable with Drag-and-Drop
+Here is an example of simple sortable of favorite drinks moving in container via drag and drop operation:
 
-![alt text](https://github.com/akserg/ng2-dnd/blob/master/img/dnd4.png "Complex example with Drag-and-Drop operation")
+```js
+import {Component} from 'angular2/core';
+import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
+import {bootstrap} from 'angular2/platform/browser';
+
+bootstrap(AppComponent, [
+    DND_PROVIDERS // It is required to have 1 unique instance of your service
+]);
+
+@Component({
+    selector: 'app',
+    directives: [DND_DIRECTIVES],
+    template: `
+<h4>Simple sortable</h4>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Favorite drinks
+            </div>
+            <div class="panel-body">
+                <ul class="list-group" dnd-sortable-container [sortableData]="listOne">
+                    <li *ngFor="#item of listOne; #i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                My prefences:<br/>
+                <span *ngFor="#item of listOne; #i = index">{{i + 1}}) {{item}}<br/></span>
+            </div>
+        </div>
+    </div>
+</div>`
+})
+export class AppComponent {
+    listOne:Array<string> = ['Coffee','Orange Juice','Red Wine','Unhealty drink!','Water'];
+}
+```
+
+# Multi list sortable with Drag-and-Drop
+Here is an example of multi list sortable of boxers moving in container and between containers via drag and drop operation:
+
+```js
+import {Component} from 'angular2/core';
+import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
+import {bootstrap} from 'angular2/platform/browser';
+
+bootstrap(AppComponent, [
+    DND_PROVIDERS // It is required to have 1 unique instance of your service
+]);
+
+@Component({
+    selector: 'app',
+    directives: [DND_DIRECTIVES],
+    template: `
+<h4>Multi list sortable</h4>
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          Available boxers
+        </div>
+        <div class="panel-body" dnd-sortable-container [dropZones]="['boxers-zone']" [sortableData]="listBoxers">
+          <ul class="list-group" >
+            <li *ngFor="#item of listBoxers; #i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          First Team
+        </div>
+        <div class="panel-body" dnd-sortable-container [dropZones]="['boxers-zone']" [sortableData]="listTeamOne">
+          <ul class="list-group" >
+            <li *ngFor="#item of listTeamOne; #i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          Second Team
+        </div>
+        <div class="panel-body" dnd-sortable-container [dropZones]="['boxers-zone']" [sortableData]="listTeamTwo">
+          <ul class="list-group">
+            <li *ngFor="#item of listTeamTwo; #i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>`
+})
+export class AppComponent {
+    listBoxers:Array<string> = ['Sugar Ray Robinson','Muhammad Ali','George Foreman','Joe Frazier','Jake LaMotta','Joe Louis','Jack Dempsey','Rocky Marciano','Mike Tyson','Oscar De La Hoya'];
+    listTeamOne:Array<string> = [];
+    listTeamTwo:Array<string> = [];
+}
+```
+# Credits
+- [Sergey Akopkokhyants](https://github.com/akserg)
+- [Francesco Cina](https://github.com/ufoscout)
 
 # License
  [MIT](/LICENSE)

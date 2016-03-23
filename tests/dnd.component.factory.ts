@@ -93,17 +93,34 @@ export class Container2 {
   directives: [SortableContainer, SortableComponent]
 })
 export class Container3 {
-    // @Input() dragEnabled:boolean = true;
     @Input() sortableList:Array<string> = [];
+}
 
-    // @Output() drag:EventEmitter<any> = new EventEmitter<any>();
-    // @Output() drop:EventEmitter<any> = new EventEmitter<any>();
-
-    // private dragSuccessCallback($event:any) {
-    //     this.drag.emit($event);
-    // }
-
-    // private dropSuccessCallback($event:any) {
-    //     this.drop.emit($event);
-    // }
+@Component({
+  selector: 'container4',
+  template: `
+<div>
+    <div id='single'>
+        <ul class="list-group" dnd-sortable-container [sortableData]="singleList">
+            <li *ngFor="#item of singleList; #i = index" dnd-sortable [sortableIndex]="i">{{item}}</li>
+        </ul>
+    </div>
+    <div id='multiOne' dnd-sortable-container [dropZones]="['multiList']" [sortableData]="multiOneList">
+        <ul class="list-group" >
+            <li *ngFor="#item of multiOneList; #i = index" dnd-sortable [sortableIndex]="i">{{item}}</li>
+        </ul>
+    </div>
+    <div id='multiTwo' dnd-sortable-container [dropZones]="['multiList']" [sortableData]="multiTwoList">
+        <ul class="list-group" >
+            <li *ngFor="#item of multiTwoList; #i = index" dnd-sortable [sortableIndex]="i">{{item}}</li>
+        </ul>
+    </div>
+</div>
+`,
+  directives: [SortableContainer, SortableComponent]
+})
+export class Container4 {
+    @Input() singleList:Array<string> = [];
+    @Input() multiOneList:Array<string> = [];
+    @Input() multiTwoList:Array<string> = [];
 }

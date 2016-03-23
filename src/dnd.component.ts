@@ -166,6 +166,7 @@ export abstract class AbstractComponent {
     _onDragOverCallback(event: Event) {}
     _onDragLeaveCallback(event: Event) {}
     _onDropCallback(event: Event)  {}
+    
     //**** Drag Callbacks ****//
     _onDragStartCallback(event: Event) {}
     _onDragEndCallback(event: Event) {}
