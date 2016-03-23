@@ -18,11 +18,15 @@ export class DragDropService {
 export class DragDropSortableService {
     index: number;
     sortableData: Array<any>;
-    _elem: HTMLElement;
+
+    private _elem: HTMLElement;
+    public get elem(): HTMLElement {
+        return this._elem;
+    }
 
     constructor(private _config:DragDropConfig) {}
 
-    element(elem: HTMLElement) {
+    markSortable(elem: HTMLElement) {
         if (isPresent(this._elem)) {
             this._elem.classList.remove(this._config.onSortableDragClass);
         }

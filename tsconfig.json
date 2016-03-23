@@ -10,7 +10,7 @@
         "sourceMap": true
     },
     "files": [
-        "typings/main.d.ts",
+        "typings/browser.d.ts",
         "ng2-dnd.ts",
         "./src/dnd.config.ts",
         "./src/dnd.service.ts",
@@ -20,6 +20,7 @@
         "./src/dnd.sortable.ts",
         "./tests/dnd.component.factory.ts",
         "./tests/dnd.with.draggable.data.spec.ts",
-        "./tests/dnd.without.draggable.data.spec.ts"
+        "./tests/dnd.without.draggable.data.spec.ts",
+        "./tests/dnd.sortable.spec.ts"
     ]
 }

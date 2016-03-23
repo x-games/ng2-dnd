@@ -2,6 +2,7 @@ import {Component, Input, Output, EventEmitter, ElementRef} from 'angular2/core'
 
 import {DraggableComponent} from '../src/dnd.draggable';
 import {DroppableComponent} from '../src/dnd.droppable';
+import {SortableContainer, SortableComponent} from '../src/dnd.sortable';
 
 export function triggerEvent(elem:HTMLElement, eventName:string, eventType:string) {
     var event:Event = document.createEvent(eventType);
@@ -78,4 +79,31 @@ export class Container2 {
     private dropSuccessCallback($event:any) {
         this.drop.emit($event);
     }
+}
+
+@Component({
+  selector: 'container3',
+  template: `
+<div>
+    <ul class="list-group" dnd-sortable-container [sortableData]="sortableList">
+        <li *ngFor="#item of sortableList; #i = index" dnd-sortable [sortableIndex]="i">{{item}}</li>
+    </ul>
+</div>
+`,
+  directives: [SortableContainer, SortableComponent]
+})
+export class Container3 {
+    // @Input() dragEnabled:boolean = true;
+    @Input() sortableList:Array<string> = [];
+
+    // @Output() drag:EventEmitter<any> = new EventEmitter<any>();
+    // @Output() drop:EventEmitter<any> = new EventEmitter<any>();
+
+    // private dragSuccessCallback($event:any) {
+    //     this.drag.emit($event);
+    // }
+
+    // private dropSuccessCallback($event:any) {
+    //     this.drop.emit($event);
+    // }
 }

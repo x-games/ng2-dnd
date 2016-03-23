@@ -35,7 +35,7 @@ export function main() {
             return [TEST_BROWSER_PLATFORM_PROVIDERS, TEST_BROWSER_APPLICATION_PROVIDERS, DragDropConfig, DragDropService];
         });
 
-        beforeEach(injectAsync([TestComponentBuilder, DragDropService], (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService) => {
+        beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService], (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService) => {
             dragdropService = dd;
             config = c;
             return tcb.createAsync(Container).then((cf: ComponentFixture) => {

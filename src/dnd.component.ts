@@ -9,7 +9,7 @@ import {DragDropConfig, DragImage} from './dnd.config';
 import {DragDropService} from './dnd.service';
 
 @Injectable()
-export class AbstractComponent {
+export abstract class AbstractComponent {
     _elem: HTMLElement;
     _defaultCursor: string;
 
@@ -28,7 +28,7 @@ export class AbstractComponent {
     get dragEnabled(): boolean {
         return this._dragEnabled
     }
-    
+
     dropEnabled: boolean = false;
 
      /**
@@ -64,7 +64,7 @@ export class AbstractComponent {
         this._elem.ondrop = (event: Event) => {
             this._onDrop(event);
         };
-        
+
         //drag events
         this._elem.ondragstart = (event: DragEvent) => {
             // console.log('ondragstart', event.target);
@@ -79,7 +79,7 @@ export class AbstractComponent {
                     (<any>event.dataTransfer).setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
                 }
 
-                // console.log('ondragstart.dataTransfer', event.dataTransfer);
+                // // console.log('ondragstart.dataTransfer', event.dataTransfer);
             }
         };
         this._elem.ondragend = (event: Event) => {
@@ -95,10 +95,10 @@ export class AbstractComponent {
             this._onDragEnd(event);
         };
     }
-    
+
     //****** Droppable *******//
     private _onDragEnter(event: Event): void {
-        // console.log('ondragenter._isDropAllowed', this._isDropAllowed());
+        // console.log('ondragenter._isDropAllowed', this._isDropAllowed);
         if (this._isDropAllowed) {
             event.preventDefault();
             this._onDragEnterCallback(event);
@@ -106,7 +106,7 @@ export class AbstractComponent {
     }
 
     private _onDragOver(event: Event): void {
-        // // console.log('ondragover._isDropAllowed', this._isDropAllowed());
+        // // console.log('ondragover._isDropAllowed', this._isDropAllowed);
         if (this._isDropAllowed) {
             event.preventDefault();
             this._onDragOverCallback(event);
@@ -114,21 +114,21 @@ export class AbstractComponent {
     }
 
     private _onDragLeave(event: Event): void {
-        // console.log('ondragleave._isDropAllowed', this._isDropAllowed());
+        // console.log('ondragleave._isDropAllowed', this._isDropAllowed);
         if (this._isDropAllowed) {
-            // event.preventDefault();
+            event.preventDefault();
             this._onDragLeaveCallback(event);
         }
     }
 
     private _onDrop(event: Event): void {
-        // console.log('ondrop._isDropAllowed', this._isDropAllowed());
+        // console.log('ondrop._isDropAllowed', this._isDropAllowed);
         if (this._isDropAllowed) {
-            // event.preventDefault();
+            event.preventDefault();
             this._onDropCallback(event);
         }
     }
-    
+
     private get _isDropAllowed(): boolean {
         if (this.dropEnabled) {
             if (this.dropZones.length === 0 && this._dragDropService.allowedDropZones.length === 0) {
@@ -143,7 +143,7 @@ export class AbstractComponent {
         }
         return false;
     }
-    
+
     //*********** Draggable **********//
 
     private _onDragStart(event: Event): void {
@@ -160,7 +160,7 @@ export class AbstractComponent {
         // console.log('ondragend.allowedDropZones', this._dragDropService.allowedDropZones);
         this._onDragEndCallback(event);
     }
-    
+
     //**** Drop Callbacks ****//
     _onDragEnterCallback(event: Event) {}
     _onDragOverCallback(event: Event) {}

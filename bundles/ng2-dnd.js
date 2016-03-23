@@ -222,9 +222,12 @@ System.registerDynamic("src/dnd.sortable", ["angular2/core", "./dnd.component", 
       configurable: true
     });
     SortableContainer.prototype._onDragEnterCallback = function(event) {
-      this._sortableData.push(this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1));
-      this._sortableDataService.sortableData = this._sortableData;
-      this._sortableDataService.index = 0;
+      var item = this._sortableDataService.sortableData[this._sortableDataService.index];
+      if (this._sortableData.indexOf(item) === -1) {
+        this._sortableData.push(this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1));
+        this._sortableDataService.sortableData = this._sortableData;
+        this._sortableDataService.index = 0;
+      }
     };
     __decorate([core_1.Input(), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], SortableContainer.prototype, "sortableData", null);
     __decorate([core_1.Input("dropZones"), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], SortableContainer.prototype, "dropzones", null);
@@ -252,22 +255,22 @@ System.registerDynamic("src/dnd.sortable", ["angular2/core", "./dnd.component", 
     SortableComponent.prototype._onDragStartCallback = function(event) {
       this._sortableDataService.sortableData = this._sortableContainer.sortableData;
       this._sortableDataService.index = this.index;
-      this._sortableDataService.element(this._elem);
+      this._sortableDataService.markSortable(this._elem);
     };
     SortableComponent.prototype._onDragOverCallback = function(event) {
-      if (this._elem != this._sortableDataService._elem) {
+      if (this._elem != this._sortableDataService.elem) {
         this._sortableDataService.sortableData = this._sortableContainer.sortableData;
         this._sortableDataService.index = this.index;
-        this._sortableDataService.element(this._elem);
+        this._sortableDataService.markSortable(this._elem);
       }
     };
     SortableComponent.prototype._onDragEndCallback = function(event) {
       this._sortableDataService.sortableData = null;
       this._sortableDataService.index = null;
-      this._sortableDataService.element(null);
+      this._sortableDataService.markSortable(null);
     };
     SortableComponent.prototype._onDragEnterCallback = function(event) {
-      this._sortableDataService.element(this._elem);
+      this._sortableDataService.markSortable(this._elem);
       if ((this.index !== this._sortableDataService.index) || (this._sortableDataService.sortableData != this._sortableContainer.sortableData)) {
         this._sortableContainer.sortableData.splice(this.index, 0, this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1));
         this._sortableDataService.sortableData = this._sortableContainer.sortableData;
@@ -386,7 +389,14 @@ System.registerDynamic("src/dnd.service", ["angular2/core", "angular2/src/facade
     function DragDropSortableService(_config) {
       this._config = _config;
     }
-    DragDropSortableService.prototype.element = function(elem) {
+    Object.defineProperty(DragDropSortableService.prototype, "elem", {
+      get: function() {
+        return this._elem;
+      },
+      enumerable: true,
+      configurable: true
+    });
+    DragDropSortableService.prototype.markSortable = function(elem) {
       if (lang_1.isPresent(this._elem)) {
         this._elem.classList.remove(this._config.onSortableDragClass);
       }
@@ -501,11 +511,13 @@ System.registerDynamic("src/dnd.component", ["angular2/core", "./dnd.config", ".
     };
     AbstractComponent.prototype._onDragLeave = function(event) {
       if (this._isDropAllowed) {
+        event.preventDefault();
         this._onDragLeaveCallback(event);
       }
     };
     AbstractComponent.prototype._onDrop = function(event) {
       if (this._isDropAllowed) {
+        event.preventDefault();
         this._onDropCallback(event);
       }
     };
