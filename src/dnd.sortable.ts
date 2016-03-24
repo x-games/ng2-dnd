@@ -14,6 +14,10 @@ import {DragDropService, DragDropSortableService} from './dnd.service';
 @Directive({ selector: '[dnd-sortable-container]' })
 export class SortableContainer extends AbstractComponent {
 
+    @Input("dragEnabled") set draggable(value:boolean) {
+        this.dragEnabled = !!value;
+    }
+    
     private _sortableData: Array<any> = [];
 
     @Input() set sortableData(sortableData: Array<any>) {
@@ -32,6 +36,7 @@ export class SortableContainer extends AbstractComponent {
 
     constructor(elemRef: ElementRef, _dragDropService: DragDropService, _config:DragDropConfig, private _sortableDataService: DragDropSortableService) {
         super(elemRef, _dragDropService, _config);
+        this.dragEnabled = false;
     }
 
     _onDragEnterCallback(event: Event) {
@@ -54,6 +59,10 @@ export class SortableContainer extends AbstractComponent {
 export class SortableComponent extends AbstractComponent {
 
     @Input('sortableIndex') index: number;
+    
+    @Input("dragEnabled") set draggable(value:boolean) {
+        this.dragEnabled = !!value;
+    }
 
     @Input("dropEnabled") set droppable(value:boolean) {
         this.dropEnabled = !!value;
@@ -84,6 +93,7 @@ export class SortableComponent extends AbstractComponent {
     }
 
     _onDragEndCallback(event: Event) {
+        // console.log('_onDragEndCallback. end dragging elem with index ' + this.index);
         this._sortableDataService.sortableData = null;
         this._sortableDataService.index = null;
         this._sortableDataService.markSortable(null);
