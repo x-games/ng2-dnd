@@ -67,6 +67,23 @@ export class SortableComponent extends AbstractComponent {
     @Input("dropEnabled") set droppable(value:boolean) {
         this.dropEnabled = !!value;
     }
+    
+    /**
+     * The data that has to be dragged. It can be any JS object
+     */
+    @Input() dragData: any;
+    
+    /**
+     * Callback function called when the drag action ends with a valid drop action.
+     * It is activated after the on-drop-success callback
+     */
+    @Output("onDragSuccess") onDragSuccessCallback: EventEmitter<any> = new EventEmitter<any>();
+    
+    /**
+     * Callback function called when the drop action completes correctly.
+     * It is activated before the on-drag-success callback.
+     */
+    @Output("onDropSuccess") onDropSuccessCallback: EventEmitter<any> = new EventEmitter<any>();
 
     constructor(elemRef: ElementRef, _dragDropService: DragDropService, _config:DragDropConfig, private _sortableContainer: SortableContainer, private _sortableDataService: DragDropSortableService) {
         super(elemRef, _dragDropService, _config);
@@ -81,6 +98,9 @@ export class SortableComponent extends AbstractComponent {
         this._sortableDataService.sortableData = this._sortableContainer.sortableData;
         this._sortableDataService.index = this.index;
         this._sortableDataService.markSortable(this._elem);
+        // Add dragData
+        this._dragDropService.dragData = this.dragData;
+        this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
     }
 
     _onDragOverCallback(event: Event) {
@@ -97,6 +117,9 @@ export class SortableComponent extends AbstractComponent {
         this._sortableDataService.sortableData = null;
         this._sortableDataService.index = null;
         this._sortableDataService.markSortable(null);
+        // Add dragGata
+        this._dragDropService.dragData = null;
+        this._dragDropService.onDragSuccessCallback = null;
     }
 
     _onDragEnterCallback(event: Event) {
@@ -112,6 +135,17 @@ export class SortableComponent extends AbstractComponent {
             this._sortableContainer.sortableData.splice(this.index, 0, item);
             this._sortableDataService.sortableData = this._sortableContainer.sortableData;
             this._sortableDataService.index = this.index;
+        }
+    }
+    
+    _onDropCallback (event: Event) {
+        if (this.onDropSuccessCallback) {
+            // console.log('onDropCallback.onDropSuccessCallback.dragData', this._dragDropService.dragData);
+            this.onDropSuccessCallback.emit(this._dragDropService.dragData);
+        }
+        if (this._dragDropService.onDragSuccessCallback) {
+            // console.log('onDropCallback.onDragSuccessCallback.dragData', this._dragDropService.dragData);
+            this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.dragData);
         }
     }
 }
