@@ -270,7 +270,6 @@ System.registerDynamic("src/dnd.sortable", ["angular2/core", "./dnd.component", 
       configurable: true
     });
     SortableComponent.prototype._onDragStartCallback = function(event) {
-      console.log('_onDragStartCallback. dragging elem with index ' + this.index);
       this._sortableDataService.sortableData = this._sortableContainer.sortableData;
       this._sortableDataService.index = this.index;
       this._sortableDataService.markSortable(this._elem);
@@ -283,7 +282,6 @@ System.registerDynamic("src/dnd.sortable", ["angular2/core", "./dnd.component", 
       }
     };
     SortableComponent.prototype._onDragEndCallback = function(event) {
-      console.log('_onDragEndCallback. end dragging elem with index ' + this.index);
       this._sortableDataService.sortableData = null;
       this._sortableDataService.index = null;
       this._sortableDataService.markSortable(null);
