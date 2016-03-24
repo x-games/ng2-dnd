@@ -79,10 +79,9 @@ export class SortableComponent extends AbstractComponent {
      */
     @Output("onDragSuccess") onDragSuccessCallback: EventEmitter<any> = new EventEmitter<any>();
     
-    /**
-     * Callback function called when the drop action completes correctly.
-     * It is activated before the on-drag-success callback.
-     */
+    @Output("onDragStart") onDragStartCallback: EventEmitter<any> = new EventEmitter<any>();
+    @Output("onDragOver") onDragOverCallback: EventEmitter<any> = new EventEmitter<any>();
+    @Output("onDragEnd") onDragEndCallback: EventEmitter<any> = new EventEmitter<any>();
     @Output("onDropSuccess") onDropSuccessCallback: EventEmitter<any> = new EventEmitter<any>();
 
     constructor(elemRef: ElementRef, _dragDropService: DragDropService, _config:DragDropConfig, private _sortableContainer: SortableContainer, private _sortableDataService: DragDropSortableService) {
@@ -101,6 +100,8 @@ export class SortableComponent extends AbstractComponent {
         // Add dragData
         this._dragDropService.dragData = this.dragData;
         this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
+        //
+        this.onDragStartCallback.emit(this._dragDropService.dragData);
     }
 
     _onDragOverCallback(event: Event) {
@@ -109,6 +110,7 @@ export class SortableComponent extends AbstractComponent {
             this._sortableDataService.sortableData = this._sortableContainer.sortableData;
             this._sortableDataService.index = this.index;
             this._sortableDataService.markSortable(this._elem);
+            this.onDragOverCallback.emit(this._dragDropService.dragData);
         }
     }
 
@@ -120,6 +122,8 @@ export class SortableComponent extends AbstractComponent {
         // Add dragGata
         this._dragDropService.dragData = null;
         this._dragDropService.onDragSuccessCallback = null;
+        //
+        this.onDragEndCallback.emit(this._dragDropService.dragData);
     }
 
     _onDragEnterCallback(event: Event) {
@@ -139,10 +143,8 @@ export class SortableComponent extends AbstractComponent {
     }
     
     _onDropCallback (event: Event) {
-        if (this.onDropSuccessCallback) {
-            // console.log('onDropCallback.onDropSuccessCallback.dragData', this._dragDropService.dragData);
-            this.onDropSuccessCallback.emit(this._dragDropService.dragData);
-        }
+        // console.log('onDropCallback.onDropSuccessCallback.dragData', this._dragDropService.dragData);
+        this.onDropSuccessCallback.emit(this._dragDropService.dragData);
         if (this._dragDropService.onDragSuccessCallback) {
             // console.log('onDropCallback.onDragSuccessCallback.dragData', this._dragDropService.dragData);
             this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.dragData);
