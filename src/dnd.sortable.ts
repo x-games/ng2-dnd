@@ -101,7 +101,7 @@ export class SortableComponent extends AbstractComponent {
         this._dragDropService.dragData = this.dragData;
         this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
         //
-        this.onDragStartCallback.emit(this._dragDropService.dragData);
+        // this.onDragStartCallback.emit(this._dragDropService.dragData);
     }
 
     _onDragOverCallback(event: Event) {
