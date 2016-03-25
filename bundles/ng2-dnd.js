@@ -287,7 +287,6 @@ System.registerDynamic("src/dnd.sortable", ["angular2/core", "./dnd.component", 
       this._sortableDataService.markSortable(this._elem);
       this._dragDropService.dragData = this.dragData;
       this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
-      this.onDragStartCallback.emit(this._dragDropService.dragData);
     };
     SortableComponent.prototype._onDragOverCallback = function(event) {
       if (this._elem != this._sortableDataService.elem) {
