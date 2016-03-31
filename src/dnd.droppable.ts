@@ -22,6 +22,10 @@ export class DroppableComponent extends AbstractComponent {
      */
     @Output("onDropSuccess") onDropSuccessCallback: EventEmitter<any> = new EventEmitter<any>();
     
+    @Output("onDragEnter") onDragEnterCallback: EventEmitter<any> = new EventEmitter<any>();
+    @Output("onDragOver") onDragOverCallback: EventEmitter<any> = new EventEmitter<any>();
+    @Output("onDragLeave") onDragLeaveCallback: EventEmitter<any> = new EventEmitter<any>();
+    
     @Input("dropZones") set dropzones(value:Array<string>) {
         this.dropZones = value;
     }
@@ -34,22 +38,23 @@ export class DroppableComponent extends AbstractComponent {
 
     _onDragEnterCallback(event: Event) {
         this._elem.classList.add(this._config.onDragEnterClass);
+        this.onDragEnterCallback.emit(this._dragDropService.dragData);
     }
     
     _onDragOverCallback (event: Event) {
         this._elem.classList.add(this._config.onDragOverClass);
+        this.onDragOverCallback.emit(this._dragDropService.dragData);
     };
 
     _onDragLeaveCallback (event: Event) {
         this._elem.classList.remove(this._config.onDragOverClass);
         this._elem.classList.remove(this._config.onDragEnterClass);
+        this.onDragLeaveCallback.emit(this._dragDropService.dragData);
     };
 
     _onDropCallback (event: Event) {
-        if (this.onDropSuccessCallback) {
-            // console.log('onDropCallback.onDropSuccessCallback.dragData', this._dragDropService.dragData);
-            this.onDropSuccessCallback.emit(this._dragDropService.dragData);
-        }
+        // console.log('onDropCallback.onDropSuccessCallback.dragData', this._dragDropService.dragData);
+        this.onDropSuccessCallback.emit(this._dragDropService.dragData);
         if (this._dragDropService.onDragSuccessCallback) {
             // console.log('onDropCallback.onDragSuccessCallback.dragData', this._dragDropService.dragData);
             this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.dragData);
