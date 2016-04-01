@@ -72,7 +72,7 @@ export abstract class AbstractComponent {
             //
             if (event.dataTransfer != null) {
                 event.dataTransfer.effectAllowed = this._config.dragEffect.name;
-                event.dataTransfer.setData('text/html', '');
+                event.dataTransfer.setData('text', '');
 
                 if (this._config.dragImage != null) {
                     let dragImage: DragImage = this._config.dragImage;

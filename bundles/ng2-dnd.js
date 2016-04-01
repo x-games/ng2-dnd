@@ -516,7 +516,7 @@ System.registerDynamic("src/dnd.component", ["angular2/core", "./dnd.config", ".
         _this._onDragStart(event);
         if (event.dataTransfer != null) {
           event.dataTransfer.effectAllowed = _this._config.dragEffect.name;
-          event.dataTransfer.setData('text/html', '');
+          event.dataTransfer.setData('text', '');
           if (_this._config.dragImage != null) {
             var dragImage = _this._config.dragImage;
             event.dataTransfer.setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
