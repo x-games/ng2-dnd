@@ -29,14 +29,15 @@ System.registerDynamic("src/dnd.draggable", ["angular2/core", "./dnd.component",
       return Reflect.metadata(k, v);
   };
   var core_1 = $__require('angular2/core');
+  var core_2 = $__require('angular2/core');
   var dnd_component_1 = $__require('./dnd.component');
   var dnd_config_1 = $__require('./dnd.config');
   var dnd_service_1 = $__require('./dnd.service');
   var DraggableComponent = (function(_super) {
     __extends(DraggableComponent, _super);
-    function DraggableComponent(elemRef, _dragDropService, _config) {
-      _super.call(this, elemRef, _dragDropService, _config);
-      this.onDragSuccessCallback = new core_1.EventEmitter();
+    function DraggableComponent(elemRef, dragDropService, config, cdr) {
+      _super.call(this, elemRef, dragDropService, config, cdr);
+      this.onDragSuccessCallback = new core_2.EventEmitter();
       this._defaultCursor = this._elem.style.cursor;
       this.dragEnabled = true;
     }
@@ -64,11 +65,11 @@ System.registerDynamic("src/dnd.draggable", ["angular2/core", "./dnd.component",
       this._dragDropService.onDragSuccessCallback = null;
       this._elem.classList.remove(this._config.onDragStartClass);
     };
-    __decorate([core_1.Input("dragEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], DraggableComponent.prototype, "draggable", null);
-    __decorate([core_1.Input(), __metadata('design:type', Object)], DraggableComponent.prototype, "dragData", void 0);
-    __decorate([core_1.Output("onDragSuccess"), __metadata('design:type', core_1.EventEmitter)], DraggableComponent.prototype, "onDragSuccessCallback", void 0);
-    __decorate([core_1.Input("dropZones"), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], DraggableComponent.prototype, "dropzones", null);
-    DraggableComponent = __decorate([core_1.Directive({selector: '[dnd-draggable]'}), __metadata('design:paramtypes', [core_1.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig])], DraggableComponent);
+    __decorate([core_2.Input("dragEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], DraggableComponent.prototype, "draggable", null);
+    __decorate([core_2.Input(), __metadata('design:type', Object)], DraggableComponent.prototype, "dragData", void 0);
+    __decorate([core_2.Output("onDragSuccess"), __metadata('design:type', core_2.EventEmitter)], DraggableComponent.prototype, "onDragSuccessCallback", void 0);
+    __decorate([core_2.Input("dropZones"), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], DraggableComponent.prototype, "dropzones", null);
+    DraggableComponent = __decorate([core_2.Directive({selector: '[dnd-draggable]'}), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, core_1.ChangeDetectorRef])], DraggableComponent);
     return DraggableComponent;
   })(dnd_component_1.AbstractComponent);
   exports.DraggableComponent = DraggableComponent;
@@ -106,17 +107,18 @@ System.registerDynamic("src/dnd.droppable", ["angular2/core", "./dnd.component",
       return Reflect.metadata(k, v);
   };
   var core_1 = $__require('angular2/core');
+  var core_2 = $__require('angular2/core');
   var dnd_component_1 = $__require('./dnd.component');
   var dnd_config_1 = $__require('./dnd.config');
   var dnd_service_1 = $__require('./dnd.service');
   var DroppableComponent = (function(_super) {
     __extends(DroppableComponent, _super);
-    function DroppableComponent(elemRef, _dragDropService, _config) {
-      _super.call(this, elemRef, _dragDropService, _config);
-      this.onDropSuccessCallback = new core_1.EventEmitter();
-      this.onDragEnterCallback = new core_1.EventEmitter();
-      this.onDragOverCallback = new core_1.EventEmitter();
-      this.onDragLeaveCallback = new core_1.EventEmitter();
+    function DroppableComponent(elemRef, dragDropService, config, cdr) {
+      _super.call(this, elemRef, dragDropService, config, cdr);
+      this.onDropSuccessCallback = new core_2.EventEmitter();
+      this.onDragEnterCallback = new core_2.EventEmitter();
+      this.onDragOverCallback = new core_2.EventEmitter();
+      this.onDragLeaveCallback = new core_2.EventEmitter();
       this.dropEnabled = true;
     }
     Object.defineProperty(DroppableComponent.prototype, "droppable", {
@@ -156,13 +158,13 @@ System.registerDynamic("src/dnd.droppable", ["angular2/core", "./dnd.component",
       this._elem.classList.remove(this._config.onDragOverClass);
       this._elem.classList.remove(this._config.onDragEnterClass);
     };
-    __decorate([core_1.Input("dropEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], DroppableComponent.prototype, "droppable", null);
-    __decorate([core_1.Output("onDropSuccess"), __metadata('design:type', core_1.EventEmitter)], DroppableComponent.prototype, "onDropSuccessCallback", void 0);
-    __decorate([core_1.Output("onDragEnter"), __metadata('design:type', core_1.EventEmitter)], DroppableComponent.prototype, "onDragEnterCallback", void 0);
-    __decorate([core_1.Output("onDragOver"), __metadata('design:type', core_1.EventEmitter)], DroppableComponent.prototype, "onDragOverCallback", void 0);
-    __decorate([core_1.Output("onDragLeave"), __metadata('design:type', core_1.EventEmitter)], DroppableComponent.prototype, "onDragLeaveCallback", void 0);
-    __decorate([core_1.Input("dropZones"), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], DroppableComponent.prototype, "dropzones", null);
-    DroppableComponent = __decorate([core_1.Directive({selector: '[dnd-droppable]'}), __metadata('design:paramtypes', [core_1.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig])], DroppableComponent);
+    __decorate([core_2.Input("dropEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], DroppableComponent.prototype, "droppable", null);
+    __decorate([core_2.Output("onDropSuccess"), __metadata('design:type', core_2.EventEmitter)], DroppableComponent.prototype, "onDropSuccessCallback", void 0);
+    __decorate([core_2.Output("onDragEnter"), __metadata('design:type', core_2.EventEmitter)], DroppableComponent.prototype, "onDragEnterCallback", void 0);
+    __decorate([core_2.Output("onDragOver"), __metadata('design:type', core_2.EventEmitter)], DroppableComponent.prototype, "onDragOverCallback", void 0);
+    __decorate([core_2.Output("onDragLeave"), __metadata('design:type', core_2.EventEmitter)], DroppableComponent.prototype, "onDragLeaveCallback", void 0);
+    __decorate([core_2.Input("dropZones"), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], DroppableComponent.prototype, "dropzones", null);
+    DroppableComponent = __decorate([core_2.Directive({selector: '[dnd-droppable]'}), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, core_1.ChangeDetectorRef])], DroppableComponent);
     return DroppableComponent;
   })(dnd_component_1.AbstractComponent);
   exports.DroppableComponent = DroppableComponent;
@@ -200,13 +202,14 @@ System.registerDynamic("src/dnd.sortable", ["angular2/core", "./dnd.component", 
       return Reflect.metadata(k, v);
   };
   var core_1 = $__require('angular2/core');
+  var core_2 = $__require('angular2/core');
   var dnd_component_1 = $__require('./dnd.component');
   var dnd_config_1 = $__require('./dnd.config');
   var dnd_service_1 = $__require('./dnd.service');
   var SortableContainer = (function(_super) {
     __extends(SortableContainer, _super);
-    function SortableContainer(elemRef, _dragDropService, _config, _sortableDataService) {
-      _super.call(this, elemRef, _dragDropService, _config);
+    function SortableContainer(elemRef, dragDropService, config, cdr, _sortableDataService) {
+      _super.call(this, elemRef, dragDropService, config, cdr);
       this._sortableDataService = _sortableDataService;
       this._sortableData = [];
       this.dragEnabled = false;
@@ -244,25 +247,26 @@ System.registerDynamic("src/dnd.sortable", ["angular2/core", "./dnd.component", 
         this._sortableDataService.sortableData = this._sortableData;
         this._sortableDataService.index = 0;
       }
+      this.detectChanges();
     };
-    __decorate([core_1.Input("dragEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], SortableContainer.prototype, "draggable", null);
-    __decorate([core_1.Input(), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], SortableContainer.prototype, "sortableData", null);
-    __decorate([core_1.Input("dropZones"), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], SortableContainer.prototype, "dropzones", null);
-    SortableContainer = __decorate([core_1.Directive({selector: '[dnd-sortable-container]'}), __metadata('design:paramtypes', [core_1.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, dnd_service_1.DragDropSortableService])], SortableContainer);
+    __decorate([core_2.Input("dragEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], SortableContainer.prototype, "draggable", null);
+    __decorate([core_2.Input(), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], SortableContainer.prototype, "sortableData", null);
+    __decorate([core_2.Input("dropZones"), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], SortableContainer.prototype, "dropzones", null);
+    SortableContainer = __decorate([core_2.Directive({selector: '[dnd-sortable-container]'}), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, core_1.ChangeDetectorRef, dnd_service_1.DragDropSortableService])], SortableContainer);
     return SortableContainer;
   })(dnd_component_1.AbstractComponent);
   exports.SortableContainer = SortableContainer;
   var SortableComponent = (function(_super) {
     __extends(SortableComponent, _super);
-    function SortableComponent(elemRef, _dragDropService, _config, _sortableContainer, _sortableDataService) {
-      _super.call(this, elemRef, _dragDropService, _config);
+    function SortableComponent(elemRef, dragDropService, config, _sortableContainer, _sortableDataService, cdr) {
+      _super.call(this, elemRef, dragDropService, config, cdr);
       this._sortableContainer = _sortableContainer;
       this._sortableDataService = _sortableDataService;
-      this.onDragSuccessCallback = new core_1.EventEmitter();
-      this.onDragStartCallback = new core_1.EventEmitter();
-      this.onDragOverCallback = new core_1.EventEmitter();
-      this.onDragEndCallback = new core_1.EventEmitter();
-      this.onDropSuccessCallback = new core_1.EventEmitter();
+      this.onDragSuccessCallback = new core_2.EventEmitter();
+      this.onDragStartCallback = new core_2.EventEmitter();
+      this.onDragOverCallback = new core_2.EventEmitter();
+      this.onDragEndCallback = new core_2.EventEmitter();
+      this.onDropSuccessCallback = new core_2.EventEmitter();
       this.dropZones = this._sortableContainer.dropZones;
       this.dragEnabled = true;
       this.dropEnabled = true;
@@ -319,17 +323,18 @@ System.registerDynamic("src/dnd.sortable", ["angular2/core", "./dnd.component", 
       if (this._dragDropService.onDragSuccessCallback) {
         this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.dragData);
       }
+      this._sortableContainer.detectChanges();
     };
-    __decorate([core_1.Input('sortableIndex'), __metadata('design:type', Number)], SortableComponent.prototype, "index", void 0);
-    __decorate([core_1.Input("dragEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], SortableComponent.prototype, "draggable", null);
-    __decorate([core_1.Input("dropEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], SortableComponent.prototype, "droppable", null);
-    __decorate([core_1.Input(), __metadata('design:type', Object)], SortableComponent.prototype, "dragData", void 0);
-    __decorate([core_1.Output("onDragSuccess"), __metadata('design:type', core_1.EventEmitter)], SortableComponent.prototype, "onDragSuccessCallback", void 0);
-    __decorate([core_1.Output("onDragStart"), __metadata('design:type', core_1.EventEmitter)], SortableComponent.prototype, "onDragStartCallback", void 0);
-    __decorate([core_1.Output("onDragOver"), __metadata('design:type', core_1.EventEmitter)], SortableComponent.prototype, "onDragOverCallback", void 0);
-    __decorate([core_1.Output("onDragEnd"), __metadata('design:type', core_1.EventEmitter)], SortableComponent.prototype, "onDragEndCallback", void 0);
-    __decorate([core_1.Output("onDropSuccess"), __metadata('design:type', core_1.EventEmitter)], SortableComponent.prototype, "onDropSuccessCallback", void 0);
-    SortableComponent = __decorate([core_1.Directive({selector: '[dnd-sortable]'}), __metadata('design:paramtypes', [core_1.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, SortableContainer, dnd_service_1.DragDropSortableService])], SortableComponent);
+    __decorate([core_2.Input('sortableIndex'), __metadata('design:type', Number)], SortableComponent.prototype, "index", void 0);
+    __decorate([core_2.Input("dragEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], SortableComponent.prototype, "draggable", null);
+    __decorate([core_2.Input("dropEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], SortableComponent.prototype, "droppable", null);
+    __decorate([core_2.Input(), __metadata('design:type', Object)], SortableComponent.prototype, "dragData", void 0);
+    __decorate([core_2.Output("onDragSuccess"), __metadata('design:type', core_2.EventEmitter)], SortableComponent.prototype, "onDragSuccessCallback", void 0);
+    __decorate([core_2.Output("onDragStart"), __metadata('design:type', core_2.EventEmitter)], SortableComponent.prototype, "onDragStartCallback", void 0);
+    __decorate([core_2.Output("onDragOver"), __metadata('design:type', core_2.EventEmitter)], SortableComponent.prototype, "onDragOverCallback", void 0);
+    __decorate([core_2.Output("onDragEnd"), __metadata('design:type', core_2.EventEmitter)], SortableComponent.prototype, "onDragEndCallback", void 0);
+    __decorate([core_2.Output("onDropSuccess"), __metadata('design:type', core_2.EventEmitter)], SortableComponent.prototype, "onDropSuccessCallback", void 0);
+    SortableComponent = __decorate([core_2.Directive({selector: '[dnd-sortable]'}), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, SortableContainer, dnd_service_1.DragDropSortableService, core_1.ChangeDetectorRef])], SortableComponent);
     return SortableComponent;
   })(dnd_component_1.AbstractComponent);
   exports.SortableComponent = SortableComponent;
@@ -488,10 +493,11 @@ System.registerDynamic("src/dnd.component", ["angular2/core", "./dnd.config", ".
   var dnd_config_1 = $__require('./dnd.config');
   var dnd_service_1 = $__require('./dnd.service');
   var AbstractComponent = (function() {
-    function AbstractComponent(elemRef, _dragDropService, _config) {
+    function AbstractComponent(elemRef, _dragDropService, _config, _cdr) {
       var _this = this;
       this._dragDropService = _dragDropService;
       this._config = _config;
+      this._cdr = _cdr;
       this._dragEnabled = false;
       this.dropEnabled = false;
       this.dropZones = [];
@@ -505,6 +511,7 @@ System.registerDynamic("src/dnd.component", ["angular2/core", "./dnd.config", ".
         if (event.dataTransfer != null) {
           event.dataTransfer.dropEffect = _this._config.dropEffect.name;
         }
+        return false;
       };
       this._elem.ondragleave = function(event) {
         _this._onDragLeave(event);
@@ -526,12 +533,6 @@ System.registerDynamic("src/dnd.component", ["angular2/core", "./dnd.config", ".
       this._elem.ondragend = function(event) {
         _this._onDragEnd(event);
       };
-      this._elem.ontouchstart = function(event) {
-        _this._onDragStart(event);
-      };
-      this._elem.ontouchend = function(event) {
-        _this._onDragEnd(event);
-      };
     }
     Object.defineProperty(AbstractComponent.prototype, "dragEnabled", {
       get: function() {
@@ -547,28 +548,40 @@ System.registerDynamic("src/dnd.component", ["angular2/core", "./dnd.config", ".
       enumerable: true,
       configurable: true
     });
+    AbstractComponent.prototype.detectChanges = function() {
+      var _this = this;
+      setTimeout(function() {
+        _this._cdr.detectChanges();
+      }, 250);
+    };
     AbstractComponent.prototype._onDragEnter = function(event) {
       if (this._isDropAllowed) {
-        event.preventDefault();
         this._onDragEnterCallback(event);
       }
     };
     AbstractComponent.prototype._onDragOver = function(event) {
       if (this._isDropAllowed) {
-        event.preventDefault();
+        if (event.preventDefault) {
+          event.preventDefault();
+        }
         this._onDragOverCallback(event);
       }
     };
     AbstractComponent.prototype._onDragLeave = function(event) {
       if (this._isDropAllowed) {
-        event.preventDefault();
         this._onDragLeaveCallback(event);
       }
     };
     AbstractComponent.prototype._onDrop = function(event) {
       if (this._isDropAllowed) {
-        event.preventDefault();
+        if (event.preventDefault) {
+          event.preventDefault();
+        }
+        if (event.stopPropagation) {
+          event.stopPropagation();
+        }
         this._onDropCallback(event);
+        this.detectChanges();
       }
     };
     Object.defineProperty(AbstractComponent.prototype, "_isDropAllowed", {
@@ -605,7 +618,7 @@ System.registerDynamic("src/dnd.component", ["angular2/core", "./dnd.config", ".
     AbstractComponent.prototype._onDropCallback = function(event) {};
     AbstractComponent.prototype._onDragStartCallback = function(event) {};
     AbstractComponent.prototype._onDragEndCallback = function(event) {};
-    AbstractComponent = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig])], AbstractComponent);
+    AbstractComponent = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, core_1.ChangeDetectorRef])], AbstractComponent);
     return AbstractComponent;
   })();
   exports.AbstractComponent = AbstractComponent;

@@ -2,7 +2,7 @@
 // This project is licensed under the terms of the MIT license.
 // https://github.com/akserg/ng2-dnd
 
-import {Injectable} from 'angular2/core';
+import {Injectable, ChangeDetectorRef} from 'angular2/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from 'angular2/core';
 
 import {AbstractComponent} from './dnd.component';
@@ -34,8 +34,10 @@ export class SortableContainer extends AbstractComponent {
         this.dropZones = value;
     }
 
-    constructor(elemRef: ElementRef, _dragDropService: DragDropService, _config:DragDropConfig, private _sortableDataService: DragDropSortableService) {
-        super(elemRef, _dragDropService, _config);
+    constructor(elemRef: ElementRef, dragDropService: DragDropService, config:DragDropConfig, cdr:ChangeDetectorRef,
+        private _sortableDataService: DragDropSortableService) {
+            
+        super(elemRef, dragDropService, config, cdr);
         this.dragEnabled = false;
     }
 
@@ -52,6 +54,8 @@ export class SortableContainer extends AbstractComponent {
             this._sortableDataService.sortableData = this._sortableData;
             this._sortableDataService.index = 0;
         }
+        // Refresh changes in properties of container component
+        this.detectChanges();
     }
 }
 
@@ -84,8 +88,12 @@ export class SortableComponent extends AbstractComponent {
     @Output("onDragEnd") onDragEndCallback: EventEmitter<any> = new EventEmitter<any>();
     @Output("onDropSuccess") onDropSuccessCallback: EventEmitter<any> = new EventEmitter<any>();
 
-    constructor(elemRef: ElementRef, _dragDropService: DragDropService, _config:DragDropConfig, private _sortableContainer: SortableContainer, private _sortableDataService: DragDropSortableService) {
-        super(elemRef, _dragDropService, _config);
+    constructor(elemRef: ElementRef, dragDropService: DragDropService, config:DragDropConfig, 
+        private _sortableContainer: SortableContainer, 
+        private _sortableDataService: DragDropSortableService, 
+        cdr:ChangeDetectorRef) {
+            
+        super(elemRef, dragDropService, config, cdr);
 
         this.dropZones = this._sortableContainer.dropZones;
         this.dragEnabled = true;
@@ -149,5 +157,7 @@ export class SortableComponent extends AbstractComponent {
             // console.log('onDropCallback.onDragSuccessCallback.dragData', this._dragDropService.dragData);
             this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.dragData);
         }
+        // Refresh changes in properties of container component
+        this._sortableContainer.detectChanges();
     }
 }

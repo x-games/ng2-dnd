@@ -2,7 +2,7 @@
 // This project is licensed under the terms of the MIT license.
 // https://github.com/akserg/ng2-dnd
 
-import {Injectable} from 'angular2/core';
+import {Injectable, ChangeDetectorRef} from 'angular2/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from 'angular2/core';
 
 import {AbstractComponent} from './dnd.component';
@@ -30,8 +30,10 @@ export class DroppableComponent extends AbstractComponent {
         this.dropZones = value;
     }
 
-    constructor(elemRef: ElementRef, _dragDropService: DragDropService, _config:DragDropConfig) {
-        super(elemRef, _dragDropService, _config);
+    constructor(elemRef: ElementRef, dragDropService: DragDropService, config:DragDropConfig, 
+        cdr:ChangeDetectorRef) {
+            
+        super(elemRef, dragDropService, config, cdr);
         
         this.dropEnabled = true;
     }
