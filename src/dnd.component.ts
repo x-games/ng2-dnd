@@ -7,6 +7,7 @@ import {Directive, Input, Output, EventEmitter, ElementRef} from 'angular2/core'
 
 import {DragDropConfig, DragImage} from './dnd.config';
 import {DragDropService} from './dnd.service';
+import {MobileService} from './dnd.mobile';
 
 @Injectable()
 export abstract class AbstractComponent {
@@ -39,7 +40,7 @@ export abstract class AbstractComponent {
     dropZones: string[] = [];
 
     constructor(elemRef: ElementRef, public _dragDropService: DragDropService, public _config: DragDropConfig,
-        private _cdr: ChangeDetectorRef) {
+        private _cdr: ChangeDetectorRef, private mobileService: MobileService) {
 
         this._elem = elemRef.nativeElement;
         this.dragEnabled = true;
@@ -59,12 +60,6 @@ export abstract class AbstractComponent {
         this._elem.ondragleave = (event: Event) => {
             this._onDragLeave(event);
         };
-        // this._elem.ontouchenter = (event: Event) => {
-        //     this._onDragEnter(event);
-        // };
-        // this._elem.ontouchleave = (event: Event) => {
-        //     this._onDragLeave(event);
-        // };
         this._elem.ondrop = (event: Event) => {
             this._onDrop(event);
         };
@@ -88,18 +83,24 @@ export abstract class AbstractComponent {
             // console.log('ondragend', event.target);
             this._onDragEnd(event);
         };
-        // this._elem.ontouchstart = (event: Event) => {
-        //     // console.log('ontouchstart', event.target);
-        //     this._onDragStart(event);
-        // };
-        // this._elem.ontouchend = (event: Event) => {
-        //     // console.log('ontouchend', event.target);
-        //     this._onDragEnd(event);
-        // };
+        
+        // touch events
+        this._elem.ontouchstart = (event: TouchEvent) => {
+            this.mobileService.onTouchStart(event);
+        };
+        this._elem.ontouchend = (event: TouchEvent) => {
+            this.mobileService.onTouchEnd(event);
+        };
+        this._elem.ontouchmove = (event: TouchEvent) => {
+            this.mobileService.onTouchMove(event);
+        };
+        this._elem.ontouchcancel = (event: TouchEvent) => {
+            this.mobileService.onTouchCancel(event);
+        };
     }
-    
+
     /******* Change detection ******/
-    
+
     detectChanges() {
         // Programmatically run change detection to fix issue in Safari
         setTimeout(() => {

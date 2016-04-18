@@ -9,6 +9,7 @@ import {DragDropService, DragDropSortableService} from './src/dnd.service';
 import {DraggableComponent} from './src/dnd.draggable';
 import {DroppableComponent} from './src/dnd.droppable';
 import {SortableContainer, SortableComponent} from './src/dnd.sortable';
+import {MobileService} from './src/dnd.mobile';
 
 export * from './src/dnd.component';
 export * from './src/dnd.config';
@@ -17,5 +18,5 @@ export * from './src/dnd.draggable';
 export * from './src/dnd.droppable';
 export * from './src/dnd.sortable';
 
-export const DND_PROVIDERS: any[] = [DragDropConfig, DragDropService, DragDropSortableService];
+export const DND_PROVIDERS: any[] = [DragDropConfig, DragDropService, DragDropSortableService, MobileService];
 export const DND_DIRECTIVES: any[] = [DraggableComponent, DroppableComponent, SortableContainer, SortableComponent];
