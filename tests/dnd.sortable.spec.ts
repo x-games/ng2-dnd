@@ -4,7 +4,7 @@ import {
     beforeEach,
     it,
     inject,
-    injectAsync,
+    //injectAsync,
     beforeEachProviders,
     TestComponentBuilder,
     ComponentFixture,
@@ -36,7 +36,8 @@ export function main() {
             return [TEST_BROWSER_PLATFORM_PROVIDERS, TEST_BROWSER_APPLICATION_PROVIDERS, DragDropConfig, DragDropService, DragDropSortableService];
         });
 
-        beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
+        // beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
+        beforeEach(inject([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
             (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService, ds: DragDropSortableService) => {
             dragdropService = dd;
             config = c;
@@ -58,7 +59,7 @@ export function main() {
             container.sortableList = values;
             componentFixture.detectChanges();
 
-            let ulElem:HTMLElement = componentFixture.nativeElement.querySelector('ul');
+            let ulElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('ul');
             expect(ulElem).toBeDefined();
             expect(ulElem.children.length).toBe(values.length);
 
@@ -74,7 +75,7 @@ export function main() {
             container.sortableList = values;
             componentFixture.detectChanges();
             
-            let ulElem:HTMLElement = componentFixture.nativeElement.querySelector('ul');
+            let ulElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('ul');
             expect(ulElem).toBeDefined();
             expect(ulElem.children.length).toBe(values.length);
 
@@ -103,7 +104,7 @@ export function main() {
             container.sortableList = values;
             componentFixture.detectChanges();
             
-            let ulElem:HTMLElement = componentFixture.nativeElement.querySelector('ul');
+            let ulElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('ul');
             expect(ulElem).toBeDefined();
             expect(ulElem.children.length).toBe(values.length);
             
@@ -133,7 +134,8 @@ export function main() {
             return [TEST_BROWSER_PLATFORM_PROVIDERS, TEST_BROWSER_APPLICATION_PROVIDERS, DragDropConfig, DragDropService, DragDropSortableService];
         });
 
-        beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
+        // beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
+        beforeEach(inject([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
             (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService, ds: DragDropSortableService) => {
             dragdropService = dd;
             config = c;
@@ -159,7 +161,7 @@ export function main() {
             container.multiTwoList = multiTwoList;
             componentFixture.detectChanges();
             
-            let divElem:HTMLElement = componentFixture.nativeElement.querySelector('div');
+            let divElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('div');
             expect(divElem).toBeDefined();
             expect(divElem.children.length).toBe(3);
             
@@ -198,7 +200,7 @@ export function main() {
             container.multiTwoList = multiTwoList;
             componentFixture.detectChanges();
             
-            let divElem:HTMLElement = componentFixture.nativeElement.querySelector('div');
+            let divElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('div');
             expect(divElem).toBeDefined();
             expect(divElem.children.length).toBe(3);
             
@@ -225,7 +227,7 @@ export function main() {
             container.multiTwoList = multiTwoList;
             componentFixture.detectChanges();
             
-            let divElem:HTMLElement = componentFixture.nativeElement.querySelector('div');
+            let divElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('div');
             expect(divElem).toBeDefined();
             expect(divElem.children.length).toBe(3);
             
@@ -251,7 +253,7 @@ export function main() {
             container.multiTwoList = multiTwoList;
             componentFixture.detectChanges();
             
-            let divElem:HTMLElement = componentFixture.nativeElement.querySelector('div');
+            let divElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('div');
             expect(divElem).toBeDefined();
             expect(divElem.children.length).toBe(3);
             
@@ -279,7 +281,7 @@ export function main() {
             container.multiTwoList = multiTwoList;
             componentFixture.detectChanges();
             
-            let divElem:HTMLElement = componentFixture.nativeElement.querySelector('div');
+            let divElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('div');
             expect(divElem).toBeDefined();
             expect(divElem.children.length).toBe(3);
             

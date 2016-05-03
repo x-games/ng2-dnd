@@ -4,7 +4,7 @@ import {
     beforeEach,
     it,
     inject,
-    injectAsync,
+    // injectAsync,
     beforeEachProviders,
     TestComponentBuilder,
     ComponentFixture,
@@ -35,7 +35,8 @@ export function main() {
             return [TEST_BROWSER_PLATFORM_PROVIDERS, TEST_BROWSER_APPLICATION_PROVIDERS, DragDropConfig, DragDropService];
         });
 
-        beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService], (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService) => {
+        // beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService], (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService) => {
+        beforeEach(inject([TestComponentBuilder, DragDropConfig, DragDropService], (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService) => {
             dragdropService = dd;
             config = c;
             return tcb.createAsync(Container).then((cf: ComponentFixture) => {
@@ -50,8 +51,8 @@ export function main() {
         });
 
         it('Drop events should not be activated on the wrong drop-zone', (done:any) => {
-           let dragElemOne:HTMLElement = componentFixture.nativeElement.querySelector('#dragIdOne');
-           let dropElemTwo:HTMLElement = componentFixture.nativeElement.querySelector('#dropIdTwo');
+           let dragElemOne:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragIdOne');
+           let dropElemTwo:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dropIdTwo');
 
            triggerEvent(dragElemOne, 'dragstart', 'MouseEvent');
            triggerEvent(dropElemTwo, 'dragenter', 'MouseEvent');
@@ -83,8 +84,8 @@ export function main() {
         });
 
         it('Drop events should be activated on the same drop-zone', (done:any) => {
-           let dragElemOne:HTMLElement = componentFixture.nativeElement.querySelector('#dragIdOne');
-           let dropElemOne:HTMLElement = componentFixture.nativeElement.querySelector('#dropIdOne');
+           let dragElemOne:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragIdOne');
+           let dropElemOne:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dropIdOne');
 
            triggerEvent(dragElemOne, 'dragstart', 'MouseEvent');
            triggerEvent(dropElemOne, 'dragenter', 'MouseEvent');
@@ -116,8 +117,8 @@ export function main() {
         });
 
         it('Drop events on multiple drop-zone', (done:any) => {
-           let dragElemOneTwo:HTMLElement = componentFixture.nativeElement.querySelector('#dragIdOneTwo');
-           let dropElemOneTwo:HTMLElement = componentFixture.nativeElement.querySelector('#dropIdOneTwo');
+           let dragElemOneTwo:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragIdOneTwo');
+           let dropElemOneTwo:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dropIdOneTwo');
 
            triggerEvent(dragElemOneTwo, 'dragstart', 'MouseEvent');
            triggerEvent(dropElemOneTwo, 'dragenter', 'MouseEvent');

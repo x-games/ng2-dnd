@@ -29,6 +29,10 @@ export class DroppableComponent extends AbstractComponent {
     @Input("dropZones") set dropzones(value:Array<string>) {
         this.dropZones = value;
     }
+    
+    @Input("effectAllowed") set effectallowed(value: string) {
+        this.effectAllowed = value;
+    }
 
     constructor(elemRef: ElementRef, dragDropService: DragDropService, config:DragDropConfig, 
         cdr:ChangeDetectorRef) {

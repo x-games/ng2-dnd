@@ -30,6 +30,8 @@ export abstract class AbstractComponent {
     }
 
     dropEnabled: boolean = false;
+    
+    effectAllowed: string;
 
     /**
     * Array of Strings. It permits to specify the drop zones associated with this component.
@@ -59,12 +61,6 @@ export abstract class AbstractComponent {
         this._elem.ondragleave = (event: Event) => {
             this._onDragLeave(event);
         };
-        // this._elem.ontouchenter = (event: Event) => {
-        //     this._onDragEnter(event);
-        // };
-        // this._elem.ontouchleave = (event: Event) => {
-        //     this._onDragLeave(event);
-        // };
         this._elem.ondrop = (event: Event) => {
             this._onDrop(event);
         };
@@ -75,7 +71,8 @@ export abstract class AbstractComponent {
             this._onDragStart(event);
             //
             if (event.dataTransfer != null) {
-                event.dataTransfer.effectAllowed = this._config.dragEffect.name;
+                console.log('effectAllowed', this.effectAllowed);
+                event.dataTransfer.effectAllowed = this.effectAllowed || this._config.dragEffect.name;
                 event.dataTransfer.setData('text', '');
 
                 if (this._config.dragImage != null) {
@@ -88,14 +85,6 @@ export abstract class AbstractComponent {
             // console.log('ondragend', event.target);
             this._onDragEnd(event);
         };
-        // this._elem.ontouchstart = (event: Event) => {
-        //     // console.log('ontouchstart', event.target);
-        //     this._onDragStart(event);
-        // };
-        // this._elem.ontouchend = (event: Event) => {
-        //     // console.log('ontouchend', event.target);
-        //     this._onDragEnd(event);
-        // };
     }
     
     /******* Change detection ******/

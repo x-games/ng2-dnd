@@ -4,7 +4,7 @@ import {
     beforeEach,
     it,
     inject,
-    injectAsync,
+    // injectAsync,
     beforeEachProviders,
     TestComponentBuilder,
     ComponentFixture,
@@ -35,7 +35,8 @@ export function main() {
             return [TEST_BROWSER_PLATFORM_PROVIDERS, TEST_BROWSER_APPLICATION_PROVIDERS, DragDropConfig, DragDropService];
         });
 
-        beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService], (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService) => {
+        // beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService], (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService) => {
+        beforeEach(inject([TestComponentBuilder, DragDropConfig, DragDropService], (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService) => {
             dragdropService = dd;
             config = c;
             return tcb.createAsync(Container2).then((cf: ComponentFixture) => {
@@ -50,7 +51,7 @@ export function main() {
         });
 
         it('It should add the "draggable" attribute', (done:any) => {
-            let dragElem:HTMLElement = componentFixture.nativeElement.querySelector('#dragId');
+            let dragElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragId');
 
             expect(dragElem).toBeDefined();
             expect(dragElem.attributes[<any>'draggable']).toBeTruthy();
@@ -59,7 +60,7 @@ export function main() {
         });
 
         it('Drag events should add/remove the draggable data to/from the DragDropService', (done:any) => {
-            let dragElem:HTMLElement = componentFixture.nativeElement.querySelector('#dragId');
+            let dragElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragId');
 
             expect(dragdropService.dragData).not.toBeDefined();
 
@@ -75,7 +76,7 @@ export function main() {
         });
 
         it('Drag events should add/remove the expected classes to the target element', (done:any) => {
-            let dragElem:HTMLElement = componentFixture.nativeElement.querySelector('#dragId');
+            let dragElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragId');
 
             expect(dragElem).not.toHaveCssClass(config.onDragStartClass);
 
@@ -94,7 +95,7 @@ export function main() {
             container.dragEnabled = false;
             componentFixture.detectChanges();
 
-            let dragElem:HTMLElement = componentFixture.nativeElement.querySelector('#dragId');
+            let dragElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragId');
 
             expect(dragdropService.dragData).not.toBeDefined();
             expect(dragElem).not.toHaveCssClass(config.onDragStartClass);
@@ -108,8 +109,8 @@ export function main() {
         });
 
         it('Drop events should add/remove the expected classes to the target element', (done:any) => {
-            let dragElem:HTMLElement = componentFixture.nativeElement.querySelector('#dragId');
-            let dropElem:HTMLElement = componentFixture.nativeElement.querySelector('#dropId');
+            let dragElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragId');
+            let dropElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dropId');
 
             expect(dropElem).not.toHaveCssClass(config.onDragEnterClass);
             expect(dropElem).not.toHaveCssClass(config.onDragOverClass);
@@ -146,8 +147,8 @@ export function main() {
         });
 
         it('Drop event should activate the onDropSuccess and onDragSuccess callbacks', (done:any) => {
-            let dragElem:HTMLElement = componentFixture.nativeElement.querySelector('#dragId');
-            let dropElem:HTMLElement = componentFixture.nativeElement.querySelector('#dropId');
+            let dragElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragId');
+            let dropElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dropId');
 
             let dragCount:number = 0, dropCount:number = 0;
             container.drag.subscribe(($event:any) => {
@@ -179,8 +180,8 @@ export function main() {
             container.dragData = dragData;
             componentFixture.detectChanges();
 
-            let dragElem:HTMLElement = componentFixture.nativeElement.querySelector('#dragId');
-            let dropElem:HTMLElement = componentFixture.nativeElement.querySelector('#dropId');
+            let dragElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragId');
+            let dropElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dropId');
 
             container.drag.subscribe(($event:any) => {
                expect($event).toBe(dragData);

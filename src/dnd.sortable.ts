@@ -77,6 +77,10 @@ export class SortableComponent extends AbstractComponent {
      */
     @Input() dragData: any;
     
+    @Input("effectAllowed") set effectallowed(value: string) {
+        this.effectAllowed = value;
+    }
+    
     /**
      * Callback function called when the drag action ends with a valid drop action.
      * It is activated after the on-drop-success callback

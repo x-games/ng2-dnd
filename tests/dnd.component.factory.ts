@@ -86,7 +86,7 @@ export class Container2 {
   template: `
 <div>
     <ul class="list-group" dnd-sortable-container [sortableData]="sortableList">
-        <li *ngFor="#item of sortableList; #i = index" dnd-sortable [sortableIndex]="i">{{item}}</li>
+        <li *ngFor="let item of sortableList; let i = index" dnd-sortable [sortableIndex]="i">{{item}}</li>
     </ul>
 </div>
 `,
@@ -102,17 +102,17 @@ export class Container3 {
 <div>
     <div id='single'>
         <ul class="list-group" dnd-sortable-container [sortableData]="singleList">
-            <li *ngFor="#item of singleList; #i = index" dnd-sortable [sortableIndex]="i">{{item}}</li>
+            <li *ngFor="let item of singleList; let i = index" dnd-sortable [sortableIndex]="i">{{item}}</li>
         </ul>
     </div>
     <div id='multiOne' dnd-sortable-container [dropZones]="['multiList']" [sortableData]="multiOneList">
         <ul class="list-group" >
-            <li *ngFor="#item of multiOneList; #i = index" dnd-sortable [sortableIndex]="i">{{item}}</li>
+            <li *ngFor="let item of multiOneList; let i = index" dnd-sortable [sortableIndex]="i">{{item}}</li>
         </ul>
     </div>
     <div id='multiTwo' dnd-sortable-container [dropZones]="['multiList']" [sortableData]="multiTwoList">
         <ul class="list-group" >
-            <li *ngFor="#item of multiTwoList; #i = index" dnd-sortable [sortableIndex]="i">{{item}}</li>
+            <li *ngFor="let item of multiTwoList; let i = index" dnd-sortable [sortableIndex]="i">{{item}}</li>
         </ul>
     </div>
 </div>
