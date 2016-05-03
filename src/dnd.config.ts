@@ -30,8 +30,8 @@ export class DragDropConfig {
     public onDragOverClass: string = "dnd-drag-over";
     public onSortableDragClass: string = "dnd-sortable-drag";
     
-    public dragEffect: DataTransferEffect = DataTransferEffect.COPY;
-    public dropEffect: DataTransferEffect = DataTransferEffect.COPY;
-    public dragCursor: string = "copy";
+    public dragEffect: DataTransferEffect = DataTransferEffect.MOVE;
+    public dropEffect: DataTransferEffect = DataTransferEffect.MOVE;
+    public dragCursor: string = "move";
     public dragImage: DragImage;
 }
