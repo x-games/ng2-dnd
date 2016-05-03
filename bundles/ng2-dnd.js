@@ -421,9 +421,9 @@ System.registerDynamic("src/dnd.config", ["angular2/core"], true, function($__re
       this.onDragEnterClass = "dnd-drag-enter";
       this.onDragOverClass = "dnd-drag-over";
       this.onSortableDragClass = "dnd-sortable-drag";
-      this.dragEffect = DataTransferEffect.COPY;
-      this.dropEffect = DataTransferEffect.COPY;
-      this.dragCursor = "copy";
+      this.dragEffect = DataTransferEffect.MOVE;
+      this.dropEffect = DataTransferEffect.MOVE;
+      this.dragCursor = "move";
     }
     DragDropConfig = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [])], DragDropConfig);
     return DragDropConfig;
