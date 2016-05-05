@@ -71,7 +71,6 @@ export abstract class AbstractComponent {
             this._onDragStart(event);
             //
             if (event.dataTransfer != null) {
-                console.log('effectAllowed', this.effectAllowed);
                 event.dataTransfer.effectAllowed = this.effectAllowed || this._config.dragEffect.name;
                 event.dataTransfer.setData('text', '');
 
@@ -146,7 +145,7 @@ export abstract class AbstractComponent {
     }
 
     private get _isDropAllowed(): boolean {
-        if (this.dropEnabled) {
+        if (this._dragDropService.isDragged && this.dropEnabled) {
             if (this.dropZones.length === 0 && this._dragDropService.allowedDropZones.length === 0) {
                 return true;
             }

@@ -110,6 +110,7 @@ export class SortableComponent extends AbstractComponent {
         this._sortableDataService.index = this.index;
         this._sortableDataService.markSortable(this._elem);
         // Add dragData
+        this._dragDropService.isDragged = true;
         this._dragDropService.dragData = this.dragData;
         this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
         //
@@ -132,6 +133,7 @@ export class SortableComponent extends AbstractComponent {
         this._sortableDataService.index = null;
         this._sortableDataService.markSortable(null);
         // Add dragGata
+        this._dragDropService.isDragged = false;
         this._dragDropService.dragData = null;
         this._dragDropService.onDragSuccessCallback = null;
         //

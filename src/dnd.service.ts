@@ -12,6 +12,7 @@ export class DragDropService {
     allowedDropZones: Array<string> = [];
     onDragSuccessCallback: EventEmitter<any>;
     dragData: any;
+    isDragged: boolean;
 }
 
 @Injectable()

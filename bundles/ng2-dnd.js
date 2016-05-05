@@ -63,11 +63,13 @@ System.registerDynamic("src/dnd.draggable", ["angular2/core", "./dnd.component",
       configurable: true
     });
     DraggableComponent.prototype._onDragStartCallback = function(event) {
+      this._dragDropService.isDragged = true;
       this._dragDropService.dragData = this.dragData;
       this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
       this._elem.classList.add(this._config.onDragStartClass);
     };
     DraggableComponent.prototype._onDragEndCallback = function(event) {
+      this._dragDropService.isDragged = false;
       this._dragDropService.dragData = null;
       this._dragDropService.onDragSuccessCallback = null;
       this._elem.classList.remove(this._config.onDragStartClass);
@@ -312,6 +314,7 @@ System.registerDynamic("src/dnd.sortable", ["angular2/core", "./dnd.component", 
       this._sortableDataService.sortableData = this._sortableContainer.sortableData;
       this._sortableDataService.index = this.index;
       this._sortableDataService.markSortable(this._elem);
+      this._dragDropService.isDragged = true;
       this._dragDropService.dragData = this.dragData;
       this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
     };
@@ -327,6 +330,7 @@ System.registerDynamic("src/dnd.sortable", ["angular2/core", "./dnd.component", 
       this._sortableDataService.sortableData = null;
       this._sortableDataService.index = null;
       this._sortableDataService.markSortable(null);
+      this._dragDropService.isDragged = false;
       this._dragDropService.dragData = null;
       this._dragDropService.onDragSuccessCallback = null;
       this.onDragEndCallback.emit(this._dragDropService.dragData);
@@ -546,7 +550,6 @@ System.registerDynamic("src/dnd.component", ["angular2/core", "./dnd.config", ".
       this._elem.ondragstart = function(event) {
         _this._onDragStart(event);
         if (event.dataTransfer != null) {
-          console.log('effectAllowed', _this.effectAllowed);
           event.dataTransfer.effectAllowed = _this.effectAllowed || _this._config.dragEffect.name;
           event.dataTransfer.setData('text', '');
           if (_this._config.dragImage != null) {
@@ -611,7 +614,7 @@ System.registerDynamic("src/dnd.component", ["angular2/core", "./dnd.config", ".
     };
     Object.defineProperty(AbstractComponent.prototype, "_isDropAllowed", {
       get: function() {
-        if (this.dropEnabled) {
+        if (this._dragDropService.isDragged && this.dropEnabled) {
           if (this.dropZones.length === 0 && this._dragDropService.allowedDropZones.length === 0) {
             return true;
           }

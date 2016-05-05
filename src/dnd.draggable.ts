@@ -44,12 +44,14 @@ export class DraggableComponent extends AbstractComponent {
     }
 
     _onDragStartCallback(event: Event) {
+        this._dragDropService.isDragged = true;
         this._dragDropService.dragData = this.dragData;
         this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
         this._elem.classList.add(this._config.onDragStartClass);
     }
 
     _onDragEndCallback(event: Event) {
+        this._dragDropService.isDragged = false;
         this._dragDropService.dragData = null;
         this._dragDropService.onDragSuccessCallback = null;
         this._elem.classList.remove(this._config.onDragStartClass);
