@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ElementRef} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, ElementRef} from '@angular/core';
 
 import {DraggableComponent} from '../src/dnd.draggable';
 import {DroppableComponent} from '../src/dnd.droppable';

@@ -6,14 +6,17 @@ import {
     inject,
     //injectAsync,
     beforeEachProviders,
-    TestComponentBuilder,
-    ComponentFixture,
     fakeAsync,
     tick
-} from 'angular2/testing';
+} from '@angular/core/testing';
 
-import {TEST_BROWSER_PLATFORM_PROVIDERS, TEST_BROWSER_APPLICATION_PROVIDERS}
-from 'angular2/platform/testing/browser';
+import {
+  TestComponentBuilder,
+  ComponentFixture
+} from '@angular/compiler/testing';
+
+import {TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS, TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS}
+from '@angular/platform-browser-dynamic/testing';
 
 import {Observable} from 'rxjs/Observable';
 
@@ -26,14 +29,14 @@ import {Container3, Container4, triggerEvent} from './dnd.component.factory';
 export function main() {
     describe('Sortable Drag and Drop', () => {
 
-        let componentFixture: ComponentFixture;
+        let componentFixture: ComponentFixture<any>;
         let dragdropService: DragDropService;
         let config: DragDropConfig;
         let container:Container3;
         let sortableService:DragDropSortableService
 
         beforeEachProviders(() => {
-            return [TEST_BROWSER_PLATFORM_PROVIDERS, TEST_BROWSER_APPLICATION_PROVIDERS, DragDropConfig, DragDropService, DragDropSortableService];
+            return [TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS, TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS, DragDropConfig, DragDropService, DragDropSortableService];
         });
 
         // beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
@@ -42,7 +45,7 @@ export function main() {
             dragdropService = dd;
             config = c;
             sortableService = ds;
-            return tcb.createAsync(Container3).then((cf: ComponentFixture) => {
+            return tcb.createAsync(Container3).then((cf: ComponentFixture<any>) => {
                 componentFixture = cf;
                 componentFixture.detectChanges();
                 container = <Container3>componentFixture.componentInstance;
@@ -124,14 +127,14 @@ export function main() {
     
     describe('Multi List Sortable Drag and Drop', () => {
 
-        let componentFixture: ComponentFixture;
+        let componentFixture: ComponentFixture<any>;
         let dragdropService: DragDropService;
         let config: DragDropConfig;
         let container:Container4;
         let sortableService:DragDropSortableService
 
         beforeEachProviders(() => {
-            return [TEST_BROWSER_PLATFORM_PROVIDERS, TEST_BROWSER_APPLICATION_PROVIDERS, DragDropConfig, DragDropService, DragDropSortableService];
+            return [TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS, TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS, DragDropConfig, DragDropService, DragDropSortableService];
         });
 
         // beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
@@ -140,7 +143,7 @@ export function main() {
             dragdropService = dd;
             config = c;
             sortableService = ds;
-            return tcb.createAsync(Container4).then((cf: ComponentFixture) => {
+            return tcb.createAsync(Container4).then((cf: ComponentFixture<any>) => {
                 componentFixture = cf;
                 componentFixture.detectChanges();
                 container = <Container4>componentFixture.componentInstance;

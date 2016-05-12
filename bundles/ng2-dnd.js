@@ -1,4 +1,4 @@
-System.registerDynamic("src/dnd.draggable", ["angular2/core", "./dnd.component", "./dnd.config", "./dnd.service"], true, function($__require, exports, module) {
+System.registerDynamic("src/dnd.draggable", ["@angular/core", "./dnd.component", "./dnd.config", "./dnd.service"], true, function($__require, exports, module) {
   ;
   var define,
       global = this,
@@ -28,8 +28,8 @@ System.registerDynamic("src/dnd.draggable", ["angular2/core", "./dnd.component",
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
-  var core_2 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
+  var core_2 = $__require('@angular/core');
   var dnd_component_1 = $__require('./dnd.component');
   var dnd_config_1 = $__require('./dnd.config');
   var dnd_service_1 = $__require('./dnd.service');
@@ -86,7 +86,7 @@ System.registerDynamic("src/dnd.draggable", ["angular2/core", "./dnd.component",
   return module.exports;
 });
 
-System.registerDynamic("src/dnd.droppable", ["angular2/core", "./dnd.component", "./dnd.config", "./dnd.service"], true, function($__require, exports, module) {
+System.registerDynamic("src/dnd.droppable", ["@angular/core", "./dnd.component", "./dnd.config", "./dnd.service"], true, function($__require, exports, module) {
   ;
   var define,
       global = this,
@@ -116,8 +116,8 @@ System.registerDynamic("src/dnd.droppable", ["angular2/core", "./dnd.component",
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
-  var core_2 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
+  var core_2 = $__require('@angular/core');
   var dnd_component_1 = $__require('./dnd.component');
   var dnd_config_1 = $__require('./dnd.config');
   var dnd_service_1 = $__require('./dnd.service');
@@ -189,7 +189,7 @@ System.registerDynamic("src/dnd.droppable", ["angular2/core", "./dnd.component",
   return module.exports;
 });
 
-System.registerDynamic("src/dnd.sortable", ["angular2/core", "./dnd.component", "./dnd.config", "./dnd.service"], true, function($__require, exports, module) {
+System.registerDynamic("src/dnd.sortable", ["@angular/core", "./dnd.component", "./dnd.config", "./dnd.service"], true, function($__require, exports, module) {
   ;
   var define,
       global = this,
@@ -219,8 +219,8 @@ System.registerDynamic("src/dnd.sortable", ["angular2/core", "./dnd.component", 
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
-  var core_2 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
+  var core_2 = $__require('@angular/core');
   var dnd_component_1 = $__require('./dnd.component');
   var dnd_config_1 = $__require('./dnd.config');
   var dnd_service_1 = $__require('./dnd.service');
@@ -369,7 +369,7 @@ System.registerDynamic("src/dnd.sortable", ["angular2/core", "./dnd.component", 
   return module.exports;
 });
 
-System.registerDynamic("src/dnd.config", ["angular2/core"], true, function($__require, exports, module) {
+System.registerDynamic("src/dnd.config", ["@angular/core"], true, function($__require, exports, module) {
   ;
   var define,
       global = this,
@@ -390,7 +390,7 @@ System.registerDynamic("src/dnd.config", ["angular2/core"], true, function($__re
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
   var DataTransferEffect = (function() {
     function DataTransferEffect(name) {
       this.name = name;
@@ -436,7 +436,7 @@ System.registerDynamic("src/dnd.config", ["angular2/core"], true, function($__re
   return module.exports;
 });
 
-System.registerDynamic("src/dnd.service", ["angular2/core", "angular2/src/facade/lang", "./dnd.config"], true, function($__require, exports, module) {
+System.registerDynamic("src/dnd.service", ["@angular/core", "@angular/common/src/facade/lang", "./dnd.config"], true, function($__require, exports, module) {
   ;
   var define,
       global = this,
@@ -457,8 +457,8 @@ System.registerDynamic("src/dnd.service", ["angular2/core", "angular2/src/facade
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
-  var lang_1 = $__require('angular2/src/facade/lang');
+  var core_1 = $__require('@angular/core');
+  var lang_1 = $__require('@angular/common/src/facade/lang');
   var dnd_config_1 = $__require('./dnd.config');
   var DragDropService = (function() {
     function DragDropService() {
@@ -495,7 +495,7 @@ System.registerDynamic("src/dnd.service", ["angular2/core", "angular2/src/facade
   return module.exports;
 });
 
-System.registerDynamic("src/dnd.component", ["angular2/core", "./dnd.config", "./dnd.service"], true, function($__require, exports, module) {
+System.registerDynamic("src/dnd.component", ["@angular/core", "./dnd.config", "./dnd.service"], true, function($__require, exports, module) {
   ;
   var define,
       global = this,
@@ -516,8 +516,8 @@ System.registerDynamic("src/dnd.component", ["angular2/core", "./dnd.config", ".
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
-  var core_2 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
+  var core_2 = $__require('@angular/core');
   var dnd_config_1 = $__require('./dnd.config');
   var dnd_service_1 = $__require('./dnd.service');
   var AbstractComponent = (function() {

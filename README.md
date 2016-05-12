@@ -34,9 +34,9 @@ Finally, you can use *ng2-dnd* in your Angular 2 project:
 - Use `dnd-draggable` and `dnd-droppable` properties in template of your components.
 
 ```js
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
-import {bootstrap} from 'angular2/platform/browser';
+import {bootstrap} from '@angular/platform-browser-dynamic';
 
 bootstrap(AppComponent, [
     DND_PROVIDERS // It is required to have 1 unique instance of your service
@@ -88,9 +88,9 @@ export class AppComponent {
 You can use property *dropZones* (actually an array) to specify in which place you would like to drop the draggable element:
 
 ```js
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
-import {bootstrap} from 'angular2/platform/browser';
+import {bootstrap} from '@angular/platform-browser-dynamic';
 
 bootstrap(AppComponent, [
     DND_PROVIDERS // It is required to have 1 unique instance of your service
@@ -157,9 +157,9 @@ export class AppComponent {
 You can transfer data from draggable to droppable component via *dragData* property of Draggable component:
 
 ```js
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
-import {bootstrap} from 'angular2/platform/browser';
+import {bootstrap} from '@angular/platform-browser-dynamic';
 
 bootstrap(AppComponent, [
     DND_PROVIDERS // It is required to have 1 unique instance of your service
@@ -216,9 +216,9 @@ export class AppComponent {
 Here is an example of shopping backet with products adding via drag and drop operation:
 
 ```js
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
-import {bootstrap} from 'angular2/platform/browser';
+import {bootstrap} from '@angular/platform-browser-dynamic';
 
 bootstrap(AppComponent, [
     DND_PROVIDERS // It is required to have 1 unique instance of your service
@@ -307,9 +307,9 @@ export class AppComponent {
 Here is an example of simple sortable of favorite drinks moving in container via drag and drop operation:
 
 ```js
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
-import {bootstrap} from 'angular2/platform/browser';
+import {bootstrap} from '@angular/platform-browser-dynamic';
 
 bootstrap(AppComponent, [
     DND_PROVIDERS // It is required to have 1 unique instance of your service
@@ -352,9 +352,9 @@ export class AppComponent {
 Here is an example of multi list sortable of boxers moving in container and between containers via drag and drop operation:
 
 ```js
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
-import {bootstrap} from 'angular2/platform/browser';
+import {bootstrap} from '@angular/platform-browser-dynamic';
 
 bootstrap(AppComponent, [
     DND_PROVIDERS // It is required to have 1 unique instance of your service

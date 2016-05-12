@@ -2,8 +2,8 @@
 // This project is licensed under the terms of the MIT license.
 // https://github.com/akserg/ng2-dnd
 
-import {Injectable, ChangeDetectorRef} from 'angular2/core';
-import {Directive, Input, Output, EventEmitter, ElementRef} from 'angular2/core';
+import {Injectable, ChangeDetectorRef} from '@angular/core';
+import {Directive, Input, Output, EventEmitter, ElementRef} from '@angular/core';
 
 import {AbstractComponent} from './dnd.component';
 import {DragDropConfig, DragImage} from './dnd.config';

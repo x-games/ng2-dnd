@@ -2,8 +2,8 @@
 // This project is licensed under the terms of the MIT license.
 // https://github.com/akserg/ng2-dnd
 
-import {Injectable, ElementRef, EventEmitter} from 'angular2/core';
-import {isPresent} from 'angular2/src/facade/lang';
+import {Injectable, ElementRef, EventEmitter} from '@angular/core';
+import {isPresent} from 'lodash';
 
 import {DragDropConfig} from './dnd.config';
 
