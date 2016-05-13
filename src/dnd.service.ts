@@ -3,7 +3,7 @@
 // https://github.com/akserg/ng2-dnd
 
 import {Injectable, ElementRef, EventEmitter} from '@angular/core';
-import {isPresent} from 'lodash';
+import {isPresent} from '@angular/common/src/facade/lang';
 
 import {DragDropConfig} from './dnd.config';
 
