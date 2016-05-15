@@ -7,10 +7,15 @@ import {isPresent} from '@angular/common/src/facade/lang';
 
 import {DragDropConfig} from './dnd.config';
 
+export interface DragDropData {
+    dragData: any;
+    mouseEvent: MouseEvent;
+}
+
 @Injectable()
 export class DragDropService {
     allowedDropZones: Array<string> = [];
-    onDragSuccessCallback: EventEmitter<any>;
+    onDragSuccessCallback: EventEmitter<DragDropData>;
     dragData: any;
     isDragged: boolean;
 }

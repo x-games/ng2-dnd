@@ -7,7 +7,7 @@ import {Directive, Input, Output, EventEmitter, ElementRef} from '@angular/core'
 
 import {AbstractComponent} from './dnd.component';
 import {DragDropConfig} from './dnd.config';
-import {DragDropService} from './dnd.service';
+import {DragDropService, DragDropData} from './dnd.service';
 
 @Directive({ selector: '[dnd-droppable]' })
 export class DroppableComponent extends AbstractComponent {
@@ -15,55 +15,52 @@ export class DroppableComponent extends AbstractComponent {
     @Input("dropEnabled") set droppable(value:boolean) {
         this.dropEnabled = !!value;
     }
-    
+
     /**
      * Callback function called when the drop action completes correctly.
      * It is activated before the on-drag-success callback.
      */
-    @Output("onDropSuccess") onDropSuccessCallback: EventEmitter<any> = new EventEmitter<any>();
-    
-    @Output("onDragEnter") onDragEnterCallback: EventEmitter<any> = new EventEmitter<any>();
-    @Output("onDragOver") onDragOverCallback: EventEmitter<any> = new EventEmitter<any>();
-    @Output("onDragLeave") onDragLeaveCallback: EventEmitter<any> = new EventEmitter<any>();
-    
+    @Output() onDropSuccess: EventEmitter<DragDropData> = new EventEmitter<DragDropData>();
+    @Output() onDragEnter: EventEmitter<DragDropData> = new EventEmitter<DragDropData>();
+    @Output() onDragOver: EventEmitter<DragDropData> = new EventEmitter<DragDropData>();
+    @Output() onDragLeave: EventEmitter<DragDropData> = new EventEmitter<DragDropData>();
+
     @Input("dropZones") set dropzones(value:Array<string>) {
         this.dropZones = value;
     }
-    
+
     @Input("effectAllowed") set effectallowed(value: string) {
         this.effectAllowed = value;
     }
 
-    constructor(elemRef: ElementRef, dragDropService: DragDropService, config:DragDropConfig, 
+    constructor(elemRef: ElementRef, dragDropService: DragDropService, config:DragDropConfig,
         cdr:ChangeDetectorRef) {
-            
+
         super(elemRef, dragDropService, config, cdr);
-        
+
         this.dropEnabled = true;
     }
 
-    _onDragEnterCallback(event: Event) {
+    _onDragEnterCallback(event: MouseEvent) {
         this._elem.classList.add(this._config.onDragEnterClass);
-        this.onDragEnterCallback.emit(this._dragDropService.dragData);
+        this.onDragEnter.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
     }
-    
-    _onDragOverCallback (event: Event) {
+
+    _onDragOverCallback (event: MouseEvent) {
         this._elem.classList.add(this._config.onDragOverClass);
-        this.onDragOverCallback.emit(this._dragDropService.dragData);
+        this.onDragOver.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
     };
 
-    _onDragLeaveCallback (event: Event) {
+    _onDragLeaveCallback (event: MouseEvent) {
         this._elem.classList.remove(this._config.onDragOverClass);
         this._elem.classList.remove(this._config.onDragEnterClass);
-        this.onDragLeaveCallback.emit(this._dragDropService.dragData);
+        this.onDragLeave.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
     };
 
-    _onDropCallback (event: Event) {
-        // console.log('onDropCallback.onDropSuccessCallback.dragData', this._dragDropService.dragData);
-        this.onDropSuccessCallback.emit(this._dragDropService.dragData);
+    _onDropCallback (event: MouseEvent) {
+        this.onDropSuccess.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
         if (this._dragDropService.onDragSuccessCallback) {
-            // console.log('onDropCallback.onDragSuccessCallback.dragData', this._dragDropService.dragData);
-            this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.dragData);
+            this._dragDropService.onDragSuccessCallback.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
         }
         this._elem.classList.remove(this._config.onDragOverClass);
         this._elem.classList.remove(this._config.onDragEnterClass);

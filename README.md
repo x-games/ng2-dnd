@@ -205,8 +205,15 @@ export class AppComponent {
 
     constructor() { }
 
+    /**
+     * The $event is a structure:
+     * {
+     *   dragData: any,
+     *   mouseEvent: MouseEvent
+     * }
+     */
     transferDataSuccess($event) {
-        this.receivedData.push($event);
+        this.receivedData.push($event.dragData);
     }
 
 }
@@ -280,7 +287,15 @@ export class AppComponent {
         orderedProduct.quantity--;
     }
 
-    addToBasket(newProduct: Product) {
+    /**
+     * The $event is a structure:
+     * {
+     *   dragData: any,
+     *   mouseEvent: MouseEvent
+     * }
+     */
+    addToBasket($event) {
+        let newProduct: Product = $event.dragData;
         for (let indx in this.shoppingBasket) {
             let product:Product = this.shoppingBasket[indx];
             if (product.name === newProduct.name) {
