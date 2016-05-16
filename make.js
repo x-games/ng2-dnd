@@ -13,16 +13,14 @@ var config = {
   map: {
     'typescript': './node_modules/typescript/lib/typescript.js',
     '@angular': path.resolve('node_modules/@angular'),
-    'rxjs': path.resolve('node_modules/rxjs'),
-    'lodash': path.resolve('node_modules/lodash/lodash.js')
+    'rxjs': path.resolve('node_modules/rxjs')
   },
   paths: {
     '*': '*.js'
   },
   meta: {
     'node_modules/@angular/*': { build: false },
-    'node_modules/rxjs/*': { build: false },
-    'node_modules/lodash/*': { build: false }
+    'node_modules/rxjs/*': { build: false }
   },
 };
 
