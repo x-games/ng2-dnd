@@ -1,4 +1,5 @@
 System.registerDynamic("src/dnd.draggable", ["@angular/core", "./dnd.component", "./dnd.config", "./dnd.service"], true, function($__require, exports, module) {
+  "use strict";
   ;
   var define,
       global = this,
@@ -81,12 +82,13 @@ System.registerDynamic("src/dnd.draggable", ["@angular/core", "./dnd.component",
     __decorate([core_2.Input("effectAllowed"), __metadata('design:type', String), __metadata('design:paramtypes', [String])], DraggableComponent.prototype, "effectallowed", null);
     DraggableComponent = __decorate([core_2.Directive({selector: '[dnd-draggable]'}), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, core_1.ChangeDetectorRef])], DraggableComponent);
     return DraggableComponent;
-  })(dnd_component_1.AbstractComponent);
+  }(dnd_component_1.AbstractComponent));
   exports.DraggableComponent = DraggableComponent;
   return module.exports;
 });
 
 System.registerDynamic("src/dnd.droppable", ["@angular/core", "./dnd.component", "./dnd.config", "./dnd.service"], true, function($__require, exports, module) {
+  "use strict";
   ;
   var define,
       global = this,
@@ -153,42 +155,50 @@ System.registerDynamic("src/dnd.droppable", ["@angular/core", "./dnd.component",
       configurable: true
     });
     DroppableComponent.prototype._onDragEnterCallback = function(event) {
-      this._elem.classList.add(this._config.onDragEnterClass);
-      this.onDragEnter.emit({
-        dragData: this._dragDropService.dragData,
-        mouseEvent: event
-      });
-    };
-    DroppableComponent.prototype._onDragOverCallback = function(event) {
-      this._elem.classList.add(this._config.onDragOverClass);
-      this.onDragOver.emit({
-        dragData: this._dragDropService.dragData,
-        mouseEvent: event
-      });
-    };
-    ;
-    DroppableComponent.prototype._onDragLeaveCallback = function(event) {
-      this._elem.classList.remove(this._config.onDragOverClass);
-      this._elem.classList.remove(this._config.onDragEnterClass);
-      this.onDragLeave.emit({
-        dragData: this._dragDropService.dragData,
-        mouseEvent: event
-      });
-    };
-    ;
-    DroppableComponent.prototype._onDropCallback = function(event) {
-      this.onDropSuccess.emit({
-        dragData: this._dragDropService.dragData,
-        mouseEvent: event
-      });
-      if (this._dragDropService.onDragSuccessCallback) {
-        this._dragDropService.onDragSuccessCallback.emit({
+      if (this._dragDropService.isDragged) {
+        this._elem.classList.add(this._config.onDragEnterClass);
+        this.onDragEnter.emit({
           dragData: this._dragDropService.dragData,
           mouseEvent: event
         });
       }
-      this._elem.classList.remove(this._config.onDragOverClass);
-      this._elem.classList.remove(this._config.onDragEnterClass);
+    };
+    DroppableComponent.prototype._onDragOverCallback = function(event) {
+      if (this._dragDropService.isDragged) {
+        this._elem.classList.add(this._config.onDragOverClass);
+        this.onDragOver.emit({
+          dragData: this._dragDropService.dragData,
+          mouseEvent: event
+        });
+      }
+    };
+    ;
+    DroppableComponent.prototype._onDragLeaveCallback = function(event) {
+      if (this._dragDropService.isDragged) {
+        this._elem.classList.remove(this._config.onDragOverClass);
+        this._elem.classList.remove(this._config.onDragEnterClass);
+        this.onDragLeave.emit({
+          dragData: this._dragDropService.dragData,
+          mouseEvent: event
+        });
+      }
+    };
+    ;
+    DroppableComponent.prototype._onDropCallback = function(event) {
+      if (this._dragDropService.isDragged) {
+        this.onDropSuccess.emit({
+          dragData: this._dragDropService.dragData,
+          mouseEvent: event
+        });
+        if (this._dragDropService.onDragSuccessCallback) {
+          this._dragDropService.onDragSuccessCallback.emit({
+            dragData: this._dragDropService.dragData,
+            mouseEvent: event
+          });
+        }
+        this._elem.classList.remove(this._config.onDragOverClass);
+        this._elem.classList.remove(this._config.onDragEnterClass);
+      }
     };
     __decorate([core_2.Input("dropEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], DroppableComponent.prototype, "droppable", null);
     __decorate([core_2.Output(), __metadata('design:type', core_2.EventEmitter)], DroppableComponent.prototype, "onDropSuccess", void 0);
@@ -199,12 +209,13 @@ System.registerDynamic("src/dnd.droppable", ["@angular/core", "./dnd.component",
     __decorate([core_2.Input("effectAllowed"), __metadata('design:type', String), __metadata('design:paramtypes', [String])], DroppableComponent.prototype, "effectallowed", null);
     DroppableComponent = __decorate([core_2.Directive({selector: '[dnd-droppable]'}), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, core_1.ChangeDetectorRef])], DroppableComponent);
     return DroppableComponent;
-  })(dnd_component_1.AbstractComponent);
+  }(dnd_component_1.AbstractComponent));
   exports.DroppableComponent = DroppableComponent;
   return module.exports;
 });
 
 System.registerDynamic("src/dnd.sortable", ["@angular/core", "./dnd.component", "./dnd.config", "./dnd.service"], true, function($__require, exports, module) {
+  "use strict";
   ;
   var define,
       global = this,
@@ -273,21 +284,23 @@ System.registerDynamic("src/dnd.sortable", ["@angular/core", "./dnd.component", 
       configurable: true
     });
     SortableContainer.prototype._onDragEnterCallback = function(event) {
-      var item = this._sortableDataService.sortableData[this._sortableDataService.index];
-      if (this._sortableData.indexOf(item) === -1) {
-        this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1);
-        this._sortableData.push(item);
-        this._sortableDataService.sortableData = this._sortableData;
-        this._sortableDataService.index = 0;
+      if (this._sortableDataService.isDragged) {
+        var item = this._sortableDataService.sortableData[this._sortableDataService.index];
+        if (this._sortableData.indexOf(item) === -1) {
+          this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1);
+          this._sortableData.push(item);
+          this._sortableDataService.sortableData = this._sortableData;
+          this._sortableDataService.index = 0;
+        }
+        this.detectChanges();
       }
-      this.detectChanges();
     };
     __decorate([core_2.Input("dragEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], SortableContainer.prototype, "draggable", null);
     __decorate([core_2.Input(), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], SortableContainer.prototype, "sortableData", null);
     __decorate([core_2.Input("dropZones"), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], SortableContainer.prototype, "dropzones", null);
     SortableContainer = __decorate([core_2.Directive({selector: '[dnd-sortable-container]'}), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, core_1.ChangeDetectorRef, dnd_service_1.DragDropSortableService])], SortableContainer);
     return SortableContainer;
-  })(dnd_component_1.AbstractComponent);
+  }(dnd_component_1.AbstractComponent));
   exports.SortableContainer = SortableContainer;
   var SortableComponent = (function(_super) {
     __extends(SortableComponent, _super);
@@ -326,6 +339,7 @@ System.registerDynamic("src/dnd.sortable", ["@angular/core", "./dnd.component", 
       configurable: true
     });
     SortableComponent.prototype._onDragStartCallback = function(event) {
+      this._sortableDataService.isDragged = true;
       this._sortableDataService.sortableData = this._sortableContainer.sortableData;
       this._sortableDataService.index = this.index;
       this._sortableDataService.markSortable(this._elem);
@@ -334,7 +348,7 @@ System.registerDynamic("src/dnd.sortable", ["@angular/core", "./dnd.component", 
       this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
     };
     SortableComponent.prototype._onDragOverCallback = function(event) {
-      if (this._elem != this._sortableDataService.elem) {
+      if (this._sortableDataService.isDragged && this._elem != this._sortableDataService.elem) {
         this._sortableDataService.sortableData = this._sortableContainer.sortableData;
         this._sortableDataService.index = this.index;
         this._sortableDataService.markSortable(this._elem);
@@ -342,6 +356,7 @@ System.registerDynamic("src/dnd.sortable", ["@angular/core", "./dnd.component", 
       }
     };
     SortableComponent.prototype._onDragEndCallback = function(event) {
+      this._sortableDataService.isDragged = false;
       this._sortableDataService.sortableData = null;
       this._sortableDataService.index = null;
       this._sortableDataService.markSortable(null);
@@ -351,21 +366,25 @@ System.registerDynamic("src/dnd.sortable", ["@angular/core", "./dnd.component", 
       this.onDragEndCallback.emit(this._dragDropService.dragData);
     };
     SortableComponent.prototype._onDragEnterCallback = function(event) {
-      this._sortableDataService.markSortable(this._elem);
-      if ((this.index !== this._sortableDataService.index) || (this._sortableDataService.sortableData != this._sortableContainer.sortableData)) {
-        var item = this._sortableDataService.sortableData[this._sortableDataService.index];
-        this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1);
-        this._sortableContainer.sortableData.splice(this.index, 0, item);
-        this._sortableDataService.sortableData = this._sortableContainer.sortableData;
-        this._sortableDataService.index = this.index;
+      if (this._sortableDataService.isDragged) {
+        this._sortableDataService.markSortable(this._elem);
+        if ((this.index !== this._sortableDataService.index) || (this._sortableDataService.sortableData != this._sortableContainer.sortableData)) {
+          var item = this._sortableDataService.sortableData[this._sortableDataService.index];
+          this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1);
+          this._sortableContainer.sortableData.splice(this.index, 0, item);
+          this._sortableDataService.sortableData = this._sortableContainer.sortableData;
+          this._sortableDataService.index = this.index;
+        }
       }
     };
     SortableComponent.prototype._onDropCallback = function(event) {
-      this.onDropSuccessCallback.emit(this._dragDropService.dragData);
-      if (this._dragDropService.onDragSuccessCallback) {
-        this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.dragData);
+      if (this._sortableDataService.isDragged) {
+        this.onDropSuccessCallback.emit(this._dragDropService.dragData);
+        if (this._dragDropService.onDragSuccessCallback) {
+          this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.dragData);
+        }
+        this._sortableContainer.detectChanges();
       }
-      this._sortableContainer.detectChanges();
     };
     __decorate([core_2.Input('sortableIndex'), __metadata('design:type', Number)], SortableComponent.prototype, "index", void 0);
     __decorate([core_2.Input("dragEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], SortableComponent.prototype, "draggable", null);
@@ -379,12 +398,13 @@ System.registerDynamic("src/dnd.sortable", ["@angular/core", "./dnd.component", 
     __decorate([core_2.Output("onDropSuccess"), __metadata('design:type', core_2.EventEmitter)], SortableComponent.prototype, "onDropSuccessCallback", void 0);
     SortableComponent = __decorate([core_2.Directive({selector: '[dnd-sortable]'}), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, SortableContainer, dnd_service_1.DragDropSortableService, core_1.ChangeDetectorRef])], SortableComponent);
     return SortableComponent;
-  })(dnd_component_1.AbstractComponent);
+  }(dnd_component_1.AbstractComponent));
   exports.SortableComponent = SortableComponent;
   return module.exports;
 });
 
 System.registerDynamic("src/dnd.config", ["@angular/core"], true, function($__require, exports, module) {
+  "use strict";
   ;
   var define,
       global = this,
@@ -416,7 +436,7 @@ System.registerDynamic("src/dnd.config", ["@angular/core"], true, function($__re
     DataTransferEffect.NONE = new DataTransferEffect('none');
     DataTransferEffect = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [String])], DataTransferEffect);
     return DataTransferEffect;
-  })();
+  }());
   exports.DataTransferEffect = DataTransferEffect;
   var DragImage = (function() {
     function DragImage(imageElement, x_offset, y_offset) {
@@ -432,7 +452,7 @@ System.registerDynamic("src/dnd.config", ["@angular/core"], true, function($__re
     }
     DragImage = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [HTMLElement, Number, Number])], DragImage);
     return DragImage;
-  })();
+  }());
   exports.DragImage = DragImage;
   var DragDropConfig = (function() {
     function DragDropConfig() {
@@ -446,12 +466,13 @@ System.registerDynamic("src/dnd.config", ["@angular/core"], true, function($__re
     }
     DragDropConfig = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [])], DragDropConfig);
     return DragDropConfig;
-  })();
+  }());
   exports.DragDropConfig = DragDropConfig;
   return module.exports;
 });
 
 System.registerDynamic("src/dnd.service", ["@angular/core", "@angular/common/src/facade/lang", "./dnd.config"], true, function($__require, exports, module) {
+  "use strict";
   ;
   var define,
       global = this,
@@ -481,7 +502,7 @@ System.registerDynamic("src/dnd.service", ["@angular/core", "@angular/common/src
     }
     DragDropService = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [])], DragDropService);
     return DragDropService;
-  })();
+  }());
   exports.DragDropService = DragDropService;
   var DragDropSortableService = (function() {
     function DragDropSortableService(_config) {
@@ -505,12 +526,13 @@ System.registerDynamic("src/dnd.service", ["@angular/core", "@angular/common/src
     };
     DragDropSortableService = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [dnd_config_1.DragDropConfig])], DragDropSortableService);
     return DragDropSortableService;
-  })();
+  }());
   exports.DragDropSortableService = DragDropSortableService;
   return module.exports;
 });
 
 System.registerDynamic("src/dnd.component", ["@angular/core", "./dnd.config", "./dnd.service"], true, function($__require, exports, module) {
+  "use strict";
   ;
   var define,
       global = this,
@@ -663,7 +685,7 @@ System.registerDynamic("src/dnd.component", ["@angular/core", "./dnd.config", ".
     AbstractComponent.prototype._onDragEndCallback = function(event) {};
     AbstractComponent = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, core_1.ChangeDetectorRef])], AbstractComponent);
     return AbstractComponent;
-  })();
+  }());
   exports.AbstractComponent = AbstractComponent;
   return module.exports;
 });

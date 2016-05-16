@@ -42,27 +42,35 @@ export class DroppableComponent extends AbstractComponent {
     }
 
     _onDragEnterCallback(event: MouseEvent) {
-        this._elem.classList.add(this._config.onDragEnterClass);
-        this.onDragEnter.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
+        if (this._dragDropService.isDragged) {
+            this._elem.classList.add(this._config.onDragEnterClass);
+            this.onDragEnter.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
+        }
     }
 
     _onDragOverCallback (event: MouseEvent) {
-        this._elem.classList.add(this._config.onDragOverClass);
-        this.onDragOver.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
+        if (this._dragDropService.isDragged) {
+            this._elem.classList.add(this._config.onDragOverClass);
+            this.onDragOver.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
+        }
     };
 
     _onDragLeaveCallback (event: MouseEvent) {
-        this._elem.classList.remove(this._config.onDragOverClass);
-        this._elem.classList.remove(this._config.onDragEnterClass);
-        this.onDragLeave.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
+        if (this._dragDropService.isDragged) {
+            this._elem.classList.remove(this._config.onDragOverClass);
+            this._elem.classList.remove(this._config.onDragEnterClass);
+            this.onDragLeave.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
+        }
     };
 
     _onDropCallback (event: MouseEvent) {
-        this.onDropSuccess.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
-        if (this._dragDropService.onDragSuccessCallback) {
-            this._dragDropService.onDragSuccessCallback.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
+        if (this._dragDropService.isDragged) {
+            this.onDropSuccess.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
+            if (this._dragDropService.onDragSuccessCallback) {
+                this._dragDropService.onDragSuccessCallback.emit({dragData: this._dragDropService.dragData, mouseEvent: event});
+            }
+            this._elem.classList.remove(this._config.onDragOverClass);
+            this._elem.classList.remove(this._config.onDragEnterClass);
         }
-        this._elem.classList.remove(this._config.onDragOverClass);
-        this._elem.classList.remove(this._config.onDragEnterClass);
     }
 }

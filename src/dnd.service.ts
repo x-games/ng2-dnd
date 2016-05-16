@@ -24,6 +24,7 @@ export class DragDropService {
 export class DragDropSortableService {
     index: number;
     sortableData: Array<any>;
+    isDragged: boolean;
 
     private _elem: HTMLElement;
     public get elem(): HTMLElement {
