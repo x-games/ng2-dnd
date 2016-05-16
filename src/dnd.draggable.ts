@@ -15,7 +15,7 @@ export class DraggableComponent extends AbstractComponent {
     @Input("dragEnabled") set draggable(value:boolean) {
         this.dragEnabled = !!value;
     }
-  
+
     /**
      * The data that has to be dragged. It can be any JS object
      */
@@ -26,18 +26,28 @@ export class DraggableComponent extends AbstractComponent {
      * It is activated after the on-drop-success callback
      */
     @Output("onDragSuccess") onDragSuccessCallback: EventEmitter<any> = new EventEmitter<any>();
-    
+
     @Input("dropZones") set dropzones(value:Array<string>) {
         this.dropZones = value;
     }
-    
+
+    /**
+     * Drag allowed effect
+     */
     @Input("effectAllowed") set effectallowed(value: string) {
         this.effectAllowed = value;
     }
 
-    constructor(elemRef: ElementRef, dragDropService: DragDropService, config:DragDropConfig, 
+    /**
+     * Drag effect cursor
+     */
+    @Input("effectCursor") set effectcursor(value: string) {
+        this.effectCursor = value;
+    }
+
+    constructor(elemRef: ElementRef, dragDropService: DragDropService, config:DragDropConfig,
         cdr:ChangeDetectorRef) {
-            
+
         super(elemRef, dragDropService, config, cdr);
         this._defaultCursor = this._elem.style.cursor;
         this.dragEnabled = true;

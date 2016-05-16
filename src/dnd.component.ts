@@ -19,19 +19,24 @@ export abstract class AbstractComponent {
     private _dragEnabled: boolean = false;
     set dragEnabled(enabled: boolean) {
         this._dragEnabled = !!enabled;
-        //
         this._elem.draggable = this._dragEnabled;
-        if (this._config.dragCursor != null) {
-            this._elem.style.cursor = this._dragEnabled ? this._config.dragCursor : this._defaultCursor;
-        }
     }
     get dragEnabled(): boolean {
         return this._dragEnabled
     }
 
+    /**
+     * Allows drop on this element
+     */
     dropEnabled: boolean = false;
-    
+    /**
+     * Drag effect
+     */
     effectAllowed: string;
+    /**
+     * Drag cursor
+     */
+    effectCursor: string;
 
     /**
     * Array of Strings. It permits to specify the drop zones associated with this component.
@@ -45,7 +50,9 @@ export abstract class AbstractComponent {
 
         this._elem = elemRef.nativeElement;
         this.dragEnabled = true;
-        //drop events
+        //
+        // DROP events
+        //
         this._elem.ondragenter = (event: Event) => {
             this._onDragEnter(event);
         };
@@ -64,30 +71,40 @@ export abstract class AbstractComponent {
         this._elem.ondrop = (event: Event) => {
             this._onDrop(event);
         };
-
-        //drag events
+        //
+        // Drag events
+        //
         this._elem.ondragstart = (event: DragEvent) => {
             // console.log('ondragstart', event.target);
             this._onDragStart(event);
             //
             if (event.dataTransfer != null) {
-                event.dataTransfer.effectAllowed = this.effectAllowed || this._config.dragEffect.name;
                 event.dataTransfer.setData('text', '');
-
+                // Change drag effect
+                event.dataTransfer.effectAllowed = this.effectAllowed || this._config.dragEffect.name;
+                // Change drag image
                 if (this._config.dragImage != null) {
                     let dragImage: DragImage = this._config.dragImage;
                     (<any>event.dataTransfer).setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
+                }
+                // Change drag cursor
+                if (this._dragEnabled) {
+                    this._elem.style.cursor = this.effectCursor ? this.effectCursor : this._config.dragCursor;
+                } else {
+                    this._elem.style.cursor = this._defaultCursor;
                 }
             }
         };
         this._elem.ondragend = (event: Event) => {
             // console.log('ondragend', event.target);
             this._onDragEnd(event);
+            // Restore style of dragged element
+            this._elem.style.cursor = this._defaultCursor;
         };
     }
-    
+
     /******* Change detection ******/
-    
+
     detectChanges() {
         // Programmatically run change detection to fix issue in Safari
         setTimeout(() => {

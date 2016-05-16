@@ -63,6 +63,13 @@ System.registerDynamic("src/dnd.draggable", ["@angular/core", "./dnd.component",
       enumerable: true,
       configurable: true
     });
+    Object.defineProperty(DraggableComponent.prototype, "effectcursor", {
+      set: function(value) {
+        this.effectCursor = value;
+      },
+      enumerable: true,
+      configurable: true
+    });
     DraggableComponent.prototype._onDragStartCallback = function(event) {
       this._dragDropService.isDragged = true;
       this._dragDropService.dragData = this.dragData;
@@ -80,6 +87,7 @@ System.registerDynamic("src/dnd.draggable", ["@angular/core", "./dnd.component",
     __decorate([core_2.Output("onDragSuccess"), __metadata('design:type', core_2.EventEmitter)], DraggableComponent.prototype, "onDragSuccessCallback", void 0);
     __decorate([core_2.Input("dropZones"), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], DraggableComponent.prototype, "dropzones", null);
     __decorate([core_2.Input("effectAllowed"), __metadata('design:type', String), __metadata('design:paramtypes', [String])], DraggableComponent.prototype, "effectallowed", null);
+    __decorate([core_2.Input("effectCursor"), __metadata('design:type', String), __metadata('design:paramtypes', [String])], DraggableComponent.prototype, "effectcursor", null);
     DraggableComponent = __decorate([core_2.Directive({selector: '[dnd-draggable]'}), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, core_1.ChangeDetectorRef])], DraggableComponent);
     return DraggableComponent;
   }(dnd_component_1.AbstractComponent));
@@ -154,6 +162,13 @@ System.registerDynamic("src/dnd.droppable", ["@angular/core", "./dnd.component",
       enumerable: true,
       configurable: true
     });
+    Object.defineProperty(DroppableComponent.prototype, "effectcursor", {
+      set: function(value) {
+        this.effectCursor = value;
+      },
+      enumerable: true,
+      configurable: true
+    });
     DroppableComponent.prototype._onDragEnterCallback = function(event) {
       if (this._dragDropService.isDragged) {
         this._elem.classList.add(this._config.onDragEnterClass);
@@ -207,6 +222,7 @@ System.registerDynamic("src/dnd.droppable", ["@angular/core", "./dnd.component",
     __decorate([core_2.Output(), __metadata('design:type', core_2.EventEmitter)], DroppableComponent.prototype, "onDragLeave", void 0);
     __decorate([core_2.Input("dropZones"), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], DroppableComponent.prototype, "dropzones", null);
     __decorate([core_2.Input("effectAllowed"), __metadata('design:type', String), __metadata('design:paramtypes', [String])], DroppableComponent.prototype, "effectallowed", null);
+    __decorate([core_2.Input("effectCursor"), __metadata('design:type', String), __metadata('design:paramtypes', [String])], DroppableComponent.prototype, "effectcursor", null);
     DroppableComponent = __decorate([core_2.Directive({selector: '[dnd-droppable]'}), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, core_1.ChangeDetectorRef])], DroppableComponent);
     return DroppableComponent;
   }(dnd_component_1.AbstractComponent));
@@ -338,6 +354,13 @@ System.registerDynamic("src/dnd.sortable", ["@angular/core", "./dnd.component", 
       enumerable: true,
       configurable: true
     });
+    Object.defineProperty(SortableComponent.prototype, "effectcursor", {
+      set: function(value) {
+        this.effectCursor = value;
+      },
+      enumerable: true,
+      configurable: true
+    });
     SortableComponent.prototype._onDragStartCallback = function(event) {
       this._sortableDataService.isDragged = true;
       this._sortableDataService.sortableData = this._sortableContainer.sortableData;
@@ -391,6 +414,7 @@ System.registerDynamic("src/dnd.sortable", ["@angular/core", "./dnd.component", 
     __decorate([core_2.Input("dropEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], SortableComponent.prototype, "droppable", null);
     __decorate([core_2.Input(), __metadata('design:type', Object)], SortableComponent.prototype, "dragData", void 0);
     __decorate([core_2.Input("effectAllowed"), __metadata('design:type', String), __metadata('design:paramtypes', [String])], SortableComponent.prototype, "effectallowed", null);
+    __decorate([core_2.Input("effectCursor"), __metadata('design:type', String), __metadata('design:paramtypes', [String])], SortableComponent.prototype, "effectcursor", null);
     __decorate([core_2.Output("onDragSuccess"), __metadata('design:type', core_2.EventEmitter)], SortableComponent.prototype, "onDragSuccessCallback", void 0);
     __decorate([core_2.Output("onDragStart"), __metadata('design:type', core_2.EventEmitter)], SortableComponent.prototype, "onDragStartCallback", void 0);
     __decorate([core_2.Output("onDragOver"), __metadata('design:type', core_2.EventEmitter)], SortableComponent.prototype, "onDragOverCallback", void 0);
@@ -587,16 +611,22 @@ System.registerDynamic("src/dnd.component", ["@angular/core", "./dnd.config", ".
       this._elem.ondragstart = function(event) {
         _this._onDragStart(event);
         if (event.dataTransfer != null) {
-          event.dataTransfer.effectAllowed = _this.effectAllowed || _this._config.dragEffect.name;
           event.dataTransfer.setData('text', '');
+          event.dataTransfer.effectAllowed = _this.effectAllowed || _this._config.dragEffect.name;
           if (_this._config.dragImage != null) {
             var dragImage = _this._config.dragImage;
             event.dataTransfer.setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
+          }
+          if (_this._dragEnabled) {
+            _this._elem.style.cursor = _this.effectCursor ? _this.effectCursor : _this._config.dragCursor;
+          } else {
+            _this._elem.style.cursor = _this._defaultCursor;
           }
         }
       };
       this._elem.ondragend = function(event) {
         _this._onDragEnd(event);
+        _this._elem.style.cursor = _this._defaultCursor;
       };
     }
     Object.defineProperty(AbstractComponent.prototype, "dragEnabled", {
@@ -606,9 +636,6 @@ System.registerDynamic("src/dnd.component", ["@angular/core", "./dnd.config", ".
       set: function(enabled) {
         this._dragEnabled = !!enabled;
         this._elem.draggable = this._dragEnabled;
-        if (this._config.dragCursor != null) {
-          this._elem.style.cursor = this._dragEnabled ? this._config.dragCursor : this._defaultCursor;
-        }
       },
       enumerable: true,
       configurable: true

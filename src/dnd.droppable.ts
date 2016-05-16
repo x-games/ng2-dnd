@@ -29,8 +29,18 @@ export class DroppableComponent extends AbstractComponent {
         this.dropZones = value;
     }
 
+    /**
+     * Drag allowed effect
+     */
     @Input("effectAllowed") set effectallowed(value: string) {
         this.effectAllowed = value;
+    }
+
+    /**
+     * Drag effect cursor
+     */
+    @Input("effectCursor") set effectcursor(value: string) {
+        this.effectCursor = value;
     }
 
     constructor(elemRef: ElementRef, dragDropService: DragDropService, config:DragDropConfig,

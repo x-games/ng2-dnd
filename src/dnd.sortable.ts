@@ -79,8 +79,18 @@ export class SortableComponent extends AbstractComponent {
      */
     @Input() dragData: any;
 
+    /**
+     * Drag allowed effect
+     */
     @Input("effectAllowed") set effectallowed(value: string) {
         this.effectAllowed = value;
+    }
+
+    /**
+     * Drag effect cursor
+     */
+    @Input("effectCursor") set effectcursor(value: string) {
+        this.effectCursor = value;
     }
 
     /**
