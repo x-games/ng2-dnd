@@ -226,6 +226,92 @@ export class AppComponent {
 }
 ```
 
+# Use a custom function to determine where dropping is allowed
+For use-cases when a static set of `dropZone`s is not possible, a custom
+function can be used to dynamically determine whether an item can be dropped or
+not. To achieve that, set the `allowDrop` property to this boolean function.
+
+In the following example, we have two containers that only accept numbers that
+are multiples of a user-input base integer. `dropZone`s are not helpful here
+because they are static, whereas the user input is dynamic.
+
+```js
+import {Component} from '@angular/core';
+import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
+import {bootstrap} from '@angular/platform-browser-dynamic';
+
+bootstrap(AppComponent, [
+    DND_PROVIDERS // It is required to have 1 unique instance of your service
+]);
+
+@Component({
+    selector: 'app',
+    directives: [DND_DIRECTIVES],
+    template: `
+<h4>Use a custom function to determine where dropping is allowed</h4>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-success">
+            <div class="panel-heading">Available to drag</div>
+            <div class="panel-body">
+                <div class="panel panel-default" dnd-draggable [dragData]="6">
+                    <div class="panel-body">dragData = 6</div>
+                </div>
+                <div class="panel panel-default" dnd-draggable [dragData]="10">
+                    <div class="panel-body">dragData = 10</div>
+                </div>
+                <div class="panel panel-default" dnd-draggable [dragData]="30">
+                    <div class="panel-body">dragData = 30</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <pre>allowDropFunction(baseInteger) {
+    return (dragData) => dragData % baseInteger === 0;
+}</pre>
+        <div class="row">
+            <div class="col-sm-6">
+                <div dnd-droppable class="panel panel-info" [allowDrop]="allowDropFunction(box1Integer)">
+                    <div class="panel-heading">
+                        Multiples of
+                        <input type="number" [(ngModel)]="box1Integer" style="width: 4em">
+                        only
+                    </div>
+                    <div class="panel-body">
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div dnd-droppable class="panel panel-warning" [allowDrop]="allowDropFunction(box2Integer)">
+                    <div class="panel-heading">
+                        Multiples of
+                        <input type="number" [(ngModel)]="box2Integer" style="width: 4em">
+                        only
+                    </div>
+                    <div class="panel-body">
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+`
+})
+export class AppComponent {
+    box1Integer: number = 3;
+    box2Integer: number = 10;
+
+    allowDropFunction(baseInteger): boolean {
+        return (dragData) => dragData % baseInteger === 0;
+    }
+}
+```
+
 # Complex example (includes all shown above) with Drag-and-Drop
 Here is an example of shopping backet with products adding via drag and drop operation:
 

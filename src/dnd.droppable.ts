@@ -25,6 +25,10 @@ export class DroppableComponent extends AbstractComponent {
     @Output() onDragOver: EventEmitter<DragDropData> = new EventEmitter<DragDropData>();
     @Output() onDragLeave: EventEmitter<DragDropData> = new EventEmitter<DragDropData>();
 
+    @Input("allowDrop") set allowdrop(value: (dropData: any) => boolean) {
+        this.allowDrop = value;
+    }
+
     @Input("dropZones") set dropzones(value:Array<string>) {
         this.dropZones = value;
     }

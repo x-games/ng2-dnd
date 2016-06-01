@@ -39,10 +39,21 @@ export abstract class AbstractComponent {
     effectCursor: string;
 
     /**
-    * Array of Strings. It permits to specify the drop zones associated with this component.
-    * By default, if the drop-zones attribute is not specified, the droppable component accepts
-    * drop operations by all the draggable components that do not specify the allowed-drop-zones
-    */
+     * Restrict places where a draggable element can be dropped. Either one of
+     * these two mechanisms can be used:
+     *
+     * - dropZones: an array of strings that permits to specify the drop zones
+     *   associated with this component. By default, if the drop-zones attribute
+     *   is not specified, the droppable component accepts drop operations by
+     *   all the draggable components that do not specify the allowed-drop-zones
+     *
+     * - allowDrop: a boolean function for droppable components, that is checked
+     *   when an item is dragged. The function is passed the dragData of this
+     *   item.
+     *   - if it returns true, the item can be dropped in this component
+     *   - if it returns false, the item cannot be dropped here
+     */
+    allowDrop: (dropData: any) => boolean;
     dropZones: string[] = [];
 
     constructor(elemRef: ElementRef, public _dragDropService: DragDropService, public _config: DragDropConfig,
@@ -163,6 +174,13 @@ export abstract class AbstractComponent {
 
     private get _isDropAllowed(): boolean {
         if (this._dragDropService.isDragged && this.dropEnabled) {
+            // First, if `allowDrop` is set, call it to determine whether the
+            // dragged element can be dropped here.
+            if (this.allowDrop) {
+                return this.allowDrop(this._dragDropService.dragData);
+            }
+
+            // Otherwise, use dropZones if they are set.
             if (this.dropZones.length === 0 && this._dragDropService.allowedDropZones.length === 0) {
                 return true;
             }
