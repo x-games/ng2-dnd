@@ -148,6 +148,13 @@ System.registerDynamic("src/dnd.droppable", ["@angular/core", "./dnd.component",
       enumerable: true,
       configurable: true
     });
+    Object.defineProperty(DroppableComponent.prototype, "allowdrop", {
+      set: function(value) {
+        this.allowDrop = value;
+      },
+      enumerable: true,
+      configurable: true
+    });
     Object.defineProperty(DroppableComponent.prototype, "dropzones", {
       set: function(value) {
         this.dropZones = value;
@@ -220,6 +227,7 @@ System.registerDynamic("src/dnd.droppable", ["@angular/core", "./dnd.component",
     __decorate([core_2.Output(), __metadata('design:type', core_2.EventEmitter)], DroppableComponent.prototype, "onDragEnter", void 0);
     __decorate([core_2.Output(), __metadata('design:type', core_2.EventEmitter)], DroppableComponent.prototype, "onDragOver", void 0);
     __decorate([core_2.Output(), __metadata('design:type', core_2.EventEmitter)], DroppableComponent.prototype, "onDragLeave", void 0);
+    __decorate([core_2.Input("allowDrop"), __metadata('design:type', Function), __metadata('design:paramtypes', [Function])], DroppableComponent.prototype, "allowdrop", null);
     __decorate([core_2.Input("dropZones"), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], DroppableComponent.prototype, "dropzones", null);
     __decorate([core_2.Input("effectAllowed"), __metadata('design:type', String), __metadata('design:paramtypes', [String])], DroppableComponent.prototype, "effectallowed", null);
     __decorate([core_2.Input("effectCursor"), __metadata('design:type', String), __metadata('design:paramtypes', [String])], DroppableComponent.prototype, "effectcursor", null);
@@ -679,6 +687,9 @@ System.registerDynamic("src/dnd.component", ["@angular/core", "./dnd.config", ".
     Object.defineProperty(AbstractComponent.prototype, "_isDropAllowed", {
       get: function() {
         if (this._dragDropService.isDragged && this.dropEnabled) {
+          if (this.allowDrop) {
+            return this.allowDrop(this._dragDropService.dragData);
+          }
           if (this.dropZones.length === 0 && this._dragDropService.allowedDropZones.length === 0) {
             return true;
           }
