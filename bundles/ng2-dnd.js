@@ -77,14 +77,20 @@ System.registerDynamic("src/dnd.draggable", ["@angular/core", "./dnd.component",
       this._dragDropService.dragData = this.dragData;
       this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
       this._elem.classList.add(this._config.onDragStartClass);
-      this.onDragStart.emit(this.dragData);
+      this.onDragStart.emit({
+        dragData: this.dragData,
+        mouseEvent: event
+      });
     };
     DraggableComponent.prototype._onDragEndCallback = function(event) {
       this._dragDropService.isDragged = false;
       this._dragDropService.dragData = null;
       this._dragDropService.onDragSuccessCallback = null;
       this._elem.classList.remove(this._config.onDragStartClass);
-      this.onDragEnd.emit(this.dragData);
+      this.onDragEnd.emit({
+        dragData: this.dragData,
+        mouseEvent: event
+      });
     };
     __decorate([core_2.Input("dragEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], DraggableComponent.prototype, "draggable", null);
     __decorate([core_2.Output(), __metadata('design:type', core_2.EventEmitter)], DraggableComponent.prototype, "onDragStart", void 0);
