@@ -60,7 +60,6 @@ export abstract class AbstractComponent {
         private _cdr: ChangeDetectorRef) {
 
         this._elem = elemRef.nativeElement;
-        this.dragEnabled = true;
         //
         // DROP events
         //

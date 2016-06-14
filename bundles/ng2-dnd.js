@@ -38,6 +38,8 @@ System.registerDynamic("src/dnd.draggable", ["@angular/core", "./dnd.component",
     __extends(DraggableComponent, _super);
     function DraggableComponent(elemRef, dragDropService, config, cdr) {
       _super.call(this, elemRef, dragDropService, config, cdr);
+      this.onDragStart = new core_2.EventEmitter();
+      this.onDragEnd = new core_2.EventEmitter();
       this.onDragSuccessCallback = new core_2.EventEmitter();
       this._defaultCursor = this._elem.style.cursor;
       this.dragEnabled = true;
@@ -75,14 +77,18 @@ System.registerDynamic("src/dnd.draggable", ["@angular/core", "./dnd.component",
       this._dragDropService.dragData = this.dragData;
       this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
       this._elem.classList.add(this._config.onDragStartClass);
+      this.onDragStart.emit(this.dragData);
     };
     DraggableComponent.prototype._onDragEndCallback = function(event) {
       this._dragDropService.isDragged = false;
       this._dragDropService.dragData = null;
       this._dragDropService.onDragSuccessCallback = null;
       this._elem.classList.remove(this._config.onDragStartClass);
+      this.onDragEnd.emit(this.dragData);
     };
     __decorate([core_2.Input("dragEnabled"), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], DraggableComponent.prototype, "draggable", null);
+    __decorate([core_2.Output(), __metadata('design:type', core_2.EventEmitter)], DraggableComponent.prototype, "onDragStart", void 0);
+    __decorate([core_2.Output(), __metadata('design:type', core_2.EventEmitter)], DraggableComponent.prototype, "onDragEnd", void 0);
     __decorate([core_2.Input(), __metadata('design:type', Object)], DraggableComponent.prototype, "dragData", void 0);
     __decorate([core_2.Output("onDragSuccess"), __metadata('design:type', core_2.EventEmitter)], DraggableComponent.prototype, "onDragSuccessCallback", void 0);
     __decorate([core_2.Input("dropZones"), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], DraggableComponent.prototype, "dropzones", null);
@@ -600,7 +606,6 @@ System.registerDynamic("src/dnd.component", ["@angular/core", "./dnd.config", ".
       this.dropEnabled = false;
       this.dropZones = [];
       this._elem = elemRef.nativeElement;
-      this.dragEnabled = true;
       this._elem.ondragenter = function(event) {
         _this._onDragEnter(event);
       };

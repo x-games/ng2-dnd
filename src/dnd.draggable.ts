@@ -7,7 +7,7 @@ import {Directive, Input, Output, EventEmitter, ElementRef} from '@angular/core'
 
 import {AbstractComponent} from './dnd.component';
 import {DragDropConfig} from './dnd.config';
-import {DragDropService} from './dnd.service';
+import {DragDropService, DragDropData} from './dnd.service';
 
 @Directive({ selector: '[dnd-draggable]' })
 export class DraggableComponent extends AbstractComponent {
@@ -15,6 +15,12 @@ export class DraggableComponent extends AbstractComponent {
     @Input("dragEnabled") set draggable(value:boolean) {
         this.dragEnabled = !!value;
     }
+
+    /**
+     * Callback function called when the drag actions happened.
+     */
+    @Output() onDragStart: EventEmitter<DragDropData> = new EventEmitter<DragDropData>();
+    @Output() onDragEnd: EventEmitter<DragDropData> = new EventEmitter<DragDropData>();
 
     /**
      * The data that has to be dragged. It can be any JS object
@@ -58,6 +64,8 @@ export class DraggableComponent extends AbstractComponent {
         this._dragDropService.dragData = this.dragData;
         this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
         this._elem.classList.add(this._config.onDragStartClass);
+        //
+        this.onDragStart.emit({dragData: this.dragData, mouseEvent: event});
     }
 
     _onDragEndCallback(event: Event) {
@@ -65,5 +73,7 @@ export class DraggableComponent extends AbstractComponent {
         this._dragDropService.dragData = null;
         this._dragDropService.onDragSuccessCallback = null;
         this._elem.classList.remove(this._config.onDragStartClass);
+        //
+        this.onDragEnd.emit({dragData: this.dragData, mouseEvent: event});
     }
 }
