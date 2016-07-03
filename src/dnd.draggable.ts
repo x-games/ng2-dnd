@@ -6,7 +6,7 @@ import {Injectable, ChangeDetectorRef} from '@angular/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from '@angular/core';
 
 import {AbstractComponent} from './dnd.component';
-import {DragDropConfig} from './dnd.config';
+import {DragDropConfig, DragImage} from './dnd.config';
 import {DragDropService, DragDropData} from './dnd.service';
 
 @Directive({ selector: '[dnd-draggable]' })
@@ -50,6 +50,31 @@ export class DraggableComponent extends AbstractComponent {
     @Input("effectCursor") set effectcursor(value: string) {
         this.effectCursor = value;
     }
+
+    /**
+     * Here is the property dragImage you can use:
+     * - The string value as url to the image
+     *   <div class="panel panel-default"
+     *        dnd-draggable [dragEnabled]="true"
+     *        [dragImage]="/images/simpler.png">
+     * ...
+     * - The DragImage value with Image and offset by x and y:
+     *   let myDragImage: DragImage = new DragImage("/images/simpler1.png", 0, 0);
+     * ...
+     *   <div class="panel panel-default"
+     *        dnd-draggable [dragEnabled]="true"
+     *        [dragImage]="myDragImage">
+     * ...
+     * - The custom function to return the value of dragImage programmatically:
+     *   <div class="panel panel-default"
+     *        dnd-draggable [dragEnabled]="true"
+     *        [dragImage]="getDragImage(someData)">
+     * ...
+     *   getDragImage(value:any): string {
+     *     return value ? "/images/simpler1.png" : "/images/simpler2.png"
+     *   }
+     */
+    @Input() dragImage: string | DragImage | Function;
 
     constructor(elemRef: ElementRef, dragDropService: DragDropService, config:DragDropConfig,
         cdr:ChangeDetectorRef) {

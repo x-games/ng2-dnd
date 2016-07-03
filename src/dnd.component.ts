@@ -7,6 +7,7 @@ import {Directive, Input, Output, EventEmitter, ElementRef} from '@angular/core'
 
 import {DragDropConfig, DragImage} from './dnd.config';
 import {DragDropService} from './dnd.service';
+import {isString, isFunction, isPresent, createImage, callFun} from './dnd.utils';
 
 @Injectable()
 export abstract class AbstractComponent {
@@ -56,6 +57,31 @@ export abstract class AbstractComponent {
     allowDrop: (dropData: any) => boolean;
     dropZones: string[] = [];
 
+    /**
+     * Here is the property dragImage you can use:
+     * - The string value as url to the image
+     *   <div class="panel panel-default"
+     *        dnd-draggable [dragEnabled]="true"
+     *        [dragImage]="/images/simpler.png">
+     * ...
+     * - The DragImage value with Image and optional offset by x and y:
+     *   let myDragImage: DragImage = new DragImage("/images/simpler1.png", 0, 0);
+     * ...
+     *   <div class="panel panel-default"
+     *        dnd-draggable [dragEnabled]="true"
+     *        [dragImage]="myDragImage">
+     * ...
+     * - The custom function to return the value of dragImage programmatically:
+     *   <div class="panel panel-default"
+     *        dnd-draggable [dragEnabled]="true"
+     *        [dragImage]="getDragImage(someData)">
+     * ...
+     *   getDragImage(value:any): string {
+     *     return value ? "/images/simpler1.png" : "/images/simpler2.png"
+     *   }
+     */
+    dragImage: string | DragImage | Function;
+
     constructor(elemRef: ElementRef, public _dragDropService: DragDropService, public _config: DragDropConfig,
         private _cdr: ChangeDetectorRef) {
 
@@ -93,7 +119,16 @@ export abstract class AbstractComponent {
                 // Change drag effect
                 event.dataTransfer.effectAllowed = this.effectAllowed || this._config.dragEffect.name;
                 // Change drag image
-                if (this._config.dragImage != null) {
+                if (isPresent(this.dragImage)) {
+                    if (isString(this.dragImage)) {
+                        (<any>event.dataTransfer).setDragImage(createImage(<string>this.dragImage));
+                    } else if (isFunction(this.dragImage)) {
+                        (<any>event.dataTransfer).setDragImage(callFun(<Function>this.dragImage));
+                    } else {
+                        let img: DragImage = <DragImage>this.dragImage;
+                        (<any>event.dataTransfer).setDragImage(img.imageElement, img.x_offset, img.y_offset);
+                    }
+                } else if (isPresent(this._config.dragImage)) {
                     let dragImage: DragImage = this._config.dragImage;
                     (<any>event.dataTransfer).setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
                 }

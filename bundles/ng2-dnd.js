@@ -100,6 +100,7 @@ System.registerDynamic("src/dnd.draggable", ["@angular/core", "./dnd.component",
     __decorate([core_2.Input("dropZones"), __metadata('design:type', Array), __metadata('design:paramtypes', [Array])], DraggableComponent.prototype, "dropzones", null);
     __decorate([core_2.Input("effectAllowed"), __metadata('design:type', String), __metadata('design:paramtypes', [String])], DraggableComponent.prototype, "effectallowed", null);
     __decorate([core_2.Input("effectCursor"), __metadata('design:type', String), __metadata('design:paramtypes', [String])], DraggableComponent.prototype, "effectcursor", null);
+    __decorate([core_2.Input(), __metadata('design:type', Object)], DraggableComponent.prototype, "dragImage", void 0);
     DraggableComponent = __decorate([core_2.Directive({selector: '[dnd-draggable]'}), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, core_1.ChangeDetectorRef])], DraggableComponent);
     return DraggableComponent;
   }(dnd_component_1.AbstractComponent));
@@ -448,7 +449,7 @@ System.registerDynamic("src/dnd.sortable", ["@angular/core", "./dnd.component", 
   return module.exports;
 });
 
-System.registerDynamic("src/dnd.config", ["@angular/core"], true, function($__require, exports, module) {
+System.registerDynamic("src/dnd.config", ["@angular/core", "./dnd.utils"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -471,6 +472,7 @@ System.registerDynamic("src/dnd.config", ["@angular/core"], true, function($__re
       return Reflect.metadata(k, v);
   };
   var core_1 = $__require('@angular/core');
+  var dnd_utils_1 = $__require('./dnd.utils');
   var DataTransferEffect = (function() {
     function DataTransferEffect(name) {
       this.name = name;
@@ -494,8 +496,13 @@ System.registerDynamic("src/dnd.config", ["@angular/core"], true, function($__re
       this.imageElement = imageElement;
       this.x_offset = x_offset;
       this.y_offset = y_offset;
+      if (dnd_utils_1.isString(this.imageElement)) {
+        var imgScr = this.imageElement;
+        this.imageElement = new HTMLImageElement();
+        this.imageElement.src = imgScr;
+      }
     }
-    DragImage = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [HTMLElement, Number, Number])], DragImage);
+    DragImage = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [Object, Number, Number])], DragImage);
     return DragImage;
   }());
   exports.DragImage = DragImage;
@@ -516,7 +523,7 @@ System.registerDynamic("src/dnd.config", ["@angular/core"], true, function($__re
   return module.exports;
 });
 
-System.registerDynamic("src/dnd.service", ["@angular/core", "@angular/common/src/facade/lang", "./dnd.config"], true, function($__require, exports, module) {
+System.registerDynamic("src/dnd.service", ["@angular/core", "./dnd.config", "./dnd.utils"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -539,8 +546,8 @@ System.registerDynamic("src/dnd.service", ["@angular/core", "@angular/common/src
       return Reflect.metadata(k, v);
   };
   var core_1 = $__require('@angular/core');
-  var lang_1 = $__require('@angular/common/src/facade/lang');
   var dnd_config_1 = $__require('./dnd.config');
+  var dnd_utils_1 = $__require('./dnd.utils');
   var DragDropService = (function() {
     function DragDropService() {
       this.allowedDropZones = [];
@@ -561,10 +568,10 @@ System.registerDynamic("src/dnd.service", ["@angular/core", "@angular/common/src
       configurable: true
     });
     DragDropSortableService.prototype.markSortable = function(elem) {
-      if (lang_1.isPresent(this._elem)) {
+      if (dnd_utils_1.isPresent(this._elem)) {
         this._elem.classList.remove(this._config.onSortableDragClass);
       }
-      if (lang_1.isPresent(elem)) {
+      if (dnd_utils_1.isPresent(elem)) {
         this._elem = elem;
         this._elem.classList.add(this._config.onSortableDragClass);
       }
@@ -576,7 +583,38 @@ System.registerDynamic("src/dnd.service", ["@angular/core", "@angular/common/src
   return module.exports;
 });
 
-System.registerDynamic("src/dnd.component", ["@angular/core", "./dnd.config", "./dnd.service"], true, function($__require, exports, module) {
+System.registerDynamic("src/dnd.utils", [], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var define,
+      global = this,
+      GLOBAL = this;
+  function isString(obj) {
+    return typeof obj === "string";
+  }
+  exports.isString = isString;
+  function isPresent(obj) {
+    return obj !== undefined && obj !== null;
+  }
+  exports.isPresent = isPresent;
+  function isFunction(obj) {
+    return typeof obj === "function";
+  }
+  exports.isFunction = isFunction;
+  function createImage(src) {
+    var img = new HTMLImageElement();
+    img.src = src;
+    return img;
+  }
+  exports.createImage = createImage;
+  function callFun(fun) {
+    return fun();
+  }
+  exports.callFun = callFun;
+  return module.exports;
+});
+
+System.registerDynamic("src/dnd.component", ["@angular/core", "./dnd.config", "./dnd.service", "./dnd.utils"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -602,6 +640,7 @@ System.registerDynamic("src/dnd.component", ["@angular/core", "./dnd.config", ".
   var core_2 = $__require('@angular/core');
   var dnd_config_1 = $__require('./dnd.config');
   var dnd_service_1 = $__require('./dnd.service');
+  var dnd_utils_1 = $__require('./dnd.utils');
   var AbstractComponent = (function() {
     function AbstractComponent(elemRef, _dragDropService, _config, _cdr) {
       var _this = this;
@@ -633,7 +672,16 @@ System.registerDynamic("src/dnd.component", ["@angular/core", "./dnd.config", ".
         if (event.dataTransfer != null) {
           event.dataTransfer.setData('text', '');
           event.dataTransfer.effectAllowed = _this.effectAllowed || _this._config.dragEffect.name;
-          if (_this._config.dragImage != null) {
+          if (dnd_utils_1.isPresent(_this.dragImage)) {
+            if (dnd_utils_1.isString(_this.dragImage)) {
+              event.dataTransfer.setDragImage(dnd_utils_1.createImage(_this.dragImage));
+            } else if (dnd_utils_1.isFunction(_this.dragImage)) {
+              event.dataTransfer.setDragImage(dnd_utils_1.callFun(_this.dragImage));
+            } else {
+              var img = _this.dragImage;
+              event.dataTransfer.setDragImage(img.imageElement, img.x_offset, img.y_offset);
+            }
+          } else if (dnd_utils_1.isPresent(_this._config.dragImage)) {
             var dragImage = _this._config.dragImage;
             event.dataTransfer.setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
           }
