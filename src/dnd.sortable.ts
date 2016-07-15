@@ -51,7 +51,7 @@ export class SortableContainer extends AbstractComponent {
                 // Remove item from previouse list
                 this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1);
                 // Add item to new list
-                this._sortableData.push(item);
+                this._sortableData.unshift(item);
                 this._sortableDataService.sortableData = this._sortableData;
                 this._sortableDataService.index = 0;
             }
