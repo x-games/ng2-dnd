@@ -101,6 +101,7 @@ System.registerDynamic("src/dnd.draggable", ["@angular/core", "./dnd.component",
     __decorate([core_2.Input("effectAllowed"), __metadata('design:type', String), __metadata('design:paramtypes', [String])], DraggableComponent.prototype, "effectallowed", null);
     __decorate([core_2.Input("effectCursor"), __metadata('design:type', String), __metadata('design:paramtypes', [String])], DraggableComponent.prototype, "effectcursor", null);
     __decorate([core_2.Input(), __metadata('design:type', Object)], DraggableComponent.prototype, "dragImage", void 0);
+    __decorate([core_2.Input(), __metadata('design:type', Boolean)], DraggableComponent.prototype, "cloneItem", void 0);
     DraggableComponent = __decorate([core_2.Directive({selector: '[dnd-draggable]'}), __metadata('design:paramtypes', [core_2.ElementRef, dnd_service_1.DragDropService, dnd_config_1.DragDropConfig, core_1.ChangeDetectorRef])], DraggableComponent);
     return DraggableComponent;
   }(dnd_component_1.AbstractComponent));
