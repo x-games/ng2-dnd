@@ -12,6 +12,7 @@ import {isString, isFunction, isPresent, createImage, callFun} from './dnd.utils
 @Injectable()
 export abstract class AbstractComponent {
     _elem: HTMLElement;
+    _dragHelper: HTMLElement;
     _defaultCursor: string;
 
     /**
@@ -82,6 +83,8 @@ export abstract class AbstractComponent {
      */
     dragImage: string | DragImage | Function;
 
+    cloneItem: boolean = false;
+
     constructor(elemRef: ElementRef, public _dragDropService: DragDropService, public _config: DragDropConfig,
         private _cdr: ChangeDetectorRef) {
 
@@ -131,6 +134,14 @@ export abstract class AbstractComponent {
                 } else if (isPresent(this._config.dragImage)) {
                     let dragImage: DragImage = this._config.dragImage;
                     (<any>event.dataTransfer).setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
+                } else if (this.cloneItem) {
+                    this._dragHelper = <HTMLElement>this._elem.cloneNode(true);
+                    this._dragHelper.classList.add('dnd-drag-item');
+                    this._dragHelper.style.position = "absolute";
+                    this._dragHelper.style.top = "0px";
+                    this._dragHelper.style.left = "-1000px";
+                    this._elem.parentElement.appendChild(this._dragHelper);
+                    (<any>event.dataTransfer).setDragImage(this._dragHelper, event.offsetX, event.offsetY);
                 }
                 // Change drag cursor
                 if (this._dragEnabled) {
@@ -141,6 +152,7 @@ export abstract class AbstractComponent {
             }
         };
         this._elem.ondragend = (event: Event) => {
+            this._elem.parentElement.removeChild(this._dragHelper);
             // console.log('ondragend', event.target);
             this._onDragEnd(event);
             // Restore style of dragged element

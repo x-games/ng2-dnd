@@ -651,6 +651,7 @@ System.registerDynamic("src/dnd.component", ["@angular/core", "./dnd.config", ".
       this._dragEnabled = false;
       this.dropEnabled = false;
       this.dropZones = [];
+      this.cloneItem = false;
       this._elem = elemRef.nativeElement;
       this._elem.ondragenter = function(event) {
         _this._onDragEnter(event);
@@ -685,6 +686,14 @@ System.registerDynamic("src/dnd.component", ["@angular/core", "./dnd.config", ".
           } else if (dnd_utils_1.isPresent(_this._config.dragImage)) {
             var dragImage = _this._config.dragImage;
             event.dataTransfer.setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
+          } else if (_this.cloneItem) {
+            _this._dragHelper = _this._elem.cloneNode(true);
+            _this._dragHelper.classList.add('dnd-drag-item');
+            _this._dragHelper.style.position = "absolute";
+            _this._dragHelper.style.top = "0px";
+            _this._dragHelper.style.left = "-1000px";
+            _this._elem.parentElement.appendChild(_this._dragHelper);
+            event.dataTransfer.setDragImage(_this._dragHelper, event.offsetX, event.offsetY);
           }
           if (_this._dragEnabled) {
             _this._elem.style.cursor = _this.effectCursor ? _this.effectCursor : _this._config.dragCursor;
@@ -694,6 +703,7 @@ System.registerDynamic("src/dnd.component", ["@angular/core", "./dnd.config", ".
         }
       };
       this._elem.ondragend = function(event) {
+        _this._elem.parentElement.removeChild(_this._dragHelper);
         _this._onDragEnd(event);
         _this._elem.style.cursor = _this._defaultCursor;
       };
