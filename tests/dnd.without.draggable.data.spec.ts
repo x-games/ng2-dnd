@@ -35,7 +35,6 @@ export function main() {
             return [TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS, TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS, DragDropConfig, DragDropService];
         });
 
-        // beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService], (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService) => {
         beforeEach(async(inject([TestComponentBuilder, DragDropConfig, DragDropService], (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService) => {
             dragdropService = dd;
             config = c;

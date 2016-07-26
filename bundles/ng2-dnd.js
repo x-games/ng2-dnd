@@ -326,7 +326,7 @@ System.registerDynamic("src/dnd.sortable", ["@angular/core", "./dnd.component", 
         var item = this._sortableDataService.sortableData[this._sortableDataService.index];
         if (this._sortableData.indexOf(item) === -1) {
           this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1);
-          this._sortableData.push(item);
+          this._sortableData.unshift(item);
           this._sortableDataService.sortableData = this._sortableData;
           this._sortableDataService.index = 0;
         }

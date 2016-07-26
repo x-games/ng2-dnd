@@ -42,7 +42,6 @@ export function main() {
             ];
         });
 
-        // beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
         beforeEach(async(inject([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
             (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService, ds: DragDropSortableService) => {
             dragdropService = dd;
