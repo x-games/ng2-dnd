@@ -76,6 +76,9 @@ export class DraggableComponent extends AbstractComponent {
      */
     @Input() dragImage: string | DragImage | Function;
 
+    
+    @Input() cloneItem: boolean;
+
     constructor(elemRef: ElementRef, dragDropService: DragDropService, config:DragDropConfig,
         cdr:ChangeDetectorRef) {
 

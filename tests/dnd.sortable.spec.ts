@@ -4,16 +4,13 @@ import {
     beforeEach,
     it,
     inject,
-    //injectAsync,
     beforeEachProviders,
     fakeAsync,
-    tick
+    tick,
+    ComponentFixture,
+    TestComponentBuilder,
+    async
 } from '@angular/core/testing';
-
-import {
-  TestComponentBuilder,
-  ComponentFixture
-} from '@angular/compiler/testing';
 
 import {TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS, TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS}
 from '@angular/platform-browser-dynamic/testing';
@@ -32,25 +29,32 @@ export function main() {
         let componentFixture: ComponentFixture<any>;
         let dragdropService: DragDropService;
         let config: DragDropConfig;
-        let container:Container3;
-        let sortableService:DragDropSortableService
+        let container: Container3;
+        let sortableService: DragDropSortableService;
 
         beforeEachProviders(() => {
-            return [TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS, TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS, DragDropConfig, DragDropService, DragDropSortableService];
+            return [
+                TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
+                TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS,
+                DragDropConfig,
+                DragDropService,
+                DragDropSortableService
+            ];
         });
 
         // beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
-        beforeEach(inject([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
+        beforeEach(async(inject([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
             (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService, ds: DragDropSortableService) => {
             dragdropService = dd;
             config = c;
             sortableService = ds;
-            return tcb.createAsync(Container3).then((cf: ComponentFixture<any>) => {
-                componentFixture = cf;
-                componentFixture.detectChanges();
-                container = <Container3>componentFixture.componentInstance;
-            });
-        }));
+            tcb.createAsync(Container3)
+                .then((cf: ComponentFixture<any>) => {
+                    componentFixture = cf;
+                    componentFixture.detectChanges();
+                    container = <Container3>componentFixture.componentInstance;
+                });
+        })));
 
         it('should be defined', () => {
             expect(componentFixture).toBeDefined();
@@ -138,7 +142,7 @@ export function main() {
         });
 
         // beforeEach(injectAsync([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
-        beforeEach(inject([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
+        beforeEach(async(inject([TestComponentBuilder, DragDropConfig, DragDropService, DragDropSortableService],
             (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService, ds: DragDropSortableService) => {
             dragdropService = dd;
             config = c;
@@ -148,7 +152,7 @@ export function main() {
                 componentFixture.detectChanges();
                 container = <Container4>componentFixture.componentInstance;
             });
-        }));
+        })));
 
         it('should be defined', () => {
             expect(componentFixture).toBeDefined();
