@@ -59,37 +59,37 @@ export function main() {
             done();
         });
 
-        // it('Drag events should add/remove the draggable data to/from the DragDropService', (done:any) => {
-        //     let dragElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragId');
+        it('Drag events should add/remove the draggable data to/from the DragDropService', (done:any) => {
+            let dragElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragId');
 
-        //     expect(dragdropService.dragData).not.toBeDefined();
+            expect(dragdropService.dragData).not.toBeDefined();
 
-        //     triggerEvent(dragElem, 'dragstart', 'MouseEvent');
-        //     componentFixture.detectChanges();
-        //     expect(dragdropService.dragData).toBeDefined();
+            triggerEvent(dragElem, 'dragstart', 'MouseEvent');
+            componentFixture.detectChanges();
+            expect(dragdropService.dragData).toBeDefined();
 
-        //     triggerEvent(dragElem, 'dragend', 'MouseEvent');
-        //     componentFixture.detectChanges();
-        //     expect(dragdropService.dragData).toBeNull();
+            triggerEvent(dragElem, 'dragend', 'MouseEvent');
+            componentFixture.detectChanges();
+            expect(dragdropService.dragData).toBeNull();
 
-        //     done();
-        // });
+            done();
+        });
 
-        // it('Drag events should add/remove the expected classes to the target element', (done:any) => {
-        //     let dragElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragId');
+        it('Drag events should add/remove the expected classes to the target element', (done:any) => {
+            let dragElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragId');
 
-        //     expect(dragElem.classList.contains(config.onDragStartClass)).toEqual(false);
+            expect(dragElem.classList.contains(config.onDragStartClass)).toEqual(false);
 
-        //     triggerEvent(dragElem, 'dragstart', 'MouseEvent');
-        //     componentFixture.detectChanges();
-        //     expect(dragElem.classList.contains(config.onDragStartClass)).toEqual(true);
+            triggerEvent(dragElem, 'dragstart', 'MouseEvent');
+            componentFixture.detectChanges();
+            expect(dragElem.classList.contains(config.onDragStartClass)).toEqual(true);
 
-        //     triggerEvent(dragElem, 'dragend', 'MouseEvent');
-        //     componentFixture.detectChanges();
-        //     expect(dragElem.classList.contains(config.onDragStartClass)).toEqual(false);
+            triggerEvent(dragElem, 'dragend', 'MouseEvent');
+            componentFixture.detectChanges();
+            expect(dragElem.classList.contains(config.onDragStartClass)).toEqual(false);
 
-        //     done();
-        // });
+            done();
+        });
 
         it('Drag start event should not be activated if drag is not enabled', (done:any) => {
             container.dragEnabled = false;
@@ -146,33 +146,33 @@ export function main() {
             done();
         });
 
-        // it('Drop event should activate the onDropSuccess and onDragSuccess callbacks', (done:any) => {
-        //     let dragElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragId');
-        //     let dropElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dropId');
+        it('Drop event should activate the onDropSuccess and onDragSuccess callbacks', (done:any) => {
+            let dragElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dragId');
+            let dropElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('#dropId');
 
-        //     let dragCount:number = 0, dropCount:number = 0;
-        //     container.drag.subscribe(($event:any) => {
-        //        dragCount++;
-        //     }, (error:any) => {}, () => {
-        //        // Here is a function called when stream is complete
-        //        expect(dragCount).toBe(0);
-        //     });
+            let dragCount:number = 0, dropCount:number = 0;
+            container.drag.subscribe(($event:any) => {
+               dragCount++;
+            }, (error:any) => {}, () => {
+               // Here is a function called when stream is complete
+               expect(dragCount).toBe(0);
+            });
 
-        //     container.drop.subscribe(($event:any) => {
-        //        dropCount++;
-        //     }, (error:any) => {}, () => {
-        //        // Here is a function called when stream is complete
-        //        expect(dropCount).toBe(0);
-        //     });
+            container.drop.subscribe(($event:any) => {
+               dropCount++;
+            }, (error:any) => {}, () => {
+               // Here is a function called when stream is complete
+               expect(dropCount).toBe(0);
+            });
 
-        //     triggerEvent(dragElem, 'dragstart', 'MouseEvent');
-        //     triggerEvent(dragElem, 'dragend', 'MouseEvent');
-        //     triggerEvent(dragElem, 'dragstart', 'MouseEvent');
-        //     triggerEvent(dropElem, 'drop', 'MouseEvent');
-        //     componentFixture.detectChanges();
+            triggerEvent(dragElem, 'dragstart', 'MouseEvent');
+            triggerEvent(dragElem, 'dragend', 'MouseEvent');
+            triggerEvent(dragElem, 'dragstart', 'MouseEvent');
+            triggerEvent(dropElem, 'drop', 'MouseEvent');
+            componentFixture.detectChanges();
 
-        //     done();
-        // });
+            done();
+        });
 
         it('The onDropSuccess callback should receive the dragged data as paramenter', (done: any) => {
             let dragData = {id: 1, name:'Hello'};

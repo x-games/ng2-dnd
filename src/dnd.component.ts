@@ -152,7 +152,9 @@ export abstract class AbstractComponent {
             }
         };
         this._elem.ondragend = (event: Event) => {
-            this._elem.parentElement.removeChild(this._dragHelper);
+            if (this._elem.parentElement && this._dragHelper) {
+                this._elem.parentElement.removeChild(this._dragHelper);
+            }
             // console.log('ondragend', event.target);
             this._onDragEnd(event);
             // Restore style of dragged element
