@@ -174,7 +174,7 @@ export abstract class AbstractComponent {
     //****** Droppable *******//
     private _onDragEnter(event: Event): void {
         // console.log('ondragenter._isDropAllowed', this._isDropAllowed);
-        if (this._isDropAllowed) {
+        if (this._isDropAllowed(event)) {
             // event.preventDefault();
             this._onDragEnterCallback(event);
         }
@@ -182,7 +182,7 @@ export abstract class AbstractComponent {
 
     private _onDragOver(event: Event) {
         // // console.log('ondragover._isDropAllowed', this._isDropAllowed);
-        if (this._isDropAllowed) {
+        if (this._isDropAllowed(event)) {
             // The element is over the same source element - do nothing
             if (event.preventDefault) {
                 // Necessary. Allows us to drop.
@@ -192,27 +192,20 @@ export abstract class AbstractComponent {
             this._onDragOverCallback(event);
         }
     }
-
+    
     private _onDragLeave(event: Event): void {
         // console.log('ondragleave._isDropAllowed', this._isDropAllowed);
-        if (this._isDropAllowed) {
+        if (this._isDropAllowed(event)) {
             // event.preventDefault();
             this._onDragLeaveCallback(event);
         }
     }
 
     private _onDrop(event: Event): void {
+        // Necessary. Allows us to drop.
+        this._preventAndStop(event);
         // console.log('ondrop._isDropAllowed', this._isDropAllowed);
-        if (this._isDropAllowed) {
-            if (event.preventDefault) {
-                // Necessary. Allows us to drop.
-                event.preventDefault();
-            }
-
-            if (event.stopPropagation) {
-                // Necessary. Allows us to drop.
-                event.stopPropagation();
-            }
+        if (this._isDropAllowed(event)) {            
 
             this._onDropCallback(event);
 
@@ -220,8 +213,8 @@ export abstract class AbstractComponent {
         }
     }
 
-    private get _isDropAllowed(): boolean {
-        if (this._dragDropService.isDragged && this.dropEnabled) {
+    private _isDropAllowed(event: any): boolean {
+        if ((this._dragDropService.isDragged || event.dataTransfer.files) && this.dropEnabled) {
             // First, if `allowDrop` is set, call it to determine whether the
             // dragged element can be dropped here.
             if (this.allowDrop) {
@@ -240,6 +233,15 @@ export abstract class AbstractComponent {
             }
         }
         return false;
+    }
+
+    private _preventAndStop(event: Event): any {
+        if (event.preventDefault) {
+            event.preventDefault();
+        }
+        if (event.stopPropagation) {
+            event.stopPropagation();
+        }
     }
 
     //*********** Draggable **********//
