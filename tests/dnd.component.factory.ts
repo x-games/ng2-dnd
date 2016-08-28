@@ -1,8 +1,8 @@
 import {Component, Input, Output, EventEmitter, ElementRef} from '@angular/core';
 
-import {DraggableComponent} from '../src/dnd.draggable';
-import {DroppableComponent} from '../src/dnd.droppable';
-import {SortableContainer, SortableComponent} from '../src/dnd.sortable';
+import {DraggableComponent} from '../src/draggable.component';
+import {DroppableComponent} from '../src/droppable.component';
+import {SortableContainer, SortableComponent} from '../src/sortable.component';
 
 export function triggerEvent(elem:HTMLElement, eventName:string, eventType:string) {
     var event:Event = document.createEvent(eventType);

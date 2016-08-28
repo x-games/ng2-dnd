@@ -9,13 +9,14 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/akopkokhyants.svg?st
 [![Dependency Status](https://david-dm.org/akserg/ng2-dnd.svg)](https://david-dm.org/akserg/ng2-dnd)
 [![devDependency Status](https://david-dm.org/akserg/ng2-dnd/dev-status.svg)](https://david-dm.org/akserg/ng2-dnd#info=devDependencies)
 
+_Some of these APIs and Components are not final and are subject to change!_
+
 ## Installation
 ```bash
 npm install ng2-dnd --save
 ```
 
 ## Demo
-
 Simple examples using ng2-dnd:
 - with SystemJS in [ng2-systemjs-demo](https://github.com/akserg/ng2-systemjs-demo)
 - with Webpack in [ng2-webpack-demo](https://github.com/akserg/ng2-webpack-demo)
@@ -35,24 +36,35 @@ System.config({
 });
 ```
 
+If you use SystemJS to load your files, you might have to update your config:
+
+```js
+System.config({
+    map: {
+        'ng2-dnd': 'node_modules/ng2-dnd'
+    },
+    packages: {
+        'ng2-dnd':  { main: 'index.js',  defaultExtension: 'js' },
+    }
+});
+```
+
 Finally, you can use *ng2-dnd* in your Angular 2 project:
-- Import `DND_PROVIDERS, DND_DIRECTIVES` from `ng2-dnd/ng2-dnd`;
-- Use `DND_PROVIDERS` in the bootstrap of your application;
+- Import `DND_PROVIDERS, DND_DIRECTIVES` from `ng2-dnd`;
+- Use `DND_PROVIDERS` in the `providers` property of your application component;
 - Add `DND_DIRECTIVES` to the `directives` property of your application component;
-- Use `dnd-draggable` and `dnd-droppable` properties in template of your components.
+- Use `dnd-draggable`, `dnd-droppable`, `dnd-sortable` and `dnd-sortable-container` properties in template of your components.
+- Inject style into your web page
 
 ```js
 import {Component} from '@angular/core';
-import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
-import {bootstrap} from '@angular/platform-browser-dynamic';
-
-bootstrap(AppComponent, [
-    DND_PROVIDERS // It is required to have 1 unique instance of your service
-]);
+import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
+import {bootstrap} from '@angular/platform/browser';
 
 @Component({
     selector: 'app',
     directives: [DND_DIRECTIVES],
+    providers: [DND_PROVIDERS]
     template: `
 <h4>Simple Drag-and-Drop</h4>
 <div class="row">
@@ -85,11 +97,9 @@ bootstrap(AppComponent, [
 </div>
 `
 })
-export class AppComponent {
+export class AppComponent { }
 
-    constructor() { }
-
-}
+bootstrap(AppComponent);
 ```
 
 # Restriction Drag-and-Drop operations with drop zones
@@ -97,16 +107,13 @@ You can use property *dropZones* (actually an array) to specify in which place y
 
 ```js
 import {Component} from '@angular/core';
-import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
-import {bootstrap} from '@angular/platform-browser-dynamic';
-
-bootstrap(AppComponent, [
-    DND_PROVIDERS // It is required to have 1 unique instance of your service
-]);
+import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
+import {bootstrap} from '@angular/platform/browser';
 
 @Component({
     selector: 'app',
     directives: [DND_DIRECTIVES],
+    providers: [DND_PROVIDERS]
     template: `
 <h4>Restricting Drag-and-Drop with zones</h4>
 <div class="row">
@@ -154,11 +161,9 @@ bootstrap(AppComponent, [
 </div>
 `
 })
-export class AppComponent {
+export class AppComponent { }
 
-    constructor() { }
-
-}
+bootstrap(AppComponent);
 ```
 
 # Transfer custom data via Drag-and-Drop
@@ -166,16 +171,14 @@ You can transfer data from draggable to droppable component via *dragData* prope
 
 ```js
 import {Component} from '@angular/core';
-import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
-import {bootstrap} from '@angular/platform-browser-dynamic';
+import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
+import {bootstrap} from '@angular/platform/browser';
 
-bootstrap(AppComponent, [
-    DND_PROVIDERS // It is required to have 1 unique instance of your service
-]);
 
 @Component({
     selector: 'app',
     directives: [DND_DIRECTIVES],
+    providers: [DND_PROVIDERS]
     template: `
 <h4>Transfer custom data in Drag-and-Drop</h4>
 <div class="row">
@@ -225,6 +228,8 @@ export class AppComponent {
     }
 
 }
+
+bootstrap(AppComponent);
 ```
 
 # Use a custom function to determine where dropping is allowed
@@ -238,16 +243,13 @@ because they are static, whereas the user input is dynamic.
 
 ```js
 import {Component} from '@angular/core';
-import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
-import {bootstrap} from '@angular/platform-browser-dynamic';
-
-bootstrap(AppComponent, [
-    DND_PROVIDERS // It is required to have 1 unique instance of your service
-]);
+import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
+import {bootstrap} from '@angular/platform/browser';
 
 @Component({
     selector: 'app',
     directives: [DND_DIRECTIVES],
+    providers: [DND_PROVIDERS]
     template: `
 <h4>Use a custom function to determine where dropping is allowed</h4>
 <div class="row">
@@ -311,6 +313,8 @@ export class AppComponent {
         return (dragData) => dragData % baseInteger === 0;
     }
 }
+
+bootstrap(AppComponent);
 ```
 
 # Complex example (includes all shown above) with Drag-and-Drop
@@ -318,16 +322,13 @@ Here is an example of shopping backet with products adding via drag and drop ope
 
 ```js
 import {Component} from '@angular/core';
-import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
-import {bootstrap} from '@angular/platform-browser-dynamic';
-
-bootstrap(AppComponent, [
-    DND_PROVIDERS // It is required to have 1 unique instance of your service
-]);
+import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
+import {bootstrap} from '@angular/platform/browser';
 
 @Component({
     selector: 'app',
     directives: [DND_DIRECTIVES],
+    providers: [DND_PROVIDERS]
     template: `
 <h4>Shopping basket</h4>
 <div class="row">
@@ -408,8 +409,9 @@ export class AppComponent {
         }
         return cost;
     }
-
 }
+
+bootstrap(AppComponent);
 ```
 
 # Simple sortable with Drag-and-Drop
@@ -417,16 +419,13 @@ Here is an example of simple sortable of favorite drinks moving in container via
 
 ```js
 import {Component} from '@angular/core';
-import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
-import {bootstrap} from '@angular/platform-browser-dynamic';
-
-bootstrap(AppComponent, [
-    DND_PROVIDERS // It is required to have 1 unique instance of your service
-]);
+import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
+import {bootstrap} from '@angular/platform/browser';
 
 @Component({
     selector: 'app',
     directives: [DND_DIRECTIVES],
+    providers: [DND_PROVIDERS]
     template: `
 <h4>Simple sortable</h4>
 <div class="row">
@@ -455,6 +454,8 @@ bootstrap(AppComponent, [
 export class AppComponent {
     listOne:Array<string> = ['Coffee','Orange Juice','Red Wine','Unhealty drink!','Water'];
 }
+
+bootstrap(AppComponent);
 ```
 
 # Multi list sortable with Drag-and-Drop
@@ -462,16 +463,13 @@ Here is an example of multi list sortable of boxers moving in container and betw
 
 ```js
 import {Component} from '@angular/core';
-import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd/ng2-dnd';
-import {bootstrap} from '@angular/platform-browser-dynamic';
-
-bootstrap(AppComponent, [
-    DND_PROVIDERS // It is required to have 1 unique instance of your service
-]);
+import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
+import {bootstrap} from '@angular/platform/browser';
 
 @Component({
     selector: 'app',
     directives: [DND_DIRECTIVES],
+    providers: [DND_PROVIDERS]
     template: `
 <h4>Multi list sortable</h4>
   <div class="row">
@@ -518,6 +516,8 @@ export class AppComponent {
     listTeamOne:Array<string> = [];
     listTeamTwo:Array<string> = [];
 }
+
+bootstrap(AppComponent);
 ```
 # Credits
 - [Sergey Akopkokhyants](https://github.com/akserg)

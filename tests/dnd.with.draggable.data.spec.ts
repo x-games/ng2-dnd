@@ -1,50 +1,44 @@
-import {
-    describe,
-    expect,
-    beforeEach,
-    it,
-    fit,
-    inject,
-    beforeEachProviders,
-    fakeAsync,
-    tick,
-    TestComponentBuilder,
-    ComponentFixture,
-    async
-} from '@angular/core/testing';
+import { inject, fakeAsync, tick, TestBed, ComponentFixture }
+    from '@angular/core/testing';
 
-import {TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS, TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS}
-from '@angular/platform-browser-dynamic/testing';
-
-import {Observable} from 'rxjs/Observable';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } 
+    from '@angular/platform-browser-dynamic/testing';
 
 import {DragDropConfig} from '../src/dnd.config';
-import {DraggableComponent} from '../src/dnd.draggable';
+import {DraggableComponent} from '../src/draggable.component';
 import {DragDropService} from '../src/dnd.service';
 
 import {Container2, triggerEvent} from './dnd.component.factory';
 
+TestBed.resetTestEnvironment();
+TestBed.initTestEnvironment(
+    BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+
 export function main() {
     describe('Drag and Drop without draggable data', () => {
 
-        let componentFixture: ComponentFixture<any>;
+        let componentFixture: ComponentFixture<Container2>;
         let dragdropService: DragDropService;
         let config: DragDropConfig;
         let container:Container2;
 
-        beforeEachProviders(() => {
-            return [TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS, TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS, DragDropConfig, DragDropService];
+        beforeEach(() => {
+            TestBed.configureTestingModule({
+                declarations: [Container2],
+                providers: [DragDropConfig, DragDropService]
+            });
+            TestBed.compileComponents();
         });
 
-        beforeEach(async(inject([TestComponentBuilder, DragDropConfig, DragDropService], (tcb: TestComponentBuilder, c: DragDropConfig, dd: DragDropService) => {
+        beforeEach(inject([DragDropConfig, DragDropService],
+                (c: DragDropConfig, dd: DragDropService) => {
             dragdropService = dd;
             config = c;
-            return tcb.createAsync(Container2).then((cf: ComponentFixture<any>) => {
-                componentFixture = cf;
-                componentFixture.detectChanges();
-                container = <Container2>componentFixture.componentInstance;
-            });
-        })));
+
+            componentFixture = TestBed.createComponent(Container2);
+            componentFixture.detectChanges();
+            container = <Container2>componentFixture.componentInstance;
+        }));
 
         it('should be defined', () => {
             expect(componentFixture).toBeDefined();

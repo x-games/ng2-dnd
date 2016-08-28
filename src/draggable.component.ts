@@ -5,7 +5,7 @@
 import {Injectable, ChangeDetectorRef} from '@angular/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from '@angular/core';
 
-import {AbstractComponent} from './dnd.component';
+import {AbstractComponent} from './abstract.component';
 import {DragDropConfig, DragImage} from './dnd.config';
 import {DragDropService, DragDropData} from './dnd.service';
 

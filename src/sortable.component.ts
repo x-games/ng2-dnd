@@ -5,10 +5,10 @@
 import {Injectable, ChangeDetectorRef} from '@angular/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from '@angular/core';
 
-import {AbstractComponent} from './dnd.component';
+import {AbstractComponent} from './abstract.component';
 import {DragDropConfig, DragImage} from './dnd.config';
-import {DroppableComponent} from './dnd.droppable';
-import {DraggableComponent} from './dnd.draggable';
+import {DroppableComponent} from './droppable.component';
+import {DraggableComponent} from './draggable.component';
 import {DragDropService, DragDropSortableService} from './dnd.service';
 
 @Directive({ selector: '[dnd-sortable-container]' })
