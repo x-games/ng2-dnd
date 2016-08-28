@@ -26,16 +26,6 @@ Online demo available [here](http://akserg.github.io/ng2-webpack-demo)
 Plunker demo available [here](http://embed.plnkr.co/JbG8Si)
 
 ## Usage
-
-If you use SystemJS to load your files, you might have to update your config with this if you don't use `defaultJSExtensions: true`:
-```js
-System.config({
-    packages: {
-        "/ng2-dnd": {"defaultExtension": "js"}
-    }
-});
-```
-
 If you use SystemJS to load your files, you might have to update your config:
 
 ```js
@@ -59,7 +49,6 @@ Finally, you can use *ng2-dnd* in your Angular 2 project:
 ```js
 import {Component} from '@angular/core';
 import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
-import {bootstrap} from '@angular/platform/browser';
 
 @Component({
     selector: 'app',
@@ -98,8 +87,6 @@ import {bootstrap} from '@angular/platform/browser';
 `
 })
 export class AppComponent { }
-
-bootstrap(AppComponent);
 ```
 
 # Restriction Drag-and-Drop operations with drop zones
@@ -108,7 +95,6 @@ You can use property *dropZones* (actually an array) to specify in which place y
 ```js
 import {Component} from '@angular/core';
 import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
-import {bootstrap} from '@angular/platform/browser';
 
 @Component({
     selector: 'app',
@@ -162,8 +148,6 @@ import {bootstrap} from '@angular/platform/browser';
 `
 })
 export class AppComponent { }
-
-bootstrap(AppComponent);
 ```
 
 # Transfer custom data via Drag-and-Drop
@@ -172,8 +156,6 @@ You can transfer data from draggable to droppable component via *dragData* prope
 ```js
 import {Component} from '@angular/core';
 import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
-import {bootstrap} from '@angular/platform/browser';
-
 
 @Component({
     selector: 'app',
@@ -226,10 +208,7 @@ export class AppComponent {
     transferDataSuccess($event) {
         this.receivedData.push($event.dragData);
     }
-
 }
-
-bootstrap(AppComponent);
 ```
 
 # Use a custom function to determine where dropping is allowed
@@ -244,7 +223,6 @@ because they are static, whereas the user input is dynamic.
 ```js
 import {Component} from '@angular/core';
 import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
-import {bootstrap} from '@angular/platform/browser';
 
 @Component({
     selector: 'app',
@@ -313,8 +291,6 @@ export class AppComponent {
         return (dragData) => dragData % baseInteger === 0;
     }
 }
-
-bootstrap(AppComponent);
 ```
 
 # Complex example (includes all shown above) with Drag-and-Drop
@@ -323,7 +299,6 @@ Here is an example of shopping backet with products adding via drag and drop ope
 ```js
 import {Component} from '@angular/core';
 import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
-import {bootstrap} from '@angular/platform/browser';
 
 @Component({
     selector: 'app',
@@ -410,8 +385,6 @@ export class AppComponent {
         return cost;
     }
 }
-
-bootstrap(AppComponent);
 ```
 
 # Simple sortable with Drag-and-Drop
@@ -420,7 +393,6 @@ Here is an example of simple sortable of favorite drinks moving in container via
 ```js
 import {Component} from '@angular/core';
 import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
-import {bootstrap} from '@angular/platform/browser';
 
 @Component({
     selector: 'app',
@@ -454,8 +426,6 @@ import {bootstrap} from '@angular/platform/browser';
 export class AppComponent {
     listOne:Array<string> = ['Coffee','Orange Juice','Red Wine','Unhealty drink!','Water'];
 }
-
-bootstrap(AppComponent);
 ```
 
 # Multi list sortable with Drag-and-Drop
@@ -464,7 +434,6 @@ Here is an example of multi list sortable of boxers moving in container and betw
 ```js
 import {Component} from '@angular/core';
 import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
-import {bootstrap} from '@angular/platform/browser';
 
 @Component({
     selector: 'app',
@@ -516,11 +485,8 @@ export class AppComponent {
     listTeamOne:Array<string> = [];
     listTeamTwo:Array<string> = [];
 }
-
-bootstrap(AppComponent);
 ```
 # Credits
-- [Sergey Akopkokhyants](https://github.com/akserg)
 - [Francesco Cina](https://github.com/ufoscout)
 
 # License
