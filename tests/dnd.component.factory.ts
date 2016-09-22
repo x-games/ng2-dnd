@@ -20,8 +20,7 @@ export function triggerEvent(elem:HTMLElement, eventName:string, eventType:strin
 <div id='dropIdOne' dnd-droppable [dropZones]="['zone-one']" (onDropSuccess)="dropOneSuccessCallback($event)"></div>
 <div id='dropIdTwo' dnd-droppable [dropZones]="['zone-two']" (onDropSuccess)="dropTwoSuccessCallback($event)"></div>
 <div id='dropIdOneTwo' dnd-droppable [dropZones]="['zone-one', 'zone-two']" (onDropSuccess)="dropOneTwoSuccessCallback($event)"></div>
-`,
-  directives: [DraggableComponent, DroppableComponent]
+`
 })
 export class Container {
     @Output() dragOne:EventEmitter<any> = new EventEmitter<any>();
@@ -62,8 +61,7 @@ export class Container {
   template: `
 <div id='dragId' dnd-draggable [dragEnabled]="dragEnabled" [dragData]="dragData" [dropZones]="['test1']" (onDragSuccess)="dragSuccessCallback($event)"></div>
 <div id='dropId' dnd-droppable [dropZones]="['test1']" (onDropSuccess)="dropSuccessCallback($event)"></div>
-`,
-  directives: [DraggableComponent, DroppableComponent]
+`
 })
 export class Container2 {
     @Input() dragEnabled:boolean = true;
@@ -89,8 +87,7 @@ export class Container2 {
         <li *ngFor="let item of sortableList; let i = index" dnd-sortable [sortableIndex]="i">{{item}}</li>
     </ul>
 </div>
-`,
-  directives: [SortableContainer, SortableComponent]
+`
 })
 export class Container3 {
     @Input() sortableList:Array<string> = [];
@@ -116,8 +113,7 @@ export class Container3 {
         </ul>
     </div>
 </div>
-`,
-  directives: [SortableContainer, SortableComponent]
+`
 })
 export class Container4 {
     @Input() singleList:Array<string> = [];
