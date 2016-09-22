@@ -39,21 +39,52 @@ System.config({
 });
 ```
 
-Finally, you can use *ng2-dnd* in your Angular 2 project:
-- Import `DND_PROVIDERS, DND_DIRECTIVES` from `ng2-dnd`;
-- Use `DND_PROVIDERS` in the `providers` property of your application component;
-- Add `DND_DIRECTIVES` to the `directives` property of your application component;
-- Use `dnd-draggable`, `dnd-droppable`, `dnd-sortable` and `dnd-sortable-container` properties in template of your components.
-- Inject style into your web page
+#### 1. Update the markup
+- Import the `style.css` into your web page
+- Add `<ng2-dnd></ng2-dnd>` tag in template of your application component.
+
+#### 2. Import the `DndModule`
+Import `DndModule.forRoot()` in the NgModule of your application. 
+The `forRoot` method is a convention for modules that provide a singleton service.
+
+```ts
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from '@angular/core';
+import {DndModule} from 'ng2-dnd';
+
+@NgModule({
+    imports: [
+        BrowserModule,
+        DndModule.forRoot()
+    ],
+    bootstrap: [AppComponent]
+})
+export class AppModule {
+}
+```
+
+If you have multiple NgModules and you use one as a shared NgModule (that you import in all of your other NgModules), 
+don't forget that you can use it to export the `DndModule` that you imported in order to avoid having to import it multiple times.
+
+```ts
+@NgModule({
+    imports: [
+        BrowserModule,
+        DndModule.forRoot()
+    ],
+    exports: [BrowserModule, DndModule],
+})
+export class SharedModule {
+}
+```
+
+#### 3. Use Drag-and-Drop operations with no code
 
 ```js
 import {Component} from '@angular/core';
-import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
 
 @Component({
     selector: 'app',
-    directives: [DND_DIRECTIVES],
-    providers: [DND_PROVIDERS]
     template: `
 <h4>Simple Drag-and-Drop</h4>
 <div class="row">
@@ -89,17 +120,14 @@ import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
 export class AppComponent { }
 ```
 
-# Restriction Drag-and-Drop operations with drop zones
+###$ 4. Restriction Drag-and-Drop operations with drop zones
 You can use property *dropZones* (actually an array) to specify in which place you would like to drop the draggable element:
 
 ```js
 import {Component} from '@angular/core';
-import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
 
 @Component({
     selector: 'app',
-    directives: [DND_DIRECTIVES],
-    providers: [DND_PROVIDERS]
     template: `
 <h4>Restricting Drag-and-Drop with zones</h4>
 <div class="row">
@@ -150,17 +178,14 @@ import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
 export class AppComponent { }
 ```
 
-# Transfer custom data via Drag-and-Drop
+#### 5. Transfer custom data via Drag-and-Drop
 You can transfer data from draggable to droppable component via *dragData* property of Draggable component:
 
 ```js
 import {Component} from '@angular/core';
-import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
 
 @Component({
     selector: 'app',
-    directives: [DND_DIRECTIVES],
-    providers: [DND_PROVIDERS]
     template: `
 <h4>Transfer custom data in Drag-and-Drop</h4>
 <div class="row">
@@ -211,7 +236,7 @@ export class AppComponent {
 }
 ```
 
-# Use a custom function to determine where dropping is allowed
+#### 6. Use a custom function to determine where dropping is allowed
 For use-cases when a static set of `dropZone`s is not possible, a custom
 function can be used to dynamically determine whether an item can be dropped or
 not. To achieve that, set the `allowDrop` property to this boolean function.
@@ -222,12 +247,9 @@ because they are static, whereas the user input is dynamic.
 
 ```js
 import {Component} from '@angular/core';
-import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
 
 @Component({
     selector: 'app',
-    directives: [DND_DIRECTIVES],
-    providers: [DND_PROVIDERS]
     template: `
 <h4>Use a custom function to determine where dropping is allowed</h4>
 <div class="row">
@@ -293,17 +315,14 @@ export class AppComponent {
 }
 ```
 
-# Complex example (includes all shown above) with Drag-and-Drop
+#### 7. Complex example (includes all shown above) with Drag-and-Drop
 Here is an example of shopping backet with products adding via drag and drop operation:
 
 ```js
 import {Component} from '@angular/core';
-import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
 
 @Component({
     selector: 'app',
-    directives: [DND_DIRECTIVES],
-    providers: [DND_PROVIDERS]
     template: `
 <h4>Shopping basket</h4>
 <div class="row">
@@ -387,17 +406,14 @@ export class AppComponent {
 }
 ```
 
-# Simple sortable with Drag-and-Drop
+#### 8. Simple sortable with Drag-and-Drop
 Here is an example of simple sortable of favorite drinks moving in container via drag and drop operation:
 
 ```js
 import {Component} from '@angular/core';
-import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
 
 @Component({
     selector: 'app',
-    directives: [DND_DIRECTIVES],
-    providers: [DND_PROVIDERS]
     template: `
 <h4>Simple sortable</h4>
 <div class="row">
@@ -428,17 +444,14 @@ export class AppComponent {
 }
 ```
 
-# Multi list sortable with Drag-and-Drop
+#### 9. Multi list sortable with Drag-and-Drop
 Here is an example of multi list sortable of boxers moving in container and between containers via drag and drop operation:
 
 ```js
 import {Component} from '@angular/core';
-import {DND_PROVIDERS, DND_DIRECTIVES} from 'ng2-dnd';
 
 @Component({
     selector: 'app',
-    directives: [DND_DIRECTIVES],
-    providers: [DND_PROVIDERS]
     template: `
 <h4>Multi list sortable</h4>
   <div class="row">
@@ -486,6 +499,7 @@ export class AppComponent {
     listTeamTwo:Array<string> = [];
 }
 ```
+
 # Credits
 - [Francesco Cina](https://github.com/ufoscout)
 
