@@ -8,6 +8,7 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/akopkokhyants.svg?st
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) 
 [![Dependency Status](https://david-dm.org/akserg/ng2-dnd.svg)](https://david-dm.org/akserg/ng2-dnd)
 [![devDependency Status](https://david-dm.org/akserg/ng2-dnd/dev-status.svg)](https://david-dm.org/akserg/ng2-dnd#info=devDependencies)
+[![Known Vulnerabilities](https://snyk.io/test/github/akserg/ng2-dnd/badge.svg)](https://snyk.io/test/github/akserg/ng2-dnd)
 
 _Some of these APIs and Components are not final and are subject to change!_
 
