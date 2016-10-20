@@ -6,6 +6,7 @@ import {Injectable, ElementRef, EventEmitter} from '@angular/core';
 
 import {DragDropConfig} from './dnd.config';
 import {isPresent} from './dnd.utils';
+import {SortableContainer} from './dnd.sortable';
 
 export interface DragDropData {
     dragData: any;
@@ -23,7 +24,7 @@ export class DragDropService {
 @Injectable()
 export class DragDropSortableService {
     index: number;
-    sortableData: Array<any>;
+    sortableContainer: SortableContainer;
     isDragged: boolean;
 
     private _elem: HTMLElement;
