@@ -6,7 +6,7 @@ import {Injectable, ElementRef, EventEmitter} from '@angular/core';
 
 import {DragDropConfig} from './dnd.config';
 import {isPresent} from './dnd.utils';
-import {SortableContainer} from './dnd.sortable';
+import {SortableContainer} from './sortable.component';
 
 export interface DragDropData {
     dragData: any;
