@@ -1,9 +1,7 @@
-import { inject, async, tick, TestBed, ComponentFixture }
+import { inject, TestBed, ComponentFixture }
     from '@angular/core/testing';
 
 import {DragDropConfig} from '../src/dnd.config';
-import {DraggableComponent} from '../src/draggable.component';
-import {DroppableComponent} from '../src/droppable.component';
 import {SortableContainer, SortableComponent} from '../src/sortable.component';
 import {DragDropService, DragDropSortableService} from '../src/dnd.service';
 
@@ -117,7 +115,7 @@ describe('Multi List Sortable Drag and Drop', () => {
     let dragdropService: DragDropService;
     let config: DragDropConfig;
     let container:Container4;
-    let sortableService:DragDropSortableService
+    let sortableService:DragDropSortableService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({

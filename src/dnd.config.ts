@@ -19,7 +19,7 @@ export class DataTransferEffect {
 @Injectable()
 export class DragImage {
     constructor(
-        public imageElement: string | HTMLElement,
+        public imageElement: any,
         public x_offset: number = 0,
         public y_offset: number = 0) {
             if (isString(this.imageElement)) {
