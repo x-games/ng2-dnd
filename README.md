@@ -210,7 +210,7 @@ import {Component} from '@angular/core';
             <div class="panel-heading">Place to drop (Items:{{receivedData.length}})</div>
             <div class="panel-body">
                 <div [hidden]="!receivedData.length > 0"
-                    *ngFor="#data of receivedData">{{data | json}}</div>
+                    *ngFor="let data of receivedData">{{data | json}}</div>
             </div>
         </div>
     </div>
