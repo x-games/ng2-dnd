@@ -1,4 +1,4 @@
-import { inject, fakeAsync, tick, TestBed, ComponentFixture }
+import { inject, TestBed, ComponentFixture }
     from '@angular/core/testing';
 
 import {DragDropConfig} from '../src/dnd.config';

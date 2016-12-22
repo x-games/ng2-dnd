@@ -1,8 +1,4 @@
-import {Component, Input, Output, EventEmitter, ElementRef} from '@angular/core';
-
-import {DraggableComponent} from '../src/draggable.component';
-import {DroppableComponent} from '../src/droppable.component';
-import {SortableContainer, SortableComponent} from '../src/sortable.component';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 
 export function triggerEvent(elem:HTMLElement, eventName:string, eventType:string) {
     var event:Event = document.createEvent(eventType);
@@ -31,26 +27,32 @@ export class Container {
     @Output() dropTwo:EventEmitter<any> = new EventEmitter<any>();
     @Output() dropOneTwo:EventEmitter<any> = new EventEmitter<any>();
 
+    // tslint:disable-next-line
     private dragOneSuccessCallback($event:any) {
         this.dragOne.emit($event);
     }
 
+    // tslint:disable-next-line
     private dragTwoSuccessCallback($event:any) {
         this.dragOne.emit($event);
     }
 
+    // tslint:disable-next-line
     private dragOneTwoSuccessCallback($event:any) {
         this.dragOneTwo.emit($event);
     }
 
+    // tslint:disable-next-line
     private dropOneSuccessCallback($event:any) {
         this.dropOne.emit($event);
     }
 
+    // tslint:disable-next-line
     private dropTwoSuccessCallback($event:any) {
         this.dropTwo.emit($event);
     }
 
+    // tslint:disable-next-line
     private dropOneTwoSuccessCallback($event:any) {
         this.dropOneTwo.emit($event);
     }
@@ -70,10 +72,12 @@ export class Container2 {
     @Output() drag:EventEmitter<any> = new EventEmitter<any>();
     @Output() drop:EventEmitter<any> = new EventEmitter<any>();
 
+    // tslint:disable-next-line
     private dragSuccessCallback($event:any) {
         this.drag.emit($event);
     }
 
+    // tslint:disable-next-line
     private dropSuccessCallback($event:any) {
         this.drop.emit($event);
     }

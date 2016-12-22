@@ -3,7 +3,6 @@
 // https://github.com/akserg/ng2-dnd
 
 import { NgModule, ModuleWithProviders } from "@angular/core";
-import { CommonModule } from "@angular/common";
 
 import {DragDropConfig} from './src/dnd.config';
 import {DragDropService, DragDropSortableService} from './src/dnd.service';
@@ -18,11 +17,7 @@ export * from './src/draggable.component';
 export * from './src/droppable.component';
 export * from './src/sortable.component';
 
-export const DND_PROVIDERS: any[] = [DragDropConfig, DragDropService, DragDropSortableService];
-export const DND_DIRECTIVES: any[] = [DraggableComponent, DroppableComponent, SortableContainer, SortableComponent];
-
 @NgModule({
-  imports: [CommonModule],
   declarations: [DraggableComponent, DroppableComponent, SortableContainer, SortableComponent],
   exports : [DraggableComponent, DroppableComponent, SortableContainer, SortableComponent]
 })
