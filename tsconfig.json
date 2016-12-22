@@ -24,10 +24,10 @@
     "./src/droppable.component.ts",
     "./src/sortable.component.ts",
 
-    "tests/dnd.component.factory.ts",
-    "tests/dnd.sortable.spec.ts",
-    "tests/dnd.with.draggable.data.spec.ts",
-    "tests/dnd.without.draggable.data.spec.ts"
+    "./tests/dnd.component.factory.ts",
+    "./tests/dnd.sortable.spec.ts",
+    "./tests/dnd.with.draggable.data.spec.ts",
+    "./tests/dnd.without.draggable.data.spec.ts"
   ],
   "exclude": [
     "node_modules",
