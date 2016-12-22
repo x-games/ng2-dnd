@@ -35,7 +35,7 @@ System.config({
         'ng2-dnd': 'node_modules/ng2-dnd'
     },
     packages: {
-        'ng2-dnd':  { main: 'index.js',  defaultExtension: 'js' },
+        'ng2-dnd':  { defaultExtension: 'js' },
     }
 });
 ```
