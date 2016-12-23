@@ -32,10 +32,7 @@ If you use SystemJS to load your files, you might have to update your config:
 ```js
 System.config({
     map: {
-        'ng2-dnd': 'node_modules/ng2-dnd'
-    },
-    packages: {
-        'ng2-dnd':  { defaultExtension: 'js' },
+        'ng2-dnd': 'node_modules/ng2-dnd/bundles/index.umd.js'
     }
 });
 ```
