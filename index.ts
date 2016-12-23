@@ -18,6 +18,7 @@ export * from './src/droppable.component';
 export * from './src/sortable.component';
 
 export let providers = [
+    DragDropConfig,
     { provide: DragDropService, useFactory: dragDropServiceFactory },
     { provide: DragDropSortableService, useFactory: dragDropSortableServiceFactory, deps: [DragDropConfig] }
 ];
