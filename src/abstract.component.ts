@@ -175,6 +175,20 @@ export abstract class AbstractComponent {
         this._elem.ontouchcancel = (event: TouchEvent) => {
             this.mobileService.onTouchCancel(event);
         };
+        
+        // touch events
+        this._elem.ontouchstart = (event: TouchEvent) => {
+            this.mobileService.onTouchStart(event);
+        };
+        this._elem.ontouchend = (event: TouchEvent) => {
+            this.mobileService.onTouchEnd(event);
+        };
+        this._elem.ontouchmove = (event: TouchEvent) => {
+            this.mobileService.onTouchMove(event);
+        };
+        this._elem.ontouchcancel = (event: TouchEvent) => {
+            this.mobileService.onTouchCancel(event);
+        };
     }
 
     /******* Change detection ******/

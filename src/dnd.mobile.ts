@@ -1,7 +1,11 @@
 import {Injectable} from 'angular2/core';
 import {isPresent} from 'angular2/src/facade/lang';
 
+<<<<<<< HEAD
 class DragDataTransfer {
+=======
+interface DragDataTransfer {
+>>>>>>> 54c3d595eb67884ec70ab93b1abf1f935a3b9458
     dropEffect?: string;
     effectAllowed?: string;
     files?: FileList;
@@ -11,11 +15,15 @@ class DragDataTransfer {
     getData?: (format: string) => string;
     setData?: (format: string, data: string) => boolean;
     setDragImage?: (el: HTMLElement, x: number, y: number) => void
+<<<<<<< HEAD
 }
 
 export function mobileServiceFactory(): MobileService  {
     return new MobileService();
 }
+=======
+} 
+>>>>>>> 54c3d595eb67884ec70ab93b1abf1f935a3b9458
 
 @Injectable()
 export class MobileService {
