@@ -7,7 +7,7 @@ export function triggerEvent(elem:HTMLElement, eventName:string, eventType:strin
 }
 
 @Component({
-  selector: 'container',
+  selector: 'test-container',
   template: `
 <div id='dragIdOne' dnd-draggable [dropZones]="['zone-one']" (onDragSuccess)="dragOneSuccessCallback($event)"></div>
 <div id='dragIdTwo' dnd-draggable [dropZones]="['zone-two']" (onDragSuccess)="dragTwoSuccessCallback($event)"></div>
@@ -59,7 +59,7 @@ export class Container {
 }
 
 @Component({
-  selector: 'container2',
+  selector: 'test-container-two',
   template: `
 <div id='dragId' dnd-draggable [dragEnabled]="dragEnabled" [dragData]="dragData" [dropZones]="['test1']" (onDragSuccess)="dragSuccessCallback($event)"></div>
 <div id='dropId' dnd-droppable [dropZones]="['test1']" (onDropSuccess)="dropSuccessCallback($event)"></div>
@@ -84,7 +84,7 @@ export class Container2 {
 }
 
 @Component({
-  selector: 'container3',
+  selector: 'test-container-three',
   template: `
 <div>
     <ul class="list-group" dnd-sortable-container [sortableData]="sortableList">
@@ -98,7 +98,7 @@ export class Container3 {
 }
 
 @Component({
-  selector: 'container4',
+  selector: 'test-container-four',
   template: `
 <div>
     <div id='single'>
