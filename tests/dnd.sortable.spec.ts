@@ -66,12 +66,12 @@ describe('Sortable Drag and Drop', () => {
         expect(ulElem).toBeDefined();
         expect(ulElem.children.length).toBe(values.length);
 
-        expect(sortableService.sortableData).not.toBeDefined();
+        expect(sortableService.sortableContainer).not.toBeDefined();
         expect(sortableService.index).not.toBeDefined();
         
         triggerEvent(<HTMLElement>ulElem.children[0], 'dragstart', 'MouseEvent');
         componentFixture.detectChanges();
-        expect(sortableService.sortableData).toBe(values);
+        expect(sortableService.sortableContainer.sortableData).toBe(values);
         expect(sortableService.index).toBe(0);
         
         swap(ulElem.children, 0, 1);

@@ -48,12 +48,14 @@ export class SortableContainer extends AbstractComponent {
                 // console.log('Container._onDragEnterCallback. drag node [' + this._sortableDataService.index.toString() + '] over parent node');
                 // Remove item from previouse list
                 this._sortableDataService.sortableContainer._sortableData.splice(this._sortableDataService.index, 1);
-                if (this._sortableDataService.sortableContainer._sortableData.length === 0)
+                if (this._sortableDataService.sortableContainer._sortableData.length === 0) {
                     this._sortableDataService.sortableContainer.dropEnabled = true;
+                }
                 // Add item to new list
                 this._sortableData.unshift(item);
-                if (this.dropEnabled)
+                if (this.dropEnabled) {
                     this.dropEnabled = false;
+                }
                 this._sortableDataService.sortableContainer = this;
                 this._sortableDataService.index = 0;
             }
@@ -160,18 +162,20 @@ export class SortableComponent extends AbstractComponent {
         if (this._sortableDataService.isDragged) {
             this._sortableDataService.markSortable(this._elem);
             if ((this.index !== this._sortableDataService.index) ||
-                (this._sortableDataService.sortableContainer.sortableData != this._sortableContainer.sortableData)) {
+                (this._sortableDataService.sortableContainer.sortableData !== this._sortableContainer.sortableData)) {
                 // console.log('Component._onDragEnterCallback. drag node [' + this.index + '] over node [' + this._sortableDataService.index + ']');
                 // Get item
                 let item:any = this._sortableDataService.sortableContainer.sortableData[this._sortableDataService.index];
                 // Remove item from previouse list
                 this._sortableDataService.sortableContainer.sortableData.splice(this._sortableDataService.index, 1);
-                if (this._sortableDataService.sortableContainer.sortableData.length === 0)
+                if (this._sortableDataService.sortableContainer.sortableData.length === 0) {
                     this._sortableDataService.sortableContainer.dropEnabled = true;
+                }
                 // Add item to new list
                 this._sortableContainer.sortableData.splice(this.index, 0, item);
-                if (this._sortableContainer.dropEnabled)
+                if (this._sortableContainer.dropEnabled) {
                     this._sortableContainer.dropEnabled = false;
+                }
                 this._sortableDataService.sortableContainer = this._sortableContainer;
                 this._sortableDataService.index = this.index;
             }
