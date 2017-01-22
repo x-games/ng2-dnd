@@ -1,8 +1,4 @@
-import {Component, Input, Output, EventEmitter, ElementRef} from '@angular/core';
-
-import {DraggableComponent} from '../src/draggable.component';
-import {DroppableComponent} from '../src/droppable.component';
-import {SortableContainer, SortableComponent} from '../src/sortable.component';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 
 export function triggerEvent(elem:HTMLElement, eventName:string, eventType:string) {
     var event:Event = document.createEvent(eventType);
@@ -11,7 +7,7 @@ export function triggerEvent(elem:HTMLElement, eventName:string, eventType:strin
 }
 
 @Component({
-  selector: 'container',
+  selector: 'test-container',
   template: `
 <div id='dragIdOne' dnd-draggable [dropZones]="['zone-one']" (onDragSuccess)="dragOneSuccessCallback($event)"></div>
 <div id='dragIdTwo' dnd-draggable [dropZones]="['zone-two']" (onDragSuccess)="dragTwoSuccessCallback($event)"></div>
@@ -31,33 +27,39 @@ export class Container {
     @Output() dropTwo:EventEmitter<any> = new EventEmitter<any>();
     @Output() dropOneTwo:EventEmitter<any> = new EventEmitter<any>();
 
+    // tslint:disable-next-line
     private dragOneSuccessCallback($event:any) {
         this.dragOne.emit($event);
     }
 
+    // tslint:disable-next-line
     private dragTwoSuccessCallback($event:any) {
         this.dragOne.emit($event);
     }
 
+    // tslint:disable-next-line
     private dragOneTwoSuccessCallback($event:any) {
         this.dragOneTwo.emit($event);
     }
 
+    // tslint:disable-next-line
     private dropOneSuccessCallback($event:any) {
         this.dropOne.emit($event);
     }
 
+    // tslint:disable-next-line
     private dropTwoSuccessCallback($event:any) {
         this.dropTwo.emit($event);
     }
 
+    // tslint:disable-next-line
     private dropOneTwoSuccessCallback($event:any) {
         this.dropOneTwo.emit($event);
     }
 }
 
 @Component({
-  selector: 'container2',
+  selector: 'test-container-two',
   template: `
 <div id='dragId' dnd-draggable [dragEnabled]="dragEnabled" [dragData]="dragData" [dropZones]="['test1']" (onDragSuccess)="dragSuccessCallback($event)"></div>
 <div id='dropId' dnd-droppable [dropZones]="['test1']" (onDropSuccess)="dropSuccessCallback($event)"></div>
@@ -70,17 +72,19 @@ export class Container2 {
     @Output() drag:EventEmitter<any> = new EventEmitter<any>();
     @Output() drop:EventEmitter<any> = new EventEmitter<any>();
 
+    // tslint:disable-next-line
     private dragSuccessCallback($event:any) {
         this.drag.emit($event);
     }
 
+    // tslint:disable-next-line
     private dropSuccessCallback($event:any) {
         this.drop.emit($event);
     }
 }
 
 @Component({
-  selector: 'container3',
+  selector: 'test-container-three',
   template: `
 <div>
     <ul class="list-group" dnd-sortable-container [sortableData]="sortableList">
@@ -94,7 +98,7 @@ export class Container3 {
 }
 
 @Component({
-  selector: 'container4',
+  selector: 'test-container-four',
   template: `
 <div>
     <div id='single'>

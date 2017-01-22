@@ -2,13 +2,11 @@
 // This project is licensed under the terms of the MIT license.
 // https://github.com/akserg/ng2-dnd
 
-import {Injectable, ChangeDetectorRef} from '@angular/core';
+import {ChangeDetectorRef} from '@angular/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from '@angular/core';
 
 import {AbstractComponent} from './abstract.component';
-import {DragDropConfig, DragImage} from './dnd.config';
-import {DroppableComponent} from './droppable.component';
-import {DraggableComponent} from './draggable.component';
+import {DragDropConfig} from './dnd.config';
 import {DragDropService, DragDropSortableService} from './dnd.service';
 
 @Directive({ selector: '[dnd-sortable-container]' })
@@ -135,7 +133,7 @@ export class SortableComponent extends AbstractComponent {
     }
 
     _onDragOverCallback(event: Event) {
-        if (this._sortableDataService.isDragged && this._elem != this._sortableDataService.elem) {
+        if (this._sortableDataService.isDragged && this._elem !== this._sortableDataService.elem) {
             // console.log('_onDragOverCallback. dragging elem with index ' + this.index);
             this._sortableDataService.sortableContainer = this._sortableContainer;
             this._sortableDataService.index = this.index;

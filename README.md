@@ -32,17 +32,13 @@ If you use SystemJS to load your files, you might have to update your config:
 ```js
 System.config({
     map: {
-        'ng2-dnd': 'node_modules/ng2-dnd'
-    },
-    packages: {
-        'ng2-dnd':  { main: 'index.js',  defaultExtension: 'js' },
+        'ng2-dnd': 'node_modules/ng2-dnd/bundles/index.umd.js'
     }
 });
 ```
 
-#### 1. Update the markup
+#### 1. Add the default styles
 - Import the `style.css` into your web page
-- Add `<ng2-dnd></ng2-dnd>` tag in template of your application component.
 
 #### 2. Import the `DndModule`
 Import `DndModule.forRoot()` in the NgModule of your application. 
@@ -210,7 +206,7 @@ import {Component} from '@angular/core';
             <div class="panel-heading">Place to drop (Items:{{receivedData.length}})</div>
             <div class="panel-body">
                 <div [hidden]="!receivedData.length > 0"
-                    *ngFor="#data of receivedData">{{data | json}}</div>
+                    *ngFor="let data of receivedData">{{data | json}}</div>
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@
 // https://github.com/akserg/ng2-dnd
 
 import {Injectable, ChangeDetectorRef} from '@angular/core';
-import {Directive, Input, Output, EventEmitter, ElementRef} from '@angular/core';
+import {ElementRef} from '@angular/core';
 
 import {DragDropConfig, DragImage} from './dnd.config';
 import {DragDropService} from './dnd.service';
@@ -24,7 +24,7 @@ export abstract class AbstractComponent {
         this._elem.draggable = this._dragEnabled;
     }
     get dragEnabled(): boolean {
-        return this._dragEnabled
+        return this._dragEnabled;
     }
 
     /**

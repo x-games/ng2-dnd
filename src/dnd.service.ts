@@ -2,15 +2,19 @@
 // This project is licensed under the terms of the MIT license.
 // https://github.com/akserg/ng2-dnd
 
-import {Injectable, ElementRef, EventEmitter} from '@angular/core';
+import {Injectable, EventEmitter} from '@angular/core';
 
 import {DragDropConfig} from './dnd.config';
 import {isPresent} from './dnd.utils';
 import {SortableContainer} from './sortable.component';
 
-export interface DragDropData {
+export class DragDropData {
     dragData: any;
     mouseEvent: MouseEvent;
+}
+
+export function dragDropServiceFactory(): DragDropService  {
+    return new DragDropService();
 }
 
 @Injectable()
@@ -19,6 +23,10 @@ export class DragDropService {
     onDragSuccessCallback: EventEmitter<DragDropData>;
     dragData: any;
     isDragged: boolean;
+}
+
+export function dragDropSortableServiceFactory(config: DragDropConfig): DragDropSortableService  {
+    return new DragDropSortableService(config);
 }
 
 @Injectable()

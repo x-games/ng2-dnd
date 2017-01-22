@@ -25,7 +25,7 @@
 
 * **Please tell us about your environment:**
 
-- Angular version: 2.0.0-rc.X
+- Angular version: 2.X.X
 - Browser: [all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView ]
 
 
