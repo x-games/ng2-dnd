@@ -41,16 +41,20 @@ export class SortableContainer extends AbstractComponent {
 
     _onDragEnterCallback(event: Event) {
         if (this._sortableDataService.isDragged) {
-            let item:any = this._sortableDataService.sortableData[this._sortableDataService.index];
+            let item:any = this._sortableDataService.sortableContainer._sortableData[this._sortableDataService.index];
             // Check does element exist in sortableData of this Container
             if (this._sortableData.indexOf(item) === -1) {
                 // Let's add it
                 // console.log('Container._onDragEnterCallback. drag node [' + this._sortableDataService.index.toString() + '] over parent node');
                 // Remove item from previouse list
-                this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1);
+                this._sortableDataService.sortableContainer._sortableData.splice(this._sortableDataService.index, 1);
+                if (this._sortableDataService.sortableContainer._sortableData.length === 0)
+                    this._sortableDataService.sortableContainer.dropEnabled = true;
                 // Add item to new list
                 this._sortableData.unshift(item);
-                this._sortableDataService.sortableData = this._sortableData;
+                if (this.dropEnabled)
+                    this.dropEnabled = false;
+                this._sortableDataService.sortableContainer = this;
                 this._sortableDataService.index = 0;
             }
             // Refresh changes in properties of container component
@@ -117,7 +121,7 @@ export class SortableComponent extends AbstractComponent {
     _onDragStartCallback(event: Event) {
         // console.log('_onDragStartCallback. dragging elem with index ' + this.index);
         this._sortableDataService.isDragged = true;
-        this._sortableDataService.sortableData = this._sortableContainer.sortableData;
+        this._sortableDataService.sortableContainer = this._sortableContainer;
         this._sortableDataService.index = this.index;
         this._sortableDataService.markSortable(this._elem);
         // Add dragData
@@ -131,7 +135,7 @@ export class SortableComponent extends AbstractComponent {
     _onDragOverCallback(event: Event) {
         if (this._sortableDataService.isDragged && this._elem !== this._sortableDataService.elem) {
             // console.log('_onDragOverCallback. dragging elem with index ' + this.index);
-            this._sortableDataService.sortableData = this._sortableContainer.sortableData;
+            this._sortableDataService.sortableContainer = this._sortableContainer;
             this._sortableDataService.index = this.index;
             this._sortableDataService.markSortable(this._elem);
             this.onDragOverCallback.emit(this._dragDropService.dragData);
@@ -141,7 +145,7 @@ export class SortableComponent extends AbstractComponent {
     _onDragEndCallback(event: Event) {
         // console.log('_onDragEndCallback. end dragging elem with index ' + this.index);
         this._sortableDataService.isDragged = false;
-        this._sortableDataService.sortableData = null;
+        this._sortableDataService.sortableContainer = null;
         this._sortableDataService.index = null;
         this._sortableDataService.markSortable(null);
         // Add dragGata
@@ -156,15 +160,19 @@ export class SortableComponent extends AbstractComponent {
         if (this._sortableDataService.isDragged) {
             this._sortableDataService.markSortable(this._elem);
             if ((this.index !== this._sortableDataService.index) ||
-                (this._sortableDataService.sortableData !== this._sortableContainer.sortableData)) {
+                (this._sortableDataService.sortableContainer.sortableData != this._sortableContainer.sortableData)) {
                 // console.log('Component._onDragEnterCallback. drag node [' + this.index + '] over node [' + this._sortableDataService.index + ']');
                 // Get item
-                let item:any = this._sortableDataService.sortableData[this._sortableDataService.index];
+                let item:any = this._sortableDataService.sortableContainer.sortableData[this._sortableDataService.index];
                 // Remove item from previouse list
-                this._sortableDataService.sortableData.splice(this._sortableDataService.index, 1);
+                this._sortableDataService.sortableContainer.sortableData.splice(this._sortableDataService.index, 1);
+                if (this._sortableDataService.sortableContainer.sortableData.length === 0)
+                    this._sortableDataService.sortableContainer.dropEnabled = true;
                 // Add item to new list
                 this._sortableContainer.sortableData.splice(this.index, 0, item);
-                this._sortableDataService.sortableData = this._sortableContainer.sortableData;
+                if (this._sortableContainer.dropEnabled)
+                    this._sortableContainer.dropEnabled = false;
+                this._sortableDataService.sortableContainer = this._sortableContainer;
                 this._sortableDataService.index = this.index;
             }
         }
