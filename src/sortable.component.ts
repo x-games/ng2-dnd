@@ -21,7 +21,7 @@ export class SortableContainer extends AbstractComponent {
     @Input() set sortableData(sortableData: Array<any>) {
         this._sortableData = sortableData;
         //
-        this.dropEnabled = this._sortableData.length === 0;
+        this.dropEnabled = !!this._sortableData;
         // console.log("collection is changed, drop enabled: " + this.dropEnabled);
     }
     get sortableData(): Array<any> {
@@ -53,9 +53,6 @@ export class SortableContainer extends AbstractComponent {
                 }
                 // Add item to new list
                 this._sortableData.unshift(item);
-                if (this.dropEnabled) {
-                    this.dropEnabled = false;
-                }
                 this._sortableDataService.sortableContainer = this;
                 this._sortableDataService.index = 0;
             }

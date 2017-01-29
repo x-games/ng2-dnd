@@ -260,33 +260,6 @@ describe('Multi List Sortable Drag and Drop', () => {
         expect(multiOneList[0]).toBe('mFour');
     });
     
-    it('When the list is NOT empty the parent must NOT handle dragenter events', () => {
-        let singleList:Array<string> = ['sOne', 'sTwo', 'sThree'];
-        let multiOneList:Array<string> = ['mOne']; 
-        let multiTwoList:Array<string> = ['mTwo', 'mThree', 'mFour', 'mFive', 'mSix'];
-        
-        container.singleList = singleList;
-        container.multiOneList = multiOneList;
-        container.multiTwoList = multiTwoList;
-        componentFixture.detectChanges();
-        
-        let divElem:HTMLElement = componentFixture.elementRef.nativeElement.querySelector('div');
-        expect(divElem).toBeDefined();
-        expect(divElem.children.length).toBe(3);
-        
-        let multiOneElem:HTMLElement = <HTMLElement>divElem.querySelector('#multiOne'); 
-        let multiTwoUlElem:HTMLElement = <HTMLElement>divElem.querySelector('#multiTwo ul'); 
-        
-        triggerEvent(<HTMLElement>multiTwoUlElem.children[0], 'dragstart', 'MouseEvent');
-        triggerEvent(multiOneElem, 'dragenter', 'MouseEvent');
-        componentFixture.detectChanges();
-        
-        expect(multiOneList.length).toBe(1);
-        expect(multiTwoList.length).toBe(5);
-        
-        expect(multiOneList[0]).toBe('mOne');
-        expect(multiTwoList[0]).toBe('mTwo');
-    });
 });
 
 function swap(nodes:HTMLCollection, firstNodeId:number, secondNodeId:number) {
