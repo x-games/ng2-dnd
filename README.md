@@ -112,7 +112,7 @@ export class SimpleDndComponent {
 }
 ```
 
-###$ 4. Restriction Drag-and-Drop operations with drop zones
+#### 4. Restriction Drag-and-Drop operations with drop zones
 You can use property *dropZones* (actually an array) to specify in which place you would like to drop the draggable element:
 
 ```js
@@ -217,13 +217,9 @@ export class CustomDataDndComponent {
 ```
 
 #### 6. Use a custom function to determine where dropping is allowed
-For use-cases when a static set of `dropZone`s is not possible, a custom
-function can be used to dynamically determine whether an item can be dropped or
-not. To achieve that, set the `allowDrop` property to this boolean function.
+For use-cases when a static set of `dropZone`s is not possible, a custom function can be used to dynamically determine whether an item can be dropped or not. To achieve that, set the `allowDrop` property to this boolean function.
 
-In the following example, we have two containers that only accept numbers that
-are multiples of a user-input base integer. `dropZone`s are not helpful here
-because they are static, whereas the user input is dynamic.
+In the following example, we have two containers that only accept numbers that are multiples of a user-input base integer. `dropZone`s are not helpful here because they are static, whereas the user input is dynamic.
 
 ```js
 import { Component } from '@angular/core';
