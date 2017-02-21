@@ -2,18 +2,24 @@
 // This project is licensed under the terms of the MIT license.
 // https://github.com/akserg/ng2-dnd
 
-import {Injectable, ChangeDetectorRef} from '@angular/core';
-import {ElementRef} from '@angular/core';
+import { Injectable, ChangeDetectorRef } from '@angular/core';
+import { ElementRef } from '@angular/core';
 
-import {DragDropConfig, DragImage} from './dnd.config';
-import {DragDropService} from './dnd.service';
-import {isString, isFunction, isPresent, createImage, callFun} from './dnd.utils';
+import { DragDropConfig, DragImage } from './dnd.config';
+import { DragDropService } from './dnd.service';
+import { isString, isFunction, isPresent, createImage, callFun } from './dnd.utils';
 
 @Injectable()
 export abstract class AbstractComponent {
     _elem: HTMLElement;
+    _dragHandle: HTMLElement;
     _dragHelper: HTMLElement;
     _defaultCursor: string;
+
+    /**
+     * Last element that was mousedown'ed
+     */
+    _target: EventTarget;
 
     /**
      * Whether the object is draggable. Default is true.
@@ -113,8 +119,24 @@ export abstract class AbstractComponent {
         //
         // Drag events
         //
+        this._elem.onmousedown = (event: MouseEvent) => {
+            this._target = event.target;
+        };
         this._elem.ondragstart = (event: DragEvent) => {
-            // console.log('ondragstart', event.target);
+            console.log('Standard ondragstart', event.target);
+            console.log("Drag handle:", this._dragHandle);
+            if (this._dragHandle) {
+                console.log("Drag handle found")
+                if (!this._dragHandle.contains(<Element>this._target)) {
+                    console.log("Drag handle is not contained, ignoring");
+                    event.preventDefault();
+                    return;
+                }
+            } else {
+                console.log("No drag handle");
+            }
+
+
             this._onDragStart(event);
             //
             if (event.dataTransfer != null) {
@@ -143,14 +165,18 @@ export abstract class AbstractComponent {
                     this._elem.parentElement.appendChild(this._dragHelper);
                     (<any>event.dataTransfer).setDragImage(this._dragHelper, event.offsetX, event.offsetY);
                 }
+
                 // Change drag cursor
+                let cursorelem = (this._dragHandle) ? this._dragHandle : this._elem;
+
                 if (this._dragEnabled) {
-                    this._elem.style.cursor = this.effectCursor ? this.effectCursor : this._config.dragCursor;
+                    cursorelem.style.cursor = this.effectCursor ? this.effectCursor : this._config.dragCursor;
                 } else {
-                    this._elem.style.cursor = this._defaultCursor;
+                    cursorelem.style.cursor = this._defaultCursor;
                 }
             }
         };
+
         this._elem.ondragend = (event: Event) => {
             if (this._elem.parentElement && this._dragHelper) {
                 this._elem.parentElement.removeChild(this._dragHelper);
@@ -158,10 +184,14 @@ export abstract class AbstractComponent {
             // console.log('ondragend', event.target);
             this._onDragEnd(event);
             // Restore style of dragged element
-            this._elem.style.cursor = this._defaultCursor;
+            let cursorelem = (this._dragHandle) ? this._dragHandle : this._elem;
+            cursorelem.style.cursor = this._defaultCursor;
         };
     }
 
+    public setDragHandle(elem: HTMLElement) {
+        this._dragHandle = elem;
+    }
     /******* Change detection ******/
 
     detectChanges() {
@@ -245,7 +275,7 @@ export abstract class AbstractComponent {
     //*********** Draggable **********//
 
     private _onDragStart(event: Event): void {
-        // console.log('ondragstart.dragEnabled', this._dragEnabled);
+        //console.log('ondragstart.dragEnabled', this._dragEnabled);
         if (this._dragEnabled) {
             this._dragDropService.allowedDropZones = this.dropZones;
             // console.log('ondragstart.allowedDropZones', this._dragDropService.allowedDropZones);
@@ -268,4 +298,16 @@ export abstract class AbstractComponent {
     //**** Drag Callbacks ****//
     _onDragStartCallback(event: Event) { }
     _onDragEndCallback(event: Event) { }
+}
+
+export class AbstractHandleComponent {
+    _elem: HTMLElement;
+    constructor(elemRef: ElementRef, public _dragDropService: DragDropService, public _config: DragDropConfig,
+        private _Component: AbstractComponent, private _cdr: ChangeDetectorRef) {
+        this._elem = elemRef.nativeElement;
+
+        console.log("Going to rebind dragstart and dragend events from main elem to this elem");
+        console.log(this._Component);
+        this._Component.setDragHandle(this._elem);
+    }
 }
