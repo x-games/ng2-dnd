@@ -126,7 +126,7 @@ export abstract class AbstractComponent {
             console.log('Standard ondragstart', event.target);
             console.log("Drag handle:", this._dragHandle);
             if (this._dragHandle) {
-                console.log("Drag handle found")
+                console.log("Drag handle found");
                 if (!this._dragHandle.contains(<Element>this._target)) {
                     console.log("Drag handle is not contained, ignoring");
                     event.preventDefault();
