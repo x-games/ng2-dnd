@@ -2,12 +2,12 @@
 // This project is licensed under the terms of the MIT license.
 // https://github.com/akserg/ng2-dnd
 
-import { Injectable, ChangeDetectorRef } from '@angular/core';
-import { ElementRef } from '@angular/core';
+import {Injectable, ChangeDetectorRef} from '@angular/core';
+import {ElementRef} from '@angular/core';
 
-import { DragDropConfig, DragImage } from './dnd.config';
-import { DragDropService } from './dnd.service';
-import { isString, isFunction, isPresent, createImage, callFun } from './dnd.utils';
+import {DragDropConfig, DragImage} from './dnd.config';
+import {DragDropService} from './dnd.service';
+import {isString, isFunction, isPresent, createImage, callFun} from './dnd.utils';
 
 @Injectable()
 export abstract class AbstractComponent {
@@ -123,19 +123,12 @@ export abstract class AbstractComponent {
             this._target = event.target;
         };
         this._elem.ondragstart = (event: DragEvent) => {
-            console.log('Standard ondragstart', event.target);
-            console.log("Drag handle:", this._dragHandle);
             if (this._dragHandle) {
-                console.log("Drag handle found");
                 if (!this._dragHandle.contains(<Element>this._target)) {
-                    console.log("Drag handle is not contained, ignoring");
                     event.preventDefault();
                     return;
                 }
-            } else {
-                console.log("No drag handle");
             }
-
 
             this._onDragStart(event);
             //
@@ -305,9 +298,6 @@ export class AbstractHandleComponent {
     constructor(elemRef: ElementRef, public _dragDropService: DragDropService, public _config: DragDropConfig,
         private _Component: AbstractComponent, private _cdr: ChangeDetectorRef) {
         this._elem = elemRef.nativeElement;
-
-        console.log("Going to rebind dragstart and dragend events from main elem to this elem");
-        console.log(this._Component);
         this._Component.setDragHandle(this._elem);
     }
 }

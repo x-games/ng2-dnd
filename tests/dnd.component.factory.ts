@@ -124,3 +124,48 @@ export class Container4 {
     @Input() multiOneList:Array<string> = [];
     @Input() multiTwoList:Array<string> = [];
 }
+
+@Component({
+  selector: 'test-container-five',
+  template: `
+<div id='dragId' dnd-draggable [dragEnabled]="dragEnabled" [dragData]="dragData" [dropZones]="['test1']" (onDragSuccess)="dragSuccessCallback($event)">
+    <span id="handle" dnd-draggable-handle>=</span>
+    <span id="non-handle">Not handle</span>
+</div>
+<div id='dropId' dnd-droppable [dropZones]="['test1']" (onDropSuccess)="dropSuccessCallback($event)"></div>
+`
+})
+export class Container5 {
+    @Input() dragEnabled:boolean = true;
+    @Input() dragData:any = "Hello World at " + new Date().toString();
+
+    @Output() drag:EventEmitter<any> = new EventEmitter<any>();
+    @Output() drop:EventEmitter<any> = new EventEmitter<any>();
+
+    // tslint:disable-next-line
+    private dragSuccessCallback($event:any) {
+        this.drag.emit($event);
+    }
+
+    // tslint:disable-next-line
+    private dropSuccessCallback($event:any) {
+        this.drop.emit($event);
+    }
+}
+
+@Component({
+  selector: 'test-container-six',
+  template: `
+<div>
+    <ul class="list-group" dnd-sortable-container [sortableData]="sortableList">
+        <li *ngFor="let item of sortableList; let i = index" dnd-sortable [sortableIndex]="i">
+        <span class="handle" dnd-sortable-handle>=</span>
+        <span class="non-handle">{{item}}</span>
+        </li>
+    </ul>
+</div>
+`
+})
+export class Container6 {
+    @Input() sortableList:Array<string> = [];
+}
