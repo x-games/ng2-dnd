@@ -5,7 +5,7 @@
 import {ChangeDetectorRef} from '@angular/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from '@angular/core';
 
-import {AbstractComponent} from './abstract.component';
+import {AbstractComponent, AbstractHandleComponent} from './abstract.component';
 import {DragDropConfig, DragImage} from './dnd.config';
 import {DragDropService, DragDropData} from './dnd.service';
 
@@ -103,5 +103,15 @@ export class DraggableComponent extends AbstractComponent {
         this._elem.classList.remove(this._config.onDragStartClass);
         //
         this.onDragEnd.emit({dragData: this.dragData, mouseEvent: event});
+    }
+}
+
+
+@Directive({ selector: '[dnd-draggable-handle]' })
+export class DraggableHandleComponent extends AbstractHandleComponent {
+    constructor(elemRef: ElementRef, dragDropService: DragDropService, config:DragDropConfig, _Component: DraggableComponent,
+        cdr:ChangeDetectorRef) {
+
+        super(elemRef, dragDropService, config, _Component, cdr);
     }
 }

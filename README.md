@@ -112,7 +112,48 @@ export class SimpleDndComponent {
 }
 ```
 
-#### 4. Restriction Drag-and-Drop operations with drop zones
+#### 4. Add handle to restrict draggable zone of component
+
+```js
+import {Component} from '@angular/core';
+
+@Component({
+    selector: 'simple-dnd-handle',
+    template: `
+<h4>Simple Drag-and-Drop with handle</h4>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-success">
+            <div class="panel-heading">Available to drag</div>
+            <div class="panel-body">
+                <div class="panel panel-default" dnd-draggable [dragEnabled]="true">
+                    <div class="panel-body">
+                        <div>
+                            <span dnd-draggable-handle>=</span>&nbsp;
+                            Drag Handle
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div dnd-droppable class="panel panel-info" (onDropSuccess)="simpleDrop=$event">
+            <div class="panel-heading">Place to drop</div>
+            <div class="panel-body">
+                <div *ngIf="simpleDrop">Item was dropped here</div>
+            </div>
+        </div>
+    </div>
+</div>`
+})
+export class SimpleDndHandleComponent {
+    simpleDrop: any = null;
+}simpleDrop: any = null;
+}
+```
+
+#### 5. Restriction Drag-and-Drop operations with drop zones
 You can use property *dropZones* (actually an array) to specify in which place you would like to drop the draggable element:
 
 ```js
@@ -172,7 +213,7 @@ export class ZoneDndComponent {
 }
 ```
 
-#### 5. Transfer custom data via Drag-and-Drop
+#### 6. Transfer custom data via Drag-and-Drop
 You can transfer data from draggable to droppable component via *dragData* property of Draggable component:
 
 ```js
@@ -216,7 +257,7 @@ export class CustomDataDndComponent {
 }
 ```
 
-#### 6. Use a custom function to determine where dropping is allowed
+#### 7. Use a custom function to determine where dropping is allowed
 For use-cases when a static set of `dropZone`s is not possible, a custom function can be used to dynamically determine whether an item can be dropped or not. To achieve that, set the `allowDrop` property to this boolean function.
 
 In the following example, we have two containers that only accept numbers that are multiples of a user-input base integer. `dropZone`s are not helpful here because they are static, whereas the user input is dynamic.
@@ -300,7 +341,7 @@ export class CustomFunctionDndComponent {
 }
 ```
 
-#### 7. Shopping basket with Drag-and-Drop
+#### 8. Shopping basket with Drag-and-Drop
 Here is an example of shopping backet with products adding via drag and drop operation:
 
 ```js
@@ -386,7 +427,7 @@ class Product {
 }
 ```
 
-#### 8. Simple sortable with Drag-and-Drop
+#### 9. Simple sortable with Drag-and-Drop
 Here is an example of simple sortable of favorite drinks moving in container via drag and drop operation:
 
 ```js
@@ -424,7 +465,49 @@ export class SimpleSortableComponent {
 }
 ```
 
-#### 9. Simple sortable With Drop into recycle bin
+
+#### 10. Simple sortable with Drag-and-Drop handle
+Add handle to restict grip zone of sortable component.
+
+```js
+import {Component} from '@angular/core';
+
+@Component({
+    selector: 'simple-sortable-handle',
+    template: `
+<h4>Simple sortable handle</h4>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Favorite drinks
+            </div>
+            <div class="panel-body">
+                <ul class="list-group" dnd-sortable-container [sortableData]="listOne">
+                    <li *ngFor="let item of listOne; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
+                      <span dnd-sortable-handle>=</span>&nbsp;
+                      {{item}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                My prefences:<br/>
+                <span *ngFor="let item of listOne; let i = index">{{i + 1}}) {{item}}<br/></span>
+            </div>
+        </div>
+    </div>
+</div>`
+})
+export class SimpleSortableHandleComponent {
+    listOne: Array<string> = ['Coffee', 'Orange Juice', 'Red Wine', 'Unhealty drink!', 'Water'];
+}
+```
+
+#### 11. Simple sortable With Drop into recycle bin
 Here is an example of multi list sortable of boxers moving in container and between containers via drag and drop operation:
 
 ```js
@@ -466,7 +549,7 @@ export class RecycleMultiSortableComponent {
 }
 ```
 
-#### 10. Simple sortable With Drop into something, without delete it
+#### 12. Simple sortable With Drop into something, without delete it
 Here is an example of simple sortable list of items copying in target container:
 
 ```js
@@ -523,7 +606,7 @@ class Widget {
 }
 ```
 
-#### 11. Multi list sortable between containers
+#### 13. Multi list sortable between containers
 Here is an example of multi list sortable of boxers moving in container and between containers via drag and drop operation:
 
 ```js
@@ -598,6 +681,7 @@ class Widget {
 
 # Credits
 - [Francesco Cina](https://github.com/ufoscout)
+- [Valerii Kuznetsov](https://github.com/solival)
 
 # License
  [MIT](/LICENSE)
