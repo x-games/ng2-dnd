@@ -682,6 +682,7 @@ class Widget {
 # Credits
 - [Francesco Cina](https://github.com/ufoscout)
 - [Valerii Kuznetsov](https://github.com/solival)
+- [Shane Oborn](https://github.com/obosha)
 
 # License
  [MIT](/LICENSE)
