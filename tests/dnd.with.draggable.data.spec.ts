@@ -8,7 +8,7 @@ import {DragDropService} from '../src/dnd.service';
 
 import {Container2, triggerEvent} from './dnd.component.factory';
 
-describe('Drag and Drop without draggable data', () => {
+describe('Drag and Drop with draggable data', () => {
 
     let componentFixture: ComponentFixture<Container2>;
     let dragdropService: DragDropService;
