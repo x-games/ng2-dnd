@@ -4,6 +4,7 @@
 
 import {ChangeDetectorRef} from '@angular/core';
 import {Directive, Input, Output, EventEmitter, ElementRef} from '@angular/core';
+import {FormArray} from '@angular/forms';
 
 import {AbstractComponent, AbstractHandleComponent} from './abstract.component';
 import {DragDropConfig} from './dnd.config';
@@ -16,15 +17,21 @@ export class SortableContainer extends AbstractComponent {
         this.dragEnabled = !!value;
     }
 
-    private _sortableData: Array<any> = [];
+    private _sortableData: Array<any>|FormArray = [];
+    private sortableHandler: SortableFormArrayHandler|SortableArrayHandler;
 
-    @Input() set sortableData(sortableData: Array<any>) {
+    @Input() set sortableData(sortableData: Array<any>|FormArray) {
         this._sortableData = sortableData;
+        if (sortableData instanceof FormArray) {
+            this.sortableHandler = new SortableFormArrayHandler();
+        } else {
+            this.sortableHandler = new SortableArrayHandler();
+        }
         //
         this.dropEnabled = !!this._sortableData;
         // console.log("collection is changed, drop enabled: " + this.dropEnabled);
     }
-    get sortableData(): Array<any> {
+    get sortableData(): Array<any>|FormArray {
         return this._sortableData;
     }
 
@@ -41,24 +48,76 @@ export class SortableContainer extends AbstractComponent {
 
     _onDragEnterCallback(event: Event) {
         if (this._sortableDataService.isDragged) {
-            let item:any = this._sortableDataService.sortableContainer._sortableData[this._sortableDataService.index];
+            let item:any = this._sortableDataService.sortableContainer.getItemAt(this._sortableDataService.index);
             // Check does element exist in sortableData of this Container
-            if (this._sortableData.indexOf(item) === -1) {
+            if (this.indexOf(item) === -1) {
                 // Let's add it
                 // console.log('Container._onDragEnterCallback. drag node [' + this._sortableDataService.index.toString() + '] over parent node');
                 // Remove item from previouse list
-                this._sortableDataService.sortableContainer._sortableData.splice(this._sortableDataService.index, 1);
+                this._sortableDataService.sortableContainer.removeItemAt(this._sortableDataService.index);
                 if (this._sortableDataService.sortableContainer._sortableData.length === 0) {
                     this._sortableDataService.sortableContainer.dropEnabled = true;
                 }
                 // Add item to new list
-                this._sortableData.unshift(item);
+                this.insertItemAt(item, 0);
                 this._sortableDataService.sortableContainer = this;
                 this._sortableDataService.index = 0;
             }
             // Refresh changes in properties of container component
             this.detectChanges();
         }
+    }
+
+    getItemAt(index: number): any {
+        return this.sortableHandler.getItemAt(this._sortableData, index);
+    }
+
+    indexOf(item: any): number {
+        return this.sortableHandler.indexOf(this._sortableData, item);
+    }
+
+    removeItemAt(index: number): void {
+        this.sortableHandler.removeItemAt(this._sortableData, index);
+    }
+
+    insertItemAt(item: any, index: number) {
+        this.sortableHandler.insertItemAt(this._sortableData, item, index);
+    }
+}
+
+class SortableArrayHandler {
+    getItemAt(sortableData: any, index: number): any {
+        return sortableData[index];
+    }
+
+    indexOf(sortableData: any, item: any): number {
+        return sortableData.indexOf(item);
+    }
+
+    removeItemAt(sortableData: any, index: number) {
+        sortableData.splice(index, 1);
+    }
+
+    insertItemAt(sortableData: any, item: any, index: number) {
+        sortableData.splice(index, 0, item);
+    }
+}
+
+class SortableFormArrayHandler {
+    getItemAt(sortableData: any, index: number): any {
+        return sortableData.at(index);
+    }
+
+    indexOf(sortableData: any, item: any): number {
+        return sortableData.controls.indexOf(item);
+    }
+
+    removeItemAt(sortableData: any, index: number) {
+        sortableData.removeAt(index);
+    }
+
+    insertItemAt(sortableData: any, item: any, index: number) {
+        sortableData.insert(index, item);
     }
 }
 
@@ -160,14 +219,14 @@ export class SortableComponent extends AbstractComponent {
                 (this._sortableDataService.sortableContainer.sortableData !== this._sortableContainer.sortableData)) {
                 // console.log('Component._onDragEnterCallback. drag node [' + this.index + '] over node [' + this._sortableDataService.index + ']');
                 // Get item
-                let item:any = this._sortableDataService.sortableContainer.sortableData[this._sortableDataService.index];
+                let item:any = this._sortableDataService.sortableContainer.getItemAt(this._sortableDataService.index);
                 // Remove item from previouse list
-                this._sortableDataService.sortableContainer.sortableData.splice(this._sortableDataService.index, 1);
+                this._sortableDataService.sortableContainer.removeItemAt(this._sortableDataService.index);
                 if (this._sortableDataService.sortableContainer.sortableData.length === 0) {
                     this._sortableDataService.sortableContainer.dropEnabled = true;
                 }
                 // Add item to new list
-                this._sortableContainer.sortableData.splice(this.index, 0, item);
+                this._sortableContainer.insertItemAt(item, this.index);
                 if (this._sortableContainer.dropEnabled) {
                     this._sortableContainer.dropEnabled = false;
                 }
