@@ -149,7 +149,6 @@ import {Component} from '@angular/core';
 })
 export class SimpleDndHandleComponent {
     simpleDrop: any = null;
-}simpleDrop: any = null;
 }
 ```
 
