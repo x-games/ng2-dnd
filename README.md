@@ -67,7 +67,7 @@ don't forget that you can use it to export the `DndModule` that you imported in 
 @NgModule({
     imports: [
         BrowserModule,
-        DndModule.forRoot()
+        DndModule
     ],
     exports: [BrowserModule, DndModule],
 })
