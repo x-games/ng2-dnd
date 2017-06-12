@@ -193,7 +193,9 @@ export abstract class AbstractComponent {
     detectChanges() {
         // Programmatically run change detection to fix issue in Safari
         setTimeout(() => {
-            this._cdr.detectChanges();
+            if (this._cdr.destroyed) {
+                this._cdr.detectChanges();
+            }
         }, 250);
     }
 
