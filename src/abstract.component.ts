@@ -2,7 +2,7 @@
 // This project is licensed under the terms of the MIT license.
 // https://github.com/akserg/ng2-dnd
 
-import {Injectable, ChangeDetectorRef} from '@angular/core';
+import {Injectable, ChangeDetectorRef, ViewRef} from '@angular/core';
 import {ElementRef} from '@angular/core';
 
 import {DragDropConfig, DragImage} from './dnd.config';
@@ -195,7 +195,7 @@ export abstract class AbstractComponent {
         setTimeout(() => {
             if ( this._cdr !== null &&
                 this._cdr !== undefined &&
-                ! (this._cdr as ViewRef_).destroyed ) {
+                ! (this._cdr as ViewRef).destroyed ) {
                     this._cdr.detectChanges();
             }
 
