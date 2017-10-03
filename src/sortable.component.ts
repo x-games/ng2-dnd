@@ -232,6 +232,7 @@ export class SortableComponent extends AbstractComponent {
                 }
                 this._sortableDataService.sortableContainer = this._sortableContainer;
                 this._sortableDataService.index = this.index;
+                this.detectChanges();
             }
         }
     }
