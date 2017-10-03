@@ -723,6 +723,34 @@ export class SimpleFormArraySortableComponent {
 }
 ```
 
+## How to pass multiple data in dragData while dragging ?
+
+1) As an array: 
+
+``` html
+[dragData]="[aComponent,'component-in-bar']"
+```
+
+``` javascript
+loadComponent($event){
+    console.log($event.dragData[0]); // aComponent 
+    console.log($event.dragData[1]); // 'component-in-bar' OR 'component-in-designer' 
+}
+```
+
+2) As an object: 
+
+``` html
+[dragData]="{component: aComponent, location: 'component-in-bar'}"
+```
+
+``` javascript
+loadComponent($event){
+    console.log($event.dragData.component); // aComponent 
+    console.log($event.dragData.location); // 'component-in-bar' OR 'component-in-designer' 
+}
+```
+
 # Retreiving files in a drop zone
 
 Since it is possible to drag and drop one or more files to a drop zone, you need to handle the incoming files.
