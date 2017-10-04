@@ -7,7 +7,7 @@
     "test-watch": "tsc --noUnusedParameters --noUnusedLocals && karma start --no-single-run --auto-watch",
     "commit": "npm run prepublish && npm test && git-cz",
     "prepublish": "ngc --noUnusedParameters --noUnusedLocals && npm run build",
-    "build": "webpack && cp style.css bundles/style.css",
+    "build": "webpack --optimize-minimize && cp style.css bundles/style.css",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
@@ -32,16 +32,15 @@
   "typings": "index.d.ts",
   "homepage": "https://github.com/akserg/ng2-dnd#readme",
   "peerDependencies": {
-    "@angular/core": "^2.4.4 || ^4.0.0"
-  },
-  "devDependencies": {
     "@angular/common": "^2.4.4 || ^4.0.0",
-    "@angular/compiler": "^2.4.4 || ^4.0.0",
-    "@angular/compiler-cli": "^2.4.4 || ^4.0.0",
     "@angular/core": "^2.4.4 || ^4.0.0",
     "@angular/forms": "^2.4.4 || ^4.0.0",
     "@angular/platform-browser": "^2.4.4 || ^4.0.0",
-    "@angular/platform-browser-dynamic": "^2.4.4 || ^4.0.0",
+    "@angular/platform-browser-dynamic": "^2.4.4 || ^4.0.0"
+  },
+  "devDependencies": {
+    "@angular/compiler": "^2.4.4 || ^4.0.0",
+    "@angular/compiler-cli": "^2.4.4 || ^4.0.0",
     "@angular/platform-server": "^2.4.4 || ^4.0.0",
     "@types/hammerjs": "^2.0.34",
     "@types/jasmine": "^2.5.51",
@@ -71,7 +70,7 @@
     "tslint": "^5.4.3",
     "tslint-loader": "^3.5.3",
     "typescript": "^2.3.4",
-    "webpack": "^2.6.1",
+    "webpack": "^3.6.0",
     "zone.js": "^0.8.12"
   },
   "config": {

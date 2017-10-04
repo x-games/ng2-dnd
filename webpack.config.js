@@ -2,8 +2,8 @@
  * Adapted from angular2-webpack-starter
  */
 
-const helpers = require('./config/helpers'),
-    webpack = require('webpack');
+const helpers = require('./config/helpers')
+const webpack = require('webpack');
 
 /**
  * Webpack Plugins
@@ -13,10 +13,8 @@ const DefinePlugin = require('webpack/lib/DefinePlugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 
 module.exports = {
-    devtool: 'inline-source-map',
-
     resolve: {
-        extensions: ['.ts', '.js']
+        extensions: ['.ts']
     },
 
     entry: helpers.root('index.ts'),
@@ -51,6 +49,12 @@ module.exports = {
             /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
             helpers.root('./src')
         ),
+
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
 
         new webpack.LoaderOptionsPlugin({
             options: {
