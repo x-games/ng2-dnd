@@ -24,16 +24,14 @@ npm install ng2-dnd --save
 ```
 
 ## Demo
-_The Demo is under construction. Will be available shortly!_
 <!--
 Simple examples using ng2-dnd:
 - with SystemJS in [ng2-systemjs-demo](https://github.com/akserg/ng2-systemjs-demo)
 - with Webpack in [ng2-webpack-demo](https://github.com/akserg/ng2-webpack-demo)
 
 Online demo available [here](http://akserg.github.io/ng2-webpack-demo)
-
-Plunker demo available [here](http://embed.plnkr.co/JbG8Si)
 -->
+Plunker demo available [here](http://embed.plnkr.co/JbG8Si)
 
 ## Usage
 If you use SystemJS to load your files, you might have to update your config:
@@ -47,7 +45,7 @@ System.config({
 ```
 
 #### 1. Add the default styles
-- Import the `style.css` into your web page
+- Import the `style.css` into your web page from `node_modules/ng2-dnd/bundles/style.css`
 
 #### 2. Import the `DndModule`
 Import `DndModule.forRoot()` in the NgModule of your application. 

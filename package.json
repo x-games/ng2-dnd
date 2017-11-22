@@ -1,14 +1,13 @@
 {
   "name": "ng2-dnd",
   "description": "Angular 2 Drag-and-Drop without dependencies",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "scripts": {
     "test": "karma start",
     "clean": "rimraf dist",
     "test-watch": "tsc --noUnusedParameters --noUnusedLocals && karma start --no-single-run --auto-watch",
     "commit": "npm run prepublish && npm test && git-cz",
-    "prepare": "ngc && npm run build",
-    "build": "npm run clean && ng-packagr -p ng-package.json && cp style.css dist/bundles/style.css && rimraf dist/tests",
+    "build": "npm run clean && ngc && ng-packagr -p ng-package.json && cp style.css dist/bundles/style.css && rimraf dist/tests",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
