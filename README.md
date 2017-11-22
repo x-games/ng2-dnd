@@ -24,14 +24,8 @@ npm install ng2-dnd --save
 ```
 
 ## Demo
-<!--
-Simple examples using ng2-dnd:
-- with SystemJS in [ng2-systemjs-demo](https://github.com/akserg/ng2-systemjs-demo)
-- with Webpack in [ng2-webpack-demo](https://github.com/akserg/ng2-webpack-demo)
-
-Online demo available [here](http://akserg.github.io/ng2-webpack-demo)
--->
-Plunker demo available [here](http://embed.plnkr.co/JbG8Si)
+Webpack demo available [here](https://angular-dxqjhj.stackblitz.io)
+SystemJS demo available [here](http://embed.plnkr.co/JbG8Si)
 
 ## Usage
 If you use SystemJS to load your files, you might have to update your config:
