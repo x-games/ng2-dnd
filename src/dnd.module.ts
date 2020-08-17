@@ -1,4 +1,4 @@
-// Copyright (C) 2016-2018 Sergey Akopkokhyants
+// Copyright (C) 2016-2020 Sergey Akopkokhyants
 // This project is licensed under the terms of the MIT license.
 // https://github.com/akserg/ng2-dnd
 
@@ -29,7 +29,7 @@ export let providers = [
 
 })
 export class DndModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<DndModule> {
         return {
             ngModule: DndModule,
             providers: providers
