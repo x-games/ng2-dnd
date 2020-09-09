@@ -42,7 +42,7 @@ module.exports = {
             ]
         }, {
             test: /\.ts$/,
-            loader: 'awesome-typescript-loader',
+            loader: 'ts-loaderr',
             query: {
                 // use inline sourcemaps for "karma-remap-coverage" reporter
                 sourceMap: false,

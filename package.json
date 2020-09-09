@@ -1,7 +1,7 @@
 {
   "name": "ng2-dnd",
   "description": "Angular 2 Drag-and-Drop without dependencies",
-  "version": "9.0.0-beta2",
+  "version": "10.0.0-beta2",
   "scripts": {
     "test": "karma start",
     "clean": "rimraf dist",
@@ -31,25 +31,25 @@
   "typings": "./ng2-dnd.d.ts",
   "homepage": "https://github.com/akserg/ng2-dnd#readme",
   "peerDependencies": {
-    "@angular/core": "^4.0.0 || ^5.0.0 || ^9.0.0",
-    "@angular/forms": "^4.0.0 || ^5.0.0 || ^9.0.0"
+    "@angular/core": "^4.0.0 || ^5.0.0 || ^9.0.0 || ^10.0.0",
+    "@angular/forms": "^4.0.0 || ^5.0.0 || ^9.0.0 || ^10.0.0"
   },
   "dependencies": {
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@angular/common": "^9.0.0",
-    "@angular/compiler": "^9.0.0",
-    "@angular/compiler-cli": "^9.0.0",
-    "@angular/core": "^9.0.0",
-    "@angular/forms": "^9.0.0",
-    "@angular/platform-browser": "^9.0.0",
-    "@angular/platform-browser-dynamic": "^9.0.0",
-    "@angular/platform-server": "^9.0.0",
+    "@angular-devkit/schematics": "^10.1.0",
+    "@angular/common": "^10.1.0",
+    "@angular/compiler": "^10.1.0",
+    "@angular/compiler-cli": "^10.1.0",
+    "@angular/core": "^10.1.0",
+    "@angular/forms": "^10.1.0",
+    "@angular/platform-browser": "^10.1.0",
+    "@angular/platform-browser-dynamic": "^10.1.0",
+    "@angular/platform-server": "^10.1.0",
     "@types/hammerjs": "^2.0.36",
     "@types/jasmine": "^3.5.0",
     "@types/node": "^12.0.53",
-    "awesome-typescript-loader": "^5.0.0",
     "codelyzer": "^6.0.0",
     "core-js": "^3.6.0",
     "istanbul-instrumenter-loader": "^3.0.0",
@@ -67,11 +67,13 @@
     "ng-packagr": "^10.0.0",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^6.5.0",
+    "rxjs-compat": "^6.6.3",
     "source-map-loader": "^1.0.0",
     "ts-helpers": "1.1.2",
+    "ts-loader": "^8.0.3",
     "tslint": "^6.1.0",
     "tslint-loader": "^3.5.3",
-    "typescript": "3.8.3",
+    "typescript": "4.0.2",
     "webpack": "^4.0.0",
     "zone.js": "^0.10.0"
   },
